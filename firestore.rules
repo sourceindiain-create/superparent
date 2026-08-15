@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check authentication
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Super Parent Family Activities Feed
+    match /family_activities/{activityId} {
+      allow read: if true;
+      allow write: if true; // Allows demo & signed-in parents/students to log milestones
+    }
+
+    // Student Milestones & Growth Records
+    match /student_milestones/{milestoneId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Marketplace Items (Handmade & Mentorship listings)
+    match /marketplace_items/{itemId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}

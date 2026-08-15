@@ -1,0 +1,6 @@
+{
+  "name": "SUPER PARENT",
+  "description": "Family Learning Ecosystem for LKG to 10th - Parent, Student, Gurukul, AI Multi-Experts, Skills, Culture & Marketplace with Voice Speech-to-Text interaction.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
