@@ -44,11 +44,16 @@ import {
   Lightbulb,
   Workflow
 } from 'lucide-react';
+import { DailyReflectionZone } from './DailyReflectionZone';
 
 interface SuperStudentHubProps {
   onAskAI?: (prompt?: string) => void;
   onNavigateTab?: (tab: string) => void;
-  initialSubTab?: 'ai-learning-path' | 'student-perks' | 'student-resources' | 'parent-guide' | 'software-architecture';
+  onEarnXP?: (points: number, reason: string) => void;
+  studentName?: string;
+  currentXP?: number;
+  streakDays?: number;
+  initialSubTab?: 'ai-learning-path' | 'daily-reflection' | 'student-perks' | 'student-resources' | 'parent-guide' | 'software-architecture';
 }
 
 // Module Definition for Course Categorization
@@ -83,11 +88,15 @@ interface CourseItem {
 export const SuperStudentHub: React.FC<SuperStudentHubProps> = ({ 
   onAskAI,
   onNavigateTab,
+  onEarnXP,
+  studentName = 'Chaitanya Reddy',
+  currentXP = 3450,
+  streakDays = 14,
   initialSubTab = 'ai-learning-path'
 }) => {
   // Main Sub Tabs
   const [activeSubTab, setActiveSubTab] = useState<
-    'ai-learning-path' | 'student-perks' | 'student-resources' | 'parent-guide' | 'software-architecture'
+    'ai-learning-path' | 'daily-reflection' | 'student-perks' | 'student-resources' | 'parent-guide' | 'software-architecture'
   >(initialSubTab);
 
   // Audience Mode Toggle (Student View vs Parent View)
@@ -868,6 +877,21 @@ export const SuperStudentHub: React.FC<SuperStudentHubProps> = ({
 
               <button
                 onClick={() => {
+                  setActiveSubTab('daily-reflection');
+                  setAudienceMode('student');
+                }}
+                className={`px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all flex items-center gap-2 ${
+                  activeSubTab === 'daily-reflection'
+                    ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-xs'
+                    : 'bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100'
+                }`}
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <span>📝 Daily Reflection (+100 XP)</span>
+              </button>
+
+              <button
+                onClick={() => {
                   setActiveSubTab('student-perks');
                   setAudienceMode('student');
                 }}
@@ -1071,10 +1095,60 @@ export const SuperStudentHub: React.FC<SuperStudentHubProps> = ({
       )}
 
       {/* ========================================================================= */}
+      {/* TAB: DAILY REFLECTION & XP JOURNAL */}
+      {/* ========================================================================= */}
+      {activeSubTab === 'daily-reflection' && (
+        <DailyReflectionZone
+          studentName={studentName}
+          currentXP={currentXP}
+          streakDays={streakDays}
+          onEarnXP={onEarnXP}
+          onAskAI={onAskAI}
+        />
+      )}
+
+      {/* ========================================================================= */}
       {/* TAB 1: AI LEARNING PATH (11 COURSES) */}
       {/* ========================================================================= */}
       {activeSubTab === 'ai-learning-path' && (
         <div className="space-y-6">
+          {/* Daily Reflection Callout Banner */}
+          <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 rounded-3xl p-5 text-white shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-amber-300/40">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md text-amber-200 flex items-center justify-center font-black text-xl shrink-0 border border-white/30">
+                ✍️
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-black bg-white/20 px-2.5 py-0.5 rounded-full text-white uppercase tracking-wider">
+                    Daily Habit Booster
+                  </span>
+                  <span className="text-xs font-extrabold text-amber-100 flex items-center gap-1">
+                    <Zap className="w-3.5 h-3.5 fill-amber-200" />
+                    <span>+100 XP Available Today</span>
+                  </span>
+                </div>
+                <h4 className="text-base sm:text-lg font-black text-white mt-0.5">
+                  Log One Thing You Learned Today & Boost Your XP
+                </h4>
+                <p className="text-xs text-orange-50 font-medium">
+                  Reflect on today's AI lesson, scientific concept, or coding logic to earn XP points and keep your streak alive.
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                setActiveSubTab('daily-reflection');
+                window.scrollTo({ top: 400, behavior: 'smooth' });
+              }}
+              className="bg-white hover:bg-orange-50 text-orange-800 font-black text-xs px-5 py-3 rounded-2xl shadow-sm transition-all shrink-0 cursor-pointer flex items-center gap-2 transform hover:-translate-y-0.5"
+            >
+              <Sparkles className="w-4 h-4 text-orange-600" />
+              <span>Open Daily Reflection 📝</span>
+            </button>
+          </div>
+
           {/* Progress Analytics Card & Stage Visual Stepper */}
           <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-clean space-y-6">
             {/* Top Stat Row */}

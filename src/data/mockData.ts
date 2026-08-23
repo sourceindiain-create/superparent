@@ -144,21 +144,23 @@ export const EDUCATION_SUBJECTS: EducationSubject[] = [
     grade: 'Class 5',
     board: 'CBSE',
     icon: 'Calculator',
-    chaptersCount: 12,
+    chaptersCount: 14,
     topics: ['Fractions & Decimals', 'Geometry Shapes & Angles', 'Perimeter & Area', 'Data Handling', 'Speed & Distance'],
-    pdfUrl: 'https://example.com/maths-class5.pdf',
+    pdfUrl: 'https://ncert.nic.in/textbook.php',
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    aglasemUrl: 'https://schools.aglasem.com/ncert-solutions-class-5-maths/',
     quizAvailable: true
   },
   {
     id: 'sub-2',
-    title: 'Science & Nature Explorations',
+    title: 'Science & Nature Explorations (EVS)',
     grade: 'Class 5',
     board: 'CBSE',
     icon: 'FlaskConical',
-    chaptersCount: 10,
-    topics: ['Plants & Seeds', 'Human Digestive System', 'States of Matter', 'Simple Machines', 'Our Universe'],
-    pdfUrl: 'https://example.com/science-class5.pdf',
+    chaptersCount: 22,
+    topics: ['Plants & Seeds', 'Human Digestive System', 'States of Matter', 'Simple Machines', 'Our Universe & Water'],
+    pdfUrl: 'https://ncert.nic.in/textbook.php',
+    aglasemUrl: 'https://schools.aglasem.com/ncert-solutions-class-5-evs/',
     quizAvailable: true
   },
   {
@@ -169,6 +171,7 @@ export const EDUCATION_SUBJECTS: EducationSubject[] = [
     icon: 'BookOpen',
     chaptersCount: 8,
     topics: ['దేశభక్తి గేయాలు', 'నీతి పద్యాలు (వేమన, సుమతీ)', 'కథలు & వ్యాకరణము', 'సంస్కృతి విశేషాలు'],
+    aglasemUrl: 'https://schools.aglasem.com/ap-board-scert-books/',
     quizAvailable: true
   },
   {
@@ -179,6 +182,7 @@ export const EDUCATION_SUBJECTS: EducationSubject[] = [
     icon: 'Code',
     chaptersCount: 6,
     topics: ['Algorithms', 'Scratch Blocks & Sprites', 'Looping & Logic', 'Creating First Game'],
+    aglasemUrl: 'https://schools.aglasem.com/cbse-computer-science/',
     quizAvailable: true
   },
   {
@@ -189,16 +193,40 @@ export const EDUCATION_SUBJECTS: EducationSubject[] = [
     icon: 'Zap',
     chaptersCount: 14,
     topics: ['Electric Currents & Circuits', 'Light Reflection & Refraction', 'Force & Motion', 'Sound Waves'],
+    aglasemUrl: 'https://schools.aglasem.com/ncert-solutions-class-8-science/',
     quizAvailable: true
   },
   {
     id: 'sub-6',
+    title: 'Class 10 Board Exam Mathematics & Sample Papers',
+    grade: 'Class 10',
+    board: 'CBSE',
+    icon: 'Calculator',
+    chaptersCount: 15,
+    topics: ['Real Numbers', 'Polynomials & Quadratic Equations', 'Triangles & Trigonometry', 'Surface Areas & Volumes', 'Statistics & Probability'],
+    aglasemUrl: 'https://schools.aglasem.com/ncert-solutions-class-10-maths/',
+    quizAvailable: true
+  },
+  {
+    id: 'sub-7',
+    title: 'Class 10 Science (Physics, Chemistry & Biology)',
+    grade: 'Class 10',
+    board: 'CBSE',
+    icon: 'FlaskConical',
+    chaptersCount: 16,
+    topics: ['Chemical Reactions & Equations', 'Acids, Bases & Salts', 'Life Processes & Control', 'Light & Electricity', 'Magnetic Effects & Heredity'],
+    aglasemUrl: 'https://schools.aglasem.com/ncert-solutions-class-10-science/',
+    quizAvailable: true
+  },
+  {
+    id: 'sub-8',
     title: 'Early Childhood Foundational English & Phonics',
     grade: 'LKG',
     board: 'CBSE',
     icon: 'Baby',
     chaptersCount: 6,
     topics: ['Alphabet Sounds', 'Rhymes & Songs', 'Color Recognition', 'Basic Shapes & Animals'],
+    aglasemUrl: 'https://schools.aglasem.com/',
     quizAvailable: true
   }
 ];

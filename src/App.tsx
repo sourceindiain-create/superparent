@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { UserRole, NavTab, AIExpertPersona, UserAccount, AppThemeId } from './types';
+import { SoftwareShell } from './components/SoftwareShell';
+import { DashboardHome } from './components/DashboardHome';
 import { Header } from './components/Header';
 import { UniversalNavBar } from './components/UniversalNavBar';
 import { HomeOverview } from './components/HomeOverview';
@@ -16,17 +18,46 @@ import { Showcase } from './components/Showcase';
 import { GlobalLearning } from './components/GlobalLearning';
 import { PricingSection } from './components/PricingSection';
 import { SuperStudentHub } from './components/SuperStudentHub';
+import { KidsLab } from './components/KidsLab';
+import { PracticeMasterZone } from './components/PracticeMasterZone';
 import { CertificateModal } from './components/CertificateModal';
 import { LoginPage } from './components/LoginPage';
+import { SaaSAccessPortal } from './components/SaaSAccessPortal';
 import { AdminPortal } from './components/AdminPortal';
 import { TestingSuiteView } from './components/TestingSuiteView';
 import { ClassroomInteractionRoom } from './components/ClassroomInteractionRoom';
 import { WorldLanguageLab } from './components/WorldLanguageLab';
 import { OfflineHub } from './components/OfflineHub';
 import { Footer } from './components/Footer';
+import { AccessGuard } from './components/AccessGuard';
+import { MediaLinkModal, MediaModalProps } from './components/MediaLinkModal';
 import { APP_THEMES } from './data/themes';
 
-const DEFAULT_USER: UserAccount = {
+const DEFAULT_STUDENT_USER: UserAccount = {
+  id: 'user-student-1',
+  email: 'student@superparent.in',
+  name: 'Chaitanya Reddy',
+  role: 'student',
+  avatar: '👦',
+  grade: 'Class 8',
+  phone: '+91 7981967919',
+  subscriptionTier: 'kids',
+  enrollmentStatus: 'Premium Gurukul',
+  hasFullAccess: true,
+  xpPoints: 3450,
+  streakDays: 14,
+  permissions: {
+    canAccessAllCourses: true,
+    canAccessAllPerks: true,
+    canApproveMarketplace: false,
+    canManageUsers: false,
+    canGenerateCertificates: true,
+    canAccessAdminPortal: false,
+    canRunDiagnostics: true
+  }
+};
+
+const DEFAULT_PARENT_USER: UserAccount = {
   id: 'user-parent-1',
   email: 'parent@superparent.in',
   name: 'Rajesh & Lakshmi Reddy',
@@ -34,6 +65,7 @@ const DEFAULT_USER: UserAccount = {
   avatar: '👨‍👩‍👧',
   grade: 'Class 8',
   phone: '+91 7989997015',
+  subscriptionTier: 'super-parent',
   enrollmentStatus: 'Premium Gurukul Family',
   hasFullAccess: true,
   xpPoints: 4800,
@@ -49,9 +81,41 @@ const DEFAULT_USER: UserAccount = {
   }
 };
 
+const DEFAULT_ADMIN_USER: UserAccount = {
+  id: 'user-admin-1',
+  email: 'admin@superparent.in',
+  name: 'Super Admin (EMFI Lead)',
+  role: 'admin',
+  avatar: '🛡️',
+  phone: '+91 7981967919',
+  subscriptionTier: 'admin',
+  enrollmentStatus: 'Admin Superuser',
+  hasFullAccess: true,
+  xpPoints: 99999,
+  streakDays: 100,
+  permissions: {
+    canAccessAllCourses: true,
+    canAccessAllPerks: true,
+    canApproveMarketplace: true,
+    canManageUsers: true,
+    canGenerateCertificates: true,
+    canAccessAdminPortal: true,
+    canRunDiagnostics: true
+  }
+};
+
+const KIDS_ALLOWED_TABS: NavTab[] = [
+  'home', 'super-student', 'education', 'practice-master', 'classroom', 
+  'language-lab', 'kids-lab', 'sanskar', 'stories', 'innovation', 'games', 'showcase', 'offline-hub'
+];
+
+const PARENT_ALLOWED_TABS: NavTab[] = [
+  'home', 'parenting', 'growth', 'marketplace', 'global', 'pricing'
+];
+
 export default function App() {
-  const [currentUser, setCurrentUser] = useState<UserAccount>(DEFAULT_USER);
-  const [role, setRole] = useState<UserRole>('parent');
+  const [currentUser, setCurrentUser] = useState<UserAccount>(DEFAULT_STUDENT_USER);
+  const [role, setRole] = useState<UserRole>('student');
   const [activeTab, setActiveTabState] = useState<NavTab>('home');
   const [tabHistory, setTabHistory] = useState<NavTab[]>(['home']);
   const [isAskAIOpen, setIsAskAIOpen] = useState(false);
@@ -60,7 +124,24 @@ export default function App() {
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
   const [masterAccessGranted, setMasterAccessGranted] = useState<boolean>(true);
 
-  // Theme system state
+  // Global Media & Video Modal State
+  const [mediaModalState, setMediaModalState] = useState<{
+    isOpen: boolean;
+    title: string;
+    teluguTitle?: string;
+    category?: string;
+    videoUrl?: string;
+    webUrl?: string;
+    audioText?: string;
+    description?: string;
+    notesContent?: string;
+    keyPoints?: string[];
+  }>({
+    isOpen: false,
+    title: ''
+  });
+
+  // Theme system state: Saffron Amber for Kids, Complete Royal Blue for Parents, Vedic Green for Admin
   const [currentTheme, setCurrentTheme] = useState<AppThemeId>('gurukul-amber');
 
   // Navigate with history stack tracking
@@ -87,53 +168,23 @@ export default function App() {
   const handleRoleChange = (newRole: UserRole) => {
     setRole(newRole);
     if (newRole === 'student') {
-      setCurrentUser({
-        id: 'user-student-1',
-        email: 'student@superparent.in',
-        name: 'Chaitanya Reddy',
-        role: 'student',
-        avatar: '👦',
-        grade: 'Class 8',
-        phone: '+91 7981967919',
-        enrollmentStatus: 'Premium Gurukul',
-        hasFullAccess: masterAccessGranted,
-        xpPoints: 3450,
-        streakDays: 14,
-        permissions: {
-          canAccessAllCourses: true,
-          canAccessAllPerks: true,
-          canApproveMarketplace: false,
-          canManageUsers: false,
-          canGenerateCertificates: true,
-          canAccessAdminPortal: false,
-          canRunDiagnostics: true
-        }
-      });
+      setCurrentUser(DEFAULT_STUDENT_USER);
+      setCurrentTheme('gurukul-amber');
+      if (!KIDS_ALLOWED_TABS.includes(activeTab)) {
+        setActiveTabState('home');
+      }
     } else if (newRole === 'parent') {
-      setCurrentUser(DEFAULT_USER);
+      setCurrentUser(DEFAULT_PARENT_USER);
+      // COMPLETE BLUE THEME FOR PARENTS WORKSPACE
+      setCurrentTheme('royal-indigo');
+      if (!PARENT_ALLOWED_TABS.includes(activeTab)) {
+        setActiveTabState('home');
+      }
     } else if (newRole === 'admin') {
-      setCurrentUser({
-        id: 'user-admin-1',
-        email: 'admin@superparent.in',
-        name: 'Super Admin (EMFI Lead)',
-        role: 'admin',
-        avatar: '🛡️',
-        grade: 'Class 10',
-        phone: '+91 7981967919',
-        enrollmentStatus: 'Admin Superuser',
-        hasFullAccess: true,
-        xpPoints: 99999,
-        streakDays: 100,
-        permissions: {
-          canAccessAllCourses: true,
-          canAccessAllPerks: true,
-          canApproveMarketplace: true,
-          canManageUsers: true,
-          canGenerateCertificates: true,
-          canAccessAdminPortal: true,
-          canRunDiagnostics: true
-        }
-      });
+      setCurrentUser(DEFAULT_ADMIN_USER);
+      // COMPLETE GREEN THEME FOR ADMIN WORKSPACE
+      setCurrentTheme('emerald-vedic');
+      setActiveTabState('admin');
     }
   };
 
@@ -143,37 +194,53 @@ export default function App() {
     setIsAskAIOpen(true);
   };
 
+  const handleOpenMedia = (media: Partial<MediaModalProps>) => {
+    setMediaModalState({
+      isOpen: true,
+      title: media.title || 'Interactive Educational Resource',
+      teluguTitle: media.teluguTitle,
+      category: media.category,
+      videoUrl: media.videoUrl,
+      webUrl: media.webUrl,
+      audioText: media.audioText,
+      description: media.description,
+      notesContent: media.notesContent,
+      keyPoints: media.keyPoints
+    });
+  };
+
   const handleToggleMasterAccess = () => {
     const newState = !masterAccessGranted;
     setMasterAccessGranted(newState);
     setCurrentUser(prev => ({ ...prev, hasFullAccess: newState }));
   };
 
-  const themeConfig = APP_THEMES[currentTheme] || APP_THEMES['gurukul-amber'];
+  const handleEarnXP = (points: number, _reason?: string) => {
+    setCurrentUser(prev => ({
+      ...prev,
+      xpPoints: (prev.xpPoints || 0) + points
+    }));
+  };
+
+  const [layoutMode, setLayoutMode] = useState<'sidebar' | 'top-nav'>('sidebar');
 
   return (
-    <div 
-      className="min-h-screen text-slate-900 font-sans flex flex-col transition-colors duration-300"
-      style={{ backgroundColor: themeConfig.bgMain }}
+    <SoftwareShell
+      currentUser={currentUser}
+      role={role}
+      setRole={handleRoleChange}
+      activeTab={activeTab}
+      setActiveTab={handleNavigateTab}
+      onOpenAskAI={(persona, query) => handleOpenAskAI(persona, query)}
+      onLogout={() => {
+        handleRoleChange('student');
+        handleNavigateTab('login');
+      }}
+      currentTheme={currentTheme}
+      onSelectTheme={setCurrentTheme}
+      masterAccessGranted={masterAccessGranted}
+      onToggleMasterAccess={handleToggleMasterAccess}
     >
-      {/* Header Bar */}
-      <Header
-        role={role}
-        setRole={handleRoleChange}
-        activeTab={activeTab}
-        setActiveTab={handleNavigateTab}
-        onOpenAskAI={() => handleOpenAskAI()}
-        currentUser={currentUser}
-        onLogout={() => {
-          handleRoleChange('student');
-          handleNavigateTab('login');
-        }}
-        currentTheme={currentTheme}
-        onSelectTheme={setCurrentTheme}
-        masterAccessGranted={masterAccessGranted}
-        onToggleMasterAccess={handleToggleMasterAccess}
-      />
-
       {/* Universal Navigation Controls (Back, Return, Home & Breadcrumbs) */}
       <UniversalNavBar
         activeTab={activeTab}
@@ -188,124 +255,164 @@ export default function App() {
         masterAccessGranted={masterAccessGranted}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-grow max-w-7xl w-full mx-auto px-4 py-6">
-        {activeTab === 'home' && (
-          <HomeOverview
-            role={role}
-            setRole={handleRoleChange}
-            setActiveTab={handleNavigateTab}
-            onOpenAskAI={(persona) => handleOpenAskAI(persona)}
-            onGenerateCertificate={() => setIsCertModalOpen(true)}
-          />
-        )}
+      {/* Main Content Area Protected by Higher-Order Access Guard */}
+      <div className="w-full">
+        <AccessGuard
+          tab={activeTab}
+          user={currentUser}
+          masterAccessGranted={masterAccessGranted}
+          onNavigateTab={handleNavigateTab}
+          onToggleMasterAccess={handleToggleMasterAccess}
+          onOpenPreviewVideo={(url, title) => handleOpenMedia({ videoUrl: url, title })}
+        >
+          {activeTab === 'home' && (
+            <DashboardHome
+              role={role}
+              setRole={handleRoleChange}
+              setActiveTab={handleNavigateTab}
+              onOpenAskAI={(persona, query) => handleOpenAskAI(persona, query)}
+              onGenerateCertificate={() => setIsCertModalOpen(true)}
+              studentName={currentUser.name}
+              currentXP={currentUser.xpPoints}
+              streakDays={currentUser.streakDays}
+              onEarnXP={handleEarnXP}
+            />
+          )}
 
-        {activeTab === 'super-student' && (
-          <SuperStudentHub 
-            onAskAI={(query) => handleOpenAskAI('tutor', query)}
-            onNavigateTab={(tab) => handleNavigateTab(tab as NavTab)}
-          />
-        )}
+          {activeTab === 'super-student' && (
+            <SuperStudentHub 
+              studentName={currentUser.name}
+              currentXP={currentUser.xpPoints}
+              streakDays={currentUser.streakDays}
+              onEarnXP={handleEarnXP}
+              onAskAI={(query) => handleOpenAskAI('tutor', query)}
+              onNavigateTab={(tab) => handleNavigateTab(tab as NavTab)}
+            />
+          )}
 
-        {activeTab === 'classroom' && (
-          <ClassroomInteractionRoom
-            onAskAI={(query) => handleOpenAskAI('tutor', query)}
-          />
-        )}
+          {activeTab === 'kids-lab' && (
+            <KidsLab
+              onAskAI={(query) => handleOpenAskAI('tutor', query)}
+            />
+          )}
 
-        {activeTab === 'language-lab' && (
-          <WorldLanguageLab
-            onAskAI={(query) => handleOpenAskAI('tutor', query)}
-          />
-        )}
+          {activeTab === 'practice-master' && (
+            <PracticeMasterZone
+              onAskAI={(query) => handleOpenAskAI('tutor', query)}
+            />
+          )}
 
-        {activeTab === 'offline-hub' && (
-          <OfflineHub />
-        )}
+          {activeTab === 'classroom' && (
+            <ClassroomInteractionRoom
+              onAskAI={(query) => handleOpenAskAI('tutor', query)}
+            />
+          )}
 
-        {activeTab === 'education' && (
-          <EducationHub onAskAITutor={(sub, grade) => handleOpenAskAI('tutor', `Explain ${sub} for ${grade}`)} />
-        )}
+          {activeTab === 'language-lab' && (
+            <WorldLanguageLab
+              onAskAI={(query) => handleOpenAskAI('tutor', query)}
+            />
+          )}
 
-        {activeTab === 'sanskar' && (
-          <SanskarHub />
-        )}
+          {activeTab === 'offline-hub' && (
+            <OfflineHub />
+          )}
 
-        {activeTab === 'stories' && (
-          <StoriesHub onAskAISTory={() => handleOpenAskAI('storytelling', 'Tell me a Panchatantra story with a moral in Telugu and English')} />
-        )}
+          {activeTab === 'education' && (
+            <EducationHub onAskAITutor={(sub, grade) => handleOpenAskAI('tutor', `Explain ${sub} for ${grade}`)} />
+          )}
 
-        {activeTab === 'parenting' && (
-          <ParentingHub 
-            onAskAIParenting={(persona, query) => handleOpenAskAI(persona || 'psychologist', query || 'How can I build better emotional bonding and reduce screen addiction?')}
-            onNavigateTab={(tab) => handleNavigateTab(tab)}
-          />
-        )}
+          {activeTab === 'sanskar' && (
+            <SanskarHub />
+          )}
 
-        {activeTab === 'innovation' && (
-          <InnovationLab onAskAIRobotics={(proj) => handleOpenAskAI('robotics', `How to build circuit for ${proj || 'obstacle avoidance robot'}?`)} />
-        )}
+          {activeTab === 'stories' && (
+            <StoriesHub onAskAISTory={() => handleOpenAskAI('storytelling', 'Tell me a Panchatantra story with a moral in Telugu and English')} />
+          )}
 
-        {activeTab === 'games' && (
-          <GamesHub />
-        )}
+          {activeTab === 'parenting' && (
+            <ParentingHub 
+              onAskAIParenting={(persona, query) => handleOpenAskAI(persona || 'psychologist', query || 'How can I build better emotional bonding and reduce screen addiction?')}
+              onNavigateTab={(tab) => handleNavigateTab(tab)}
+            />
+          )}
 
-        {activeTab === 'growth' && (
-          <GrowthMap onGenerateCertificate={() => setIsCertModalOpen(true)} />
-        )}
+          {activeTab === 'innovation' && (
+            <InnovationLab onAskAIRobotics={(proj) => handleOpenAskAI('robotics', `How to build circuit for ${proj || 'obstacle avoidance robot'}?`)} />
+          )}
 
-        {activeTab === 'marketplace' && (
-          <Marketplace />
-        )}
+          {activeTab === 'games' && (
+            <GamesHub />
+          )}
 
-        {activeTab === 'showcase' && (
-          <Showcase />
-        )}
+          {activeTab === 'growth' && (
+            <GrowthMap 
+              studentName={currentUser.name}
+              currentXP={currentUser.xpPoints}
+              streakDays={currentUser.streakDays}
+              onEarnXP={handleEarnXP}
+              onAskAI={(query) => handleOpenAskAI('tutor', query)}
+              onGenerateCertificate={() => setIsCertModalOpen(true)} 
+            />
+          )}
 
-        {activeTab === 'global' && (
-          <GlobalLearning />
-        )}
+          {activeTab === 'marketplace' && (
+            <Marketplace />
+          )}
 
-        {activeTab === 'pricing' && (
-          <PricingSection onGenerateCertificate={() => setIsCertModalOpen(true)} />
-        )}
+          {activeTab === 'showcase' && (
+            <Showcase />
+          )}
 
-        {activeTab === 'login' && (
-          <LoginPage
-            currentUser={currentUser}
-            onLogin={(user) => {
-              setCurrentUser(user);
-              setRole(user.role);
-            }}
-            setActiveTab={handleNavigateTab}
-            currentTheme={currentTheme}
-            masterAccessGranted={masterAccessGranted}
-            onToggleMasterAccess={handleToggleMasterAccess}
-          />
-        )}
+          {activeTab === 'global' && (
+            <GlobalLearning />
+          )}
 
-        {activeTab === 'admin' && (
-          <AdminPortal
-            currentUser={currentUser}
-            setActiveTab={handleNavigateTab}
-            masterAccessGranted={masterAccessGranted}
-            onToggleMasterAccess={handleToggleMasterAccess}
-            currentTheme={currentTheme}
-            onSelectTheme={setCurrentTheme}
-          />
-        )}
+          {activeTab === 'pricing' && (
+            <PricingSection 
+              onGenerateCertificate={() => setIsCertModalOpen(true)} 
+              onNavigateTab={handleNavigateTab}
+            />
+          )}
 
-        {activeTab === 'testing' && (
-          <TestingSuiteView
-            setActiveTab={handleNavigateTab}
-            onOpenAskAI={handleOpenAskAI}
-            onGenerateCertificate={() => setIsCertModalOpen(true)}
-            masterAccessGranted={masterAccessGranted}
-            onToggleMasterAccess={handleToggleMasterAccess}
-            currentTheme={currentTheme}
-          />
-        )}
-      </main>
+          {activeTab === 'login' && (
+            <SaaSAccessPortal
+              currentUser={currentUser}
+              onLoginSuccess={(user, targetTab) => {
+                setCurrentUser(user);
+                setRole(user.role);
+                handleNavigateTab(targetTab || (user.role === 'admin' ? 'admin' : 'home'));
+              }}
+              setActiveTab={handleNavigateTab}
+              currentTheme={currentTheme}
+              masterAccessGranted={masterAccessGranted}
+              onToggleMasterAccess={handleToggleMasterAccess}
+            />
+          )}
+
+          {activeTab === 'admin' && (
+            <AdminPortal
+              currentUser={currentUser}
+              setActiveTab={handleNavigateTab}
+              masterAccessGranted={masterAccessGranted}
+              onToggleMasterAccess={handleToggleMasterAccess}
+              currentTheme={currentTheme}
+              onSelectTheme={setCurrentTheme}
+            />
+          )}
+
+          {activeTab === 'testing' && (
+            <TestingSuiteView
+              setActiveTab={handleNavigateTab}
+              onOpenAskAI={handleOpenAskAI}
+              onGenerateCertificate={() => setIsCertModalOpen(true)}
+              masterAccessGranted={masterAccessGranted}
+              onToggleMasterAccess={handleToggleMasterAccess}
+              currentTheme={currentTheme}
+            />
+          )}
+        </AccessGuard>
+      </div>
 
       {/* Footer */}
       <Footer
@@ -321,12 +428,27 @@ export default function App() {
         initialQuery={initialAIQuery}
       />
 
+      {/* Universal Media & Video Link Player Modal */}
+      <MediaLinkModal
+        isOpen={mediaModalState.isOpen}
+        onClose={() => setMediaModalState(prev => ({ ...prev, isOpen: false }))}
+        title={mediaModalState.title}
+        teluguTitle={mediaModalState.teluguTitle}
+        category={mediaModalState.category}
+        videoUrl={mediaModalState.videoUrl}
+        webUrl={mediaModalState.webUrl}
+        audioText={mediaModalState.audioText}
+        description={mediaModalState.description}
+        notesContent={mediaModalState.notesContent}
+        keyPoints={mediaModalState.keyPoints}
+      />
+
       {/* Certificate Modal */}
       <CertificateModal
         isOpen={isCertModalOpen}
         onClose={() => setIsCertModalOpen(false)}
         studentName={currentUser.name}
       />
-    </div>
+    </SoftwareShell>
   );
 }

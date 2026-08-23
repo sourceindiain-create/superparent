@@ -1,11 +1,12 @@
 export type UserRole = 'parent' | 'student' | 'admin';
 
-export type AppThemeId = 'gurukul-amber' | 'emerald-vedic' | 'royal-indigo' | 'cyber-crimson' | 'ocean-teal';
+export type AppThemeId = 'gurukul-amber' | 'emerald-vedic' | 'royal-indigo';
 
 export interface ThemeConfig {
   id: AppThemeId;
   name: string;
   teluguName: string;
+  description?: string;
   primary: string;
   primaryHover: string;
   primaryLight: string;
@@ -20,7 +21,10 @@ export interface ThemeConfig {
   badgeText: string;
   gradientFrom: string;
   gradientTo: string;
+  palette?: string[];
 }
+
+export type SubscriptionTier = 'free' | 'kids' | 'parent' | 'super-parent' | 'admin';
 
 export interface UserAccount {
   id: string;
@@ -31,6 +35,7 @@ export interface UserAccount {
   grade?: ClassGrade;
   phone?: string;
   linkedStudentId?: string;
+  subscriptionTier?: SubscriptionTier;
   enrollmentStatus: 'Active' | 'Premium Gurukul' | 'Premium Gurukul Family' | 'Admin Superuser';
   hasFullAccess: boolean; // 100% access master toggle
   xpPoints: number;
@@ -56,6 +61,8 @@ export type SyllabusBoard = 'CBSE' | 'State Board' | 'ICSE' | 'International' | 
 export type NavTab = 
   | 'home'
   | 'super-student'
+  | 'kids-lab'
+  | 'practice-master'
   | 'classroom'
   | 'language-lab'
   | 'education'
@@ -128,6 +135,7 @@ export interface EducationSubject {
   topics: string[];
   pdfUrl?: string;
   videoUrl?: string;
+  aglasemUrl?: string;
   quizAvailable: boolean;
 }
 
@@ -143,11 +151,90 @@ export interface GitaShloka {
   keyTakeaway: string;
 }
 
+export interface StoryChapter {
+  id: string;
+  chapterNumber: number;
+  title: string;
+  teluguTitle: string;
+  duration: string;
+  englishContent: string;
+  teluguContent: string;
+  moralEnglish: string;
+  moralTelugu: string;
+  videoEmbedUrl?: string;
+  videoTitle?: string;
+  audioSimulatedUrl?: string;
+  tags?: string[];
+}
+
+export interface StorySeries {
+  id: string;
+  title: string;
+  teluguTitle: string;
+  category: 'chandamama' | 'balamitra' | 'andhra-culture' | 'panchatantra' | 'tenali-rama' | 'jataka-moral';
+  badge: string;
+  description: string;
+  teluguDescription: string;
+  coverImage: string;
+  authorOrSource: string;
+  totalChapters: number;
+  ageGroup: string;
+  chapters: StoryChapter[];
+  externalArchiveLink?: string;
+  externalAudioLink?: string;
+  featuredVideoUrl?: string;
+}
+
+export interface CultureVideoItem {
+  id: string;
+  title: string;
+  teluguTitle: string;
+  category: 'Dance & Arts' | 'Folk Storytelling' | 'Handicrafts & Heritage' | 'Festivals & Rituals' | 'Historical Monuments';
+  districtOrRegion: string;
+  duration: string;
+  thumbnailUrl: string;
+  youtubeIdOrEmbed: string;
+  description: string;
+  teluguDescription: string;
+  culturalSignificance: string;
+}
+
+export interface FreeBookResource {
+  id: string;
+  title: string;
+  teluguTitle: string;
+  category: 'Chandamama Archives' | 'Balamitra Classic' | 'National Book Trust' | 'Moral Storybooks' | 'Telugu Literature';
+  author: string;
+  totalPages: number;
+  language: 'Telugu' | 'English' | 'Bilingual (Telugu & English)';
+  coverImage: string;
+  description: string;
+  readOnlineUrl: string;
+  downloadPdfUrl?: string;
+  isFreePublicDomain: boolean;
+  sampleChaptersPreview?: { chapterTitle: string; content: string }[];
+}
+
+export interface DasubhashithamResource {
+  id: string;
+  title: string;
+  teluguTitle: string;
+  category: 'Children Classic' | 'Audiobook Series' | 'Telugu Mahakavyalu' | 'Novels & Short Stories' | 'Devotional & Cultural';
+  authorOrNarrator: string;
+  durationOrEpisodes: string;
+  thumbnailUrl: string;
+  description: string;
+  teluguDescription: string;
+  directWebUrl: string;
+  dasubhashithamAppUrl: string;
+  recommendedFor: string;
+}
+
 export interface StoryItem {
   id: string;
   title: string;
   teluguTitle: string;
-  category: 'Panchatantra' | 'Moral' | 'Mythological' | 'Culture' | 'Science';
+  category: 'Panchatantra' | 'Moral' | 'Mythological' | 'Culture' | 'Science' | 'Chandamama' | 'Balamitra';
   ageGroup: string;
   summary: string;
   content: string;
@@ -273,4 +360,37 @@ export interface CertificateItem {
   issueDate: string;
   certificateCode: string;
   grade: string;
+}
+
+export type ReflectionCategory = 
+  | 'Science & Nature'
+  | 'Mathematics & Logic'
+  | 'Coding, AI & Robotics'
+  | 'Values & Sanskar'
+  | 'Language & Arts'
+  | 'Life Skills & Health'
+  | 'General Wisdom';
+
+export type ReflectionMood = 
+  | '🚀 Excited'
+  | '💡 Inspired'
+  | '🧠 Curious'
+  | '🌟 Proud'
+  | '🧘 Peaceful';
+
+export interface DailyReflection {
+  id: string;
+  date: string; // YYYY-MM-DD
+  timestamp: string;
+  learnedText: string;
+  subjectCategory: ReflectionCategory;
+  mood?: ReflectionMood;
+  keyTakeaway?: string;
+  xpEarned: number;
+  streakBonus: boolean;
+  aiFeedback?: {
+    cheer: string;
+    teluguCheer?: string;
+    thoughtPrompt?: string;
+  };
 }

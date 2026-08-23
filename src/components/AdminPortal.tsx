@@ -49,7 +49,67 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 }) => {
   const theme = APP_THEMES[currentTheme] || APP_THEMES['gurukul-amber'];
 
-  const [activeAdminSection, setActiveAdminSection] = useState<'overview' | 'access' | 'testing' | 'marketplace' | 'users' | 'logs' | 'architecture' | 'firebase-check'>('overview');
+  const [activeAdminSection, setActiveAdminSection] = useState<'overview' | 'payments' | 'coupons' | 'access' | 'testing' | 'marketplace' | 'users' | 'logs' | 'architecture' | 'firebase-check'>('overview');
+  const [adminPayments, setAdminPayments] = useState<any[]>([
+    {
+      orderId: 'ORD-SP-2026-9812',
+      transactionId: 'TXN-UPI-98124801',
+      userPhone: '+91 7981967919',
+      userName: 'Chaitanya Reddy',
+      userEmail: 'student@superparent.in',
+      planId: 'super-parent',
+      planName: 'Super Parent (100% All Access)',
+      amountPaid: 1500,
+      originalAmount: 2000,
+      couponApplied: 'SUPER1500',
+      paymentMethod: 'UPI (PhonePe / GPay)',
+      status: 'SUCCESS',
+      activatedAt: '2026-08-14 11:20:00',
+      receiptUrl: '#receipt-9812'
+    },
+    {
+      orderId: 'ORD-SP-2026-9743',
+      transactionId: 'TXN-UPI-77439120',
+      userPhone: '+91 7989997015',
+      userName: 'Rajesh & Lakshmi Reddy',
+      userEmail: 'parent@superparent.in',
+      planId: 'parent',
+      planName: 'Parent Mode',
+      amountPaid: 1000,
+      originalAmount: 1200,
+      couponApplied: 'PARENT1000',
+      paymentMethod: 'NetBanking (HDFC)',
+      status: 'SUCCESS',
+      activatedAt: '2026-08-13 14:15:30',
+      receiptUrl: '#receipt-9743'
+    },
+    {
+      orderId: 'ORD-SP-2026-9620',
+      transactionId: 'TXN-UPI-44910283',
+      userPhone: '+91 9848012345',
+      userName: 'Ananya Sharma',
+      userEmail: 'ananya.s@gmail.com',
+      planId: 'kids',
+      planName: 'Kids Mode',
+      amountPaid: 600,
+      originalAmount: 800,
+      couponApplied: 'SUPER600',
+      paymentMethod: 'UPI (Google Pay)',
+      status: 'SUCCESS',
+      activatedAt: '2026-08-12 09:45:10',
+      receiptUrl: '#receipt-9620'
+    }
+  ]);
+  const [adminCoupons, setAdminCoupons] = useState<any[]>([
+    { code: 'SUPER600', discountAmount: 200, applicablePlan: 'Kids Mode (₹800 -> ₹600)', usageCount: 142, active: true },
+    { code: 'PARENT1000', discountAmount: 200, applicablePlan: 'Parent Mode (₹1,200 -> ₹1,000)', usageCount: 289, active: true },
+    { code: 'SUPER1500', discountAmount: 500, applicablePlan: 'Super Parent (₹2,000 -> ₹1,500)', usageCount: 512, active: true },
+    { code: 'FOUNDER1500', discountAmount: 500, applicablePlan: 'Super Parent (Founder Pack)', usageCount: 98, active: true },
+    { code: 'SPECIAL50', discountAmount: 400, applicablePlan: 'All Tiers (Community Grant)', usageCount: 64, active: true }
+  ]);
+  const [newCouponCode, setNewCouponCode] = useState('');
+  const [newCouponDiscount, setNewCouponDiscount] = useState('200');
+  const [newCouponPlan, setNewCouponPlan] = useState('all');
   const [isGranting, setIsGranting] = useState(false);
   const [successToast, setSuccessToast] = useState<string | null>(null);
   const [activeFrameworkCode, setActiveFrameworkCode] = useState<'react' | 'angular' | 'flutter' | 'nodejs' | 'sqlserver' | 'firebase' | 'android'>('firebase');
@@ -268,6 +328,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
       <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
         {[
           { id: 'overview', label: 'System Overview & Metrics', icon: BarChart3 },
+          { id: 'payments', label: `💳 All Payments (${adminPayments.length})`, icon: Database },
+          { id: 'coupons', label: `🏷️ Coupons CMS (${adminCoupons.length})`, icon: Award },
           { id: 'firebase-check', label: '🔥 Firebase Health Check', icon: Flame },
           { id: 'architecture', label: 'Full-Stack Architecture & Firebase Security', icon: Server },
           { id: 'access', label: '100% Access Control', icon: KeyRoundIcon },
@@ -400,6 +462,170 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
         </div>
       )}
 
+      {/* SECTION: 💳 ALL PAYMENTS & SUBSCRIBER BILLINGS CMS */}
+      {activeAdminSection === 'payments' && (
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-clean-md space-y-6">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-black mb-1">
+                <span>Direct Revenue & SaaS Subscriptions</span>
+              </div>
+              <h3 className="text-xl font-black text-slate-900">
+                All Completed Payments & Transactions
+              </h3>
+              <p className="text-xs text-slate-500 font-medium">
+                Backend-verified transactions for Kids Mode (₹600), Parent Mode (₹1,000) and Super Parent (₹1,500).
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="bg-orange-50 border border-orange-200 px-4 py-2 rounded-2xl text-center">
+                <div className="text-[10px] font-bold text-slate-500 uppercase">Total Revenue</div>
+                <div className="text-lg font-black text-slate-900">
+                  ₹{adminPayments.reduce((acc, p) => acc + p.amountPaid, 0).toLocaleString()}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Payments Table */}
+          <div className="overflow-x-auto rounded-2xl border border-slate-200">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
+                <tr>
+                  <th className="p-3.5">Order ID & Date</th>
+                  <th className="p-3.5">Subscriber Details</th>
+                  <th className="p-3.5">Plan & Mode</th>
+                  <th className="p-3.5">Coupon</th>
+                  <th className="p-3.5">Amount Paid</th>
+                  <th className="p-3.5">Method</th>
+                  <th className="p-3.5 text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 font-medium">
+                {adminPayments.map((p, idx) => (
+                  <tr key={idx} className="hover:bg-orange-50/40 transition-colors">
+                    <td className="p-3.5">
+                      <div className="font-mono font-bold text-slate-900">{p.orderId}</div>
+                      <div className="text-[10px] text-slate-400">{p.activatedAt}</div>
+                    </td>
+                    <td className="p-3.5">
+                      <div className="font-bold text-slate-900">{p.userName}</div>
+                      <div className="text-[11px] text-slate-500">{p.userPhone}</div>
+                      <div className="text-[10px] text-slate-400">{p.userEmail}</div>
+                    </td>
+                    <td className="p-3.5">
+                      <span className="font-black text-orange-700 bg-orange-100/70 px-2 py-0.5 rounded-md text-[11px]">
+                        {p.planName}
+                      </span>
+                    </td>
+                    <td className="p-3.5 font-mono text-emerald-700 font-bold">
+                      {p.couponApplied || 'NONE'}
+                    </td>
+                    <td className="p-3.5 font-black text-slate-900 font-mono text-sm">
+                      ₹{p.amountPaid}
+                    </td>
+                    <td className="p-3.5 text-slate-600 text-[11px]">
+                      {p.paymentMethod}
+                    </td>
+                    <td className="p-3.5 text-right">
+                      <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full border border-emerald-200">
+                        {p.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* SECTION: 🏷️ COUPONS & DISCOUNT ENGINE CMS */}
+      {activeAdminSection === 'coupons' && (
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-clean-md space-y-6">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-black mb-1">
+                <span>Promotions & Plan Discounts</span>
+              </div>
+              <h3 className="text-xl font-black text-slate-900">
+                Coupons & Discount Codes CMS
+              </h3>
+              <p className="text-xs text-slate-500 font-medium">
+                Create and manage instant discount coupons for Kids (₹600), Parent (₹1,000) and Super Parent (₹1,500).
+              </p>
+            </div>
+          </div>
+
+          {/* Add New Coupon Form */}
+          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center gap-3">
+            <input
+              type="text"
+              placeholder="Coupon Code (e.g. FESTIVE300)"
+              value={newCouponCode}
+              onChange={(e) => setNewCouponCode(e.target.value.toUpperCase())}
+              className="w-full sm:w-1/3 px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-black uppercase text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            />
+            <input
+              type="number"
+              placeholder="Discount INR (e.g. 300)"
+              value={newCouponDiscount}
+              onChange={(e) => setNewCouponDiscount(e.target.value)}
+              className="w-full sm:w-1/4 px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            />
+            <button
+              onClick={() => {
+                if (!newCouponCode.trim()) return;
+                const newC = {
+                  code: newCouponCode.trim().toUpperCase(),
+                  discountAmount: parseInt(newCouponDiscount) || 200,
+                  applicablePlan: 'Custom Promotion',
+                  usageCount: 0,
+                  active: true
+                };
+                setAdminCoupons(prev => [newC, ...prev]);
+                setNewCouponCode('');
+                setSuccessToast(`Created coupon code "${newC.code}" with ₹${newC.discountAmount} discount!`);
+                setTimeout(() => setSuccessToast(null), 3000);
+              }}
+              className="w-full sm:w-auto px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-black text-xs rounded-xl shadow-xs cursor-pointer"
+            >
+              + Create Coupon Code
+            </button>
+          </div>
+
+          {/* Coupons List */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {adminCoupons.map((c, idx) => (
+              <div key={idx} className="bg-slate-50 rounded-2xl p-4 border border-slate-200 flex flex-col justify-between space-y-3">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <span className="font-mono text-base font-black text-orange-600 bg-orange-100/80 px-2 py-0.5 rounded-md">
+                      {c.code}
+                    </span>
+                    <div className="text-xs font-bold text-slate-700 mt-1">₹{c.discountAmount} Instant Discount</div>
+                  </div>
+                  <span className="text-[10px] font-black bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                    Active
+                  </span>
+                </div>
+
+                <div className="text-[11px] text-slate-500">
+                  <span>Target: </span>
+                  <span className="font-bold text-slate-700">{c.applicablePlan}</span>
+                </div>
+
+                <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500">
+                  <span>Used <strong>{c.usageCount}</strong> times</span>
+                  <span className="text-emerald-700 font-bold">100% Verified</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* SECTION 2: 100% Access Control */}
       {activeAdminSection === 'access' && (
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-clean-md space-y-6">
@@ -455,6 +681,68 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                 </span>
               </div>
             ))}
+          </div>
+
+          {/* Role & Subscription Tier Access Matrix */}
+          <div className="mt-8 pt-6 border-t border-slate-200 space-y-4">
+            <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
+              <KeyRoundIcon className="w-4 h-4 text-orange-600" />
+              <span>Subscription Tier Gate & Higher-Order Access Registry</span>
+            </h4>
+            <p className="text-xs text-slate-500">
+              Live authorization mapping managed by <code>AccessGuard</code> and <code>withSubscriptionAccess</code> HOC.
+            </p>
+
+            <div className="overflow-x-auto rounded-2xl border border-slate-200">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
+                  <tr>
+                    <th className="p-3">Platform Tab / Section</th>
+                    <th className="p-3">Required Tier</th>
+                    <th className="p-3">Free / Guest</th>
+                    <th className="p-3">Kids Mode (₹600)</th>
+                    <th className="p-3">Parent Mode (₹1,000)</th>
+                    <th className="p-3">Super Parent (₹1,500)</th>
+                    <th className="p-3 text-right">Master Toggle Bypass</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 font-medium">
+                  {[
+                    { tab: '🏠 Home & Public Hubs', tier: 'Free', free: '✅ Open', kids: '✅ Open', parent: '✅ Open', super: '✅ Open' },
+                    { tab: '🚀 Super Student Hub (11 AI Courses)', tier: 'Kids Tier', free: '🔒 Locked', kids: '✅ Unlocked', parent: '✅ Unlocked', super: '✅ Unlocked' },
+                    { tab: '🏫 Online Classrooms & Meet', tier: 'Kids Tier', free: '🔒 Locked', kids: '✅ Unlocked', parent: '✅ Unlocked', super: '✅ Unlocked' },
+                    { tab: '🌐 World Language Lab', tier: 'Kids Tier', free: '🔒 Locked', kids: '✅ Unlocked', parent: '✅ Unlocked', super: '✅ Unlocked' },
+                    { tab: '📚 Education Hub (LKG - Class 10)', tier: 'Kids Tier', free: '🔒 Locked', kids: '✅ Unlocked', parent: '✅ Unlocked', super: '✅ Unlocked' },
+                    { tab: '🕉️ Sanskar & Gita Shlokas', tier: 'Kids Tier', free: '🔒 Locked', kids: '✅ Unlocked', parent: '✅ Unlocked', super: '✅ Unlocked' },
+                    { tab: '📖 Moral Stories & Panchatantra', tier: 'Kids Tier', free: '🔒 Locked', kids: '✅ Unlocked', parent: '✅ Unlocked', super: '✅ Unlocked' },
+                    { tab: '👨‍👩‍👧 Parenting & Child Psychology', tier: 'Parent Tier', free: '🔒 Locked', kids: '🔒 Locked', parent: '✅ Unlocked', super: '✅ Unlocked' },
+                    { tab: '💡 Innovation & Robotics Lab', tier: 'Super Parent Tier', free: '🔒 Locked', kids: '🔒 Locked', parent: '🔒 Locked', super: '✅ Unlocked' },
+                    { tab: '🎮 Cognitive Brain Games', tier: 'Kids Tier', free: '🔒 Locked', kids: '✅ Unlocked', parent: '✅ Unlocked', super: '✅ Unlocked' },
+                    { tab: '📊 Growth Map & Certificates', tier: 'Kids Tier', free: '🔒 Locked', kids: '✅ Unlocked', parent: '✅ Unlocked', super: '✅ Unlocked' },
+                    { tab: '🛍️ Student Marketplace', tier: 'Parent Tier', free: '🔒 Locked', kids: '🔒 Locked', parent: '✅ Unlocked', super: '✅ Unlocked' },
+                    { tab: '🛡️ Admin Portal & CMS', tier: 'Admin Tier', free: '🔒 Locked', kids: '🔒 Locked', parent: '🔒 Locked', super: '🔒 Locked' },
+                  ].map((row, i) => (
+                    <tr key={i} className="hover:bg-orange-50/30 transition-colors">
+                      <td className="p-3 font-bold text-slate-900">{row.tab}</td>
+                      <td className="p-3">
+                        <span className="bg-orange-100 text-orange-800 text-[10px] font-black px-2 py-0.5 rounded-md">
+                          {row.tier}
+                        </span>
+                      </td>
+                      <td className="p-3 text-slate-600">{row.free}</td>
+                      <td className="p-3 text-slate-600">{row.kids}</td>
+                      <td className="p-3 text-slate-600">{row.parent}</td>
+                      <td className="p-3 text-emerald-700 font-bold">{row.super}</td>
+                      <td className="p-3 text-right">
+                        <span className="text-emerald-600 font-black text-[11px] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                          {masterAccessGranted ? '⚡ 100% UNLOCKED' : '🛡️ ENFORCED'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}

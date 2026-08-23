@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PRICING_PLANS, COMPANY_INFO } from '../data/mockData';
-import { PricingPlan } from '../types';
+import { PricingPlan, NavTab } from '../types';
 import { 
   Check, 
   Award, 
@@ -9,14 +9,18 @@ import {
   MapPin, 
   ShieldCheck, 
   HelpCircle, 
-  CheckCircle2 
+  CheckCircle2,
+  ArrowRight,
+  Zap,
+  Tag
 } from 'lucide-react';
 
 interface PricingSectionProps {
   onGenerateCertificate: () => void;
+  onNavigateTab?: (tab: NavTab) => void;
 }
 
-export const PricingSection: React.FC<PricingSectionProps> = ({ onGenerateCertificate }) => {
+export const PricingSection: React.FC<PricingSectionProps> = ({ onGenerateCertificate, onNavigateTab }) => {
   const [selectedPlan, setSelectedPlan] = useState<PricingPlan | null>(null);
   const [selectedMode, setSelectedMode] = useState<string>('Online');
   const [enrollSuccess, setEnrollSuccess] = useState(false);
@@ -189,10 +193,25 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onGenerateCertif
 
                 <button
                   type="submit"
-                  className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 rounded-xl text-xs shadow-md transition-colors"
+                  className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs shadow-md transition-colors"
                 >
-                  Confirm Enrollment Registration
+                  Submit Enrollment Request
                 </button>
+
+                {onNavigateTab && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedPlan(null);
+                      onNavigateTab('login');
+                    }}
+                    className="w-full py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-black text-xs shadow-md flex items-center justify-center gap-1.5 transition-all"
+                  >
+                    <Zap className="w-3.5 h-3.5" />
+                    <span>Pay Online with Coupon & Unlock Now</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </form>
             )}
           </div>

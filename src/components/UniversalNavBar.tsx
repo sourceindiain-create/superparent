@@ -53,6 +53,8 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
     switch (tab) {
       case 'home': return t('navHome', 'Home Overview');
       case 'super-student': return t('navSuperStudent', 'Super Student Hub ($200k+ Free Packs & AI)');
+      case 'kids-lab': return t('navKidsLab', 'Kids Lab (3D Anatomy & AI Creative Studio)');
+      case 'practice-master': return t('navPracticeMaster', 'Practice Master Zone (Global Portals & Research)');
       case 'classroom': return t('navClassroom', 'Live Interaction Room & Classrooms (Zoom/Meet)');
       case 'language-lab': return t('navLanguageLab', 'World Language Lab (Telugu, Hindi, English, Sanskrit)');
       case 'offline-hub': return t('navOfflineHub', 'Offline Learning Hub & Service Worker Cache');

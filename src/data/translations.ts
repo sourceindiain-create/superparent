@@ -52,6 +52,16 @@ export const TRANSLATIONS: TranslationDictionary = {
     te: 'సూపర్ స్టూడెంట్',
     hi: 'सुपर स्टूडेंट'
   },
+  navKidsLab: {
+    en: 'Kids Lab & 3D Anatomy',
+    te: 'కిడ్స్ ల్యాబ్ & 3D అనాటమీ',
+    hi: 'किड्स लैब और 3D एनाटॉमी'
+  },
+  navPracticeMaster: {
+    en: 'Practice Master Zone',
+    te: 'ప్రాక్టీస్ మాస్టర్ జోన్',
+    hi: 'प्रैक्टिस मास्टर जोन'
+  },
   navClassroom: {
     en: 'Classroom & Interaction Room',
     te: 'ఆన్‌లైన్ క్లాస్‌రూమ్ & ఇంటరాక్షన్ రూమ్',
