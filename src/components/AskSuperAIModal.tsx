@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { AI_EXPERTS } from '../data/mockData';
 import { AIExpertPersona } from '../types';
+import { WORLD_AI_CHATBOTS, MULTI_LANGUAGE_SOLUTIONS_VAULT, WorldAIChatbot } from '../data/worldAiChatbotsData';
 import { 
   Bot, 
   X, 
@@ -35,7 +36,15 @@ import {
   HelpCircle,
   Play,
   Square,
-  Pause
+  Pause,
+  Search,
+  Filter,
+  Code2,
+  Zap,
+  Boxes,
+  FileText,
+  Video,
+  Bookmark
 } from 'lucide-react';
 
 interface AskSuperAIModalProps {
@@ -44,6 +53,7 @@ interface AskSuperAIModalProps {
   initialPersona?: AIExpertPersona;
   defaultPersona?: AIExpertPersona;
   initialQuery?: string;
+  initialTab?: 'expert' | 'all_chatbots' | 'language_vault' | 'master_app' | 'digital_library';
 }
 
 const ICON_MAP: Record<string, any> = {
@@ -56,7 +66,13 @@ const ICON_MAP: Record<string, any> = {
   Palette,
   Utensils,
   BookOpen,
-  Users
+  Users,
+  Code2,
+  Zap,
+  Globe,
+  Radio,
+  FileText,
+  Boxes
 };
 
 export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
@@ -64,14 +80,20 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
   onClose,
   initialPersona,
   defaultPersona = 'general',
-  initialQuery = ''
+  initialQuery = '',
+  initialTab = 'expert'
 }) => {
   const activeInitialPersona = initialPersona || defaultPersona;
-  const [activeTab, setActiveTab] = useState<'expert' | 'master_app' | 'digital_library'>('expert');
+  const [activeTab, setActiveTab] = useState<'expert' | 'all_chatbots' | 'language_vault' | 'master_app' | 'digital_library'>(initialTab);
   const [selectedPersona, setSelectedPersona] = useState<AIExpertPersona>(activeInitialPersona);
   const [promptInput, setPromptInput] = useState(initialQuery);
   const [selectedImage, setSelectedImage] = useState<{ base64: string; mimeType: string; previewUrl: string } | null>(null);
   
+  // World AI Directory filters
+  const [chatbotCategoryFilter, setChatbotCategoryFilter] = useState<'all' | 'text' | 'voice' | 'image' | 'multimodal' | 'research'>('all');
+  const [chatbotSearchQuery, setChatbotSearchQuery] = useState('');
+  const [copiedPromptId, setCopiedPromptId] = useState<string | null>(null);
+
   // Web Speech Recognition (Voice to Text) State
   const [isListening, setIsListening] = useState(false);
   const [speechLanguage, setSpeechLanguage] = useState<'te-IN' | 'en-IN' | 'hi-IN' | 'en-US'>('te-IN');
@@ -90,6 +112,7 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [responseOutput, setResponseOutput] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [responseSource, setResponseSource] = useState<string>('gemini-3.7-flash');
 
   // Embedded Master AI Web App Navigation State
   const MASTER_AI_URL = 'https://studio-6989353372-64cd3.web.app/';
@@ -97,6 +120,20 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
   const [historyStack, setHistoryStack] = useState<string[]>([MASTER_AI_URL]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);
   const [iframeKey, setIframeKey] = useState<number>(0);
+
+  // Filtered Chatbots List
+  const filteredChatbots = useMemo(() => {
+    return WORLD_AI_CHATBOTS.filter(bot => {
+      const matchCategory = chatbotCategoryFilter === 'all' || bot.category === chatbotCategoryFilter;
+      const matchSearch = chatbotSearchQuery === '' || 
+        bot.name.toLowerCase().includes(chatbotSearchQuery.toLowerCase()) ||
+        bot.provider.toLowerCase().includes(chatbotSearchQuery.toLowerCase()) ||
+        bot.description.toLowerCase().includes(chatbotSearchQuery.toLowerCase()) ||
+        bot.teluguDesc.toLowerCase().includes(chatbotSearchQuery.toLowerCase()) ||
+        bot.features.some(f => f.toLowerCase().includes(chatbotSearchQuery.toLowerCase()));
+      return matchCategory && matchSearch;
+    });
+  }, [chatbotCategoryFilter, chatbotSearchQuery]);
 
   // Sync props when modal is opened
   useEffect(() => {
@@ -106,6 +143,9 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
       }
       if (initialQuery) {
         setPromptInput(initialQuery);
+      }
+      if (initialTab) {
+        setActiveTab(initialTab);
       }
       // Check Speech Recognition support in browser
       if (typeof window !== 'undefined') {
@@ -117,7 +157,7 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
       stopListening();
       stopSpeechSynthesis();
     }
-  }, [isOpen, initialPersona, initialQuery]);
+  }, [isOpen, initialPersona, initialQuery, initialTab]);
 
   // Clean up on unmount
   useEffect(() => {
@@ -484,44 +524,66 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
                 </span>
               </h2>
               <p className="text-xs text-orange-100">
-                Web Speech Voice Q&A • 10 Specialist Mentors • Visual Diagrams • Digital Libraries
+                100% Accurate Verified Solutions • World AI Directory (Text, Voice, Image) • Multi-Language Notes & Videos
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
             {/* Top View Mode Tabs */}
-            <div className="bg-white/10 p-1 rounded-xl flex items-center border border-white/20 text-xs font-bold">
+            <div className="bg-white/10 p-1 rounded-xl flex flex-wrap items-center border border-white/20 text-xs font-bold gap-1">
               <button
                 onClick={() => setActiveTab('expert')}
-                className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+                className={`px-2.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
                   activeTab === 'expert'
                     ? 'bg-white text-orange-900 shadow-xs'
                     : 'text-white hover:text-amber-200'
                 }`}
               >
                 <Mic className="w-3.5 h-3.5" />
-                <span>Voice & Chat</span>
+                <span>Super AI Chat</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('all_chatbots')}
+                className={`px-2.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+                  activeTab === 'all_chatbots'
+                    ? 'bg-white text-orange-900 shadow-xs font-black'
+                    : 'text-white hover:text-amber-200'
+                }`}
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>🌟 World AI Hub</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('language_vault')}
+                className={`px-2.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+                  activeTab === 'language_vault'
+                    ? 'bg-white text-orange-900 shadow-xs font-black'
+                    : 'text-white hover:text-amber-200'
+                }`}
+              >
+                <BookOpen className="w-3.5 h-3.5 text-amber-300" />
+                <span>📚 Solutions Vault</span>
               </button>
               <button
                 onClick={() => setActiveTab('master_app')}
-                className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+                className={`px-2.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
                   activeTab === 'master_app'
                     ? 'bg-white text-orange-900 shadow-xs'
                     : 'text-white hover:text-amber-200'
                 }`}
               >
-                <span>🚀 Master AI App</span>
+                <span>🚀 Master App</span>
               </button>
               <button
                 onClick={() => setActiveTab('digital_library')}
-                className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+                className={`px-2.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
                   activeTab === 'digital_library'
                     ? 'bg-white text-orange-900 shadow-xs'
                     : 'text-white hover:text-amber-200'
                 }`}
               >
-                <span>📚 Libraries</span>
+                <span>🏛️ Libraries</span>
               </button>
             </div>
 
@@ -871,7 +933,315 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
             </div>
           )}
 
-          {/* TAB 2: MASTER AI WEB APP (https://studio-6989353372-64cd3.web.app/) */}
+          {/* TAB 2: WORLD FAMOUS AI CHATBOTS HUB (TEXT, VOICE, IMAGE) */}
+          {activeTab === 'all_chatbots' && (
+            <div className="space-y-4">
+              {/* Header Banner */}
+              <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-4 sm:p-5 rounded-2xl shadow-md border border-indigo-900/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="bg-amber-400 text-slate-950 text-[10px] font-black uppercase px-2 py-0.5 rounded-md">
+                      100% Comprehensive AI Hub
+                    </span>
+                    <span className="text-xs text-indigo-200">
+                      18+ Global Flagship Models
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-black text-white mt-1">
+                    🌟 All World-Famous AI Chatbots (Text, Voice & Image)
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-0.5">
+                    Direct access to ChatGPT, Gemini, Claude, Perplexity, DeepSeek, ElevenLabs, Suno, Midjourney, DALL-E 3 & more with API links and copyable prompts.
+                  </p>
+                </div>
+
+                {/* Search Bar */}
+                <div className="w-full md:w-72 relative">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={chatbotSearchQuery}
+                    onChange={(e) => setChatbotSearchQuery(e.target.value)}
+                    placeholder="Search AI bots (e.g., DeepSeek, Midjourney, Suno)..."
+                    className="w-full bg-slate-800/90 text-white placeholder:text-slate-400 text-xs pl-9 pr-3 py-2 rounded-xl border border-slate-700 focus:outline-none focus:border-amber-400"
+                  />
+                  {chatbotSearchQuery && (
+                    <button 
+                      onClick={() => setChatbotSearchQuery('')} 
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Category Filter Pills */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+                <span className="text-xs font-bold text-slate-500 shrink-0 flex items-center gap-1">
+                  <Filter className="w-3.5 h-3.5 text-orange-500" />
+                  <span>Category:</span>
+                </span>
+                {[
+                  { id: 'all', label: 'All AI Bots (18+)' },
+                  { id: 'text', label: '💬 Text & Reasoning' },
+                  { id: 'voice', label: '🎙️ Voice & Audio' },
+                  { id: 'image', label: '🎨 Image & Vision' },
+                  { id: 'multimodal', label: '⚡ Multimodal' },
+                  { id: 'research', label: '🔬 Research & Search' }
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setChatbotCategoryFilter(tab.id as any)}
+                    className={`px-3 py-1.5 rounded-xl font-bold transition-all shrink-0 ${
+                      chatbotCategoryFilter === tab.id
+                        ? 'bg-slate-900 text-amber-300 shadow-xs'
+                        : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-100'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Chatbots Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredChatbots.map((bot) => {
+                  const IconComp = ICON_MAP[bot.iconName] || Bot;
+                  const isCopied = copiedPromptId === bot.id;
+
+                  return (
+                    <div
+                      key={bot.id}
+                      className="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+                    >
+                      <div className="space-y-2.5">
+                        {/* Top Provider & Badge */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-bold text-slate-500">
+                            {bot.provider}
+                          </span>
+                          <span className="bg-amber-100 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-200">
+                            {bot.badge}
+                          </span>
+                        </div>
+
+                        {/* Title & Icon */}
+                        <div className="flex items-start gap-3">
+                          <div className={`p-2.5 rounded-xl bg-gradient-to-br ${bot.logoColor} text-white shrink-0 shadow-xs`}>
+                            <IconComp className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <h4 className="font-black text-slate-900 text-sm leading-snug">
+                              {bot.name}
+                            </h4>
+                            <span className="text-[11px] text-orange-600 font-bold block">
+                              {bot.pricing}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Description */}
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                          {bot.description}
+                        </p>
+
+                        {/* Telugu / Multilingual summary */}
+                        <div className="bg-amber-50/60 p-2 rounded-xl border border-amber-100 text-[11px] text-amber-950 font-medium">
+                          <span className="font-bold text-amber-800">తెలుగు: </span>
+                          {bot.teluguDesc}
+                        </div>
+
+                        {/* Features Tags */}
+                        <div className="flex flex-wrap gap-1">
+                          {bot.features.slice(0, 3).map((feat, fIdx) => (
+                            <span
+                              key={fIdx}
+                              className="bg-slate-100 text-slate-700 text-[10px] font-semibold px-2 py-0.5 rounded-md"
+                            >
+                              ✓ {feat}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Sample Prompt Box with 1-click Test */}
+                        <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1.5">
+                          <div className="flex items-center justify-between text-[11px] font-bold text-slate-700">
+                            <span className="flex items-center gap-1">
+                              <Sparkles className="w-3 h-3 text-orange-500" />
+                              <span>High-Yield Prompt:</span>
+                            </span>
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(bot.samplePrompt);
+                                setCopiedPromptId(bot.id);
+                                setTimeout(() => setCopiedPromptId(null), 2000);
+                              }}
+                              className="text-[10px] text-orange-600 hover:text-orange-700 font-bold flex items-center gap-1"
+                            >
+                              {isCopied ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                              <span>{isCopied ? 'Copied' : 'Copy'}</span>
+                            </button>
+                          </div>
+                          <p className="text-[11px] text-slate-600 italic bg-white p-2 rounded-lg border border-slate-100 leading-relaxed">
+                            "{bot.samplePrompt}"
+                          </p>
+                          <button
+                            onClick={() => {
+                              setPromptInput(bot.samplePrompt);
+                              setActiveTab('expert');
+                            }}
+                            className="w-full bg-orange-100 hover:bg-orange-200 text-orange-950 text-[11px] font-bold py-1 rounded-lg transition-colors flex items-center justify-center gap-1"
+                          >
+                            <Zap className="w-3 h-3 text-orange-600" />
+                            <span>Load this prompt in Super AI</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons: Direct Web App & Official API Link */}
+                      <div className="pt-2 flex items-center gap-2">
+                        <a
+                          href={bot.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5 text-amber-300" />
+                          <span>Open {bot.name.split(' ')[0]}</span>
+                        </a>
+
+                        {bot.apiUrl && (
+                          <a
+                            href={bot.apiUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold p-2 rounded-xl text-xs flex items-center justify-center transition-colors"
+                            title="Official Developer API Documentation"
+                          >
+                            <Code2 className="w-4 h-4 text-slate-600" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: MULTI-LANGUAGE SOLUTIONS, NOTES, BOOKS & VIDEOS VAULT */}
+          {activeTab === 'language_vault' && (
+            <div className="space-y-4">
+              <div className="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white p-4 sm:p-5 rounded-2xl shadow-md border border-emerald-800/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="bg-emerald-400 text-slate-950 text-[10px] font-black uppercase px-2 py-0.5 rounded-md">
+                      Free Open Resources
+                    </span>
+                    <span className="text-xs text-emerald-200">
+                      Telugu • Hindi • English • Sanskrit • NCERT & State Board
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-black text-white mt-1">
+                    📚 Multi-Language Solutions, Notes & Video Lectures Vault
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-0.5">
+                    Free verified notes, video playlists, NCERT textbooks, and interactive virtual science/math lab simulators.
+                  </p>
+                </div>
+              </div>
+
+              {/* Subject Modules */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {MULTI_LANGUAGE_SOLUTIONS_VAULT.map((item) => (
+                  <div
+                    key={item.id}
+                    className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 space-y-3.5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+                  >
+                    <div className="space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <span className="bg-orange-100 text-orange-950 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                          {item.subject} • {item.grade}
+                        </span>
+                        <div className="flex items-center gap-1 text-[10px] font-bold text-slate-500">
+                          <Languages className="w-3 h-3 text-orange-500" />
+                          <span>{item.languagesAvailable.length} Languages</span>
+                        </div>
+                      </div>
+
+                      <h4 className="font-black text-slate-900 text-sm leading-snug">
+                        {item.title}
+                      </h4>
+                      <p className="text-xs text-orange-600 font-bold">
+                        {item.teluguTitle}
+                      </p>
+
+                      <div className="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200 text-xs text-amber-950 leading-relaxed">
+                        <span className="font-bold text-amber-900">తెలుగు సారాంశం: </span>
+                        {item.teluguSummary}
+                      </div>
+
+                      {/* Key Concepts List */}
+                      <div>
+                        <span className="text-[11px] font-bold text-slate-600 block mb-1">
+                          Core Concepts Covered:
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {item.keyConcepts.map((kc, kIdx) => (
+                            <span
+                              key={kIdx}
+                              className="bg-slate-100 text-slate-700 text-[10px] font-semibold px-2 py-0.5 rounded-md"
+                            >
+                              • {kc}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Links Bar */}
+                    <div className="pt-2 border-t border-slate-100 space-y-2">
+                      <div className="grid grid-cols-2 gap-2">
+                        <a
+                          href={item.videoPlaylistUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-red-50 hover:bg-red-100 text-red-700 font-bold py-1.5 px-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-colors border border-red-200"
+                        >
+                          <Video className="w-3.5 h-3.5 text-red-600" />
+                          <span>Video Lectures</span>
+                        </a>
+
+                        <a
+                          href={item.notesDocUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-1.5 px-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-colors border border-blue-200"
+                        >
+                          <FileText className="w-3.5 h-3.5 text-blue-600" />
+                          <span>Notes & Books</span>
+                        </a>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          setPromptInput(`Please give me a 100% accurate, step-by-step verified study guide and notes for: ${item.title} with Telugu and Hindi translations, key formulas, and practice problems.`);
+                          setActiveTab('expert');
+                        }}
+                        className="w-full bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                        <span>Solve Full Chapter in Super AI</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: MASTER AI WEB APP (https://studio-6989353372-64cd3.web.app/) */}
           {activeTab === 'master_app' && (
             <div className="h-full flex flex-col space-y-3">
               {/* Browser Navigation Toolbar */}

@@ -121,6 +121,7 @@ export default function App() {
   const [isAskAIOpen, setIsAskAIOpen] = useState(false);
   const [selectedAIPersona, setSelectedAIPersona] = useState<AIExpertPersona>('general');
   const [initialAIQuery, setInitialAIQuery] = useState('');
+  const [initialAITab, setInitialAITab] = useState<'expert' | 'all_chatbots' | 'language_vault' | 'master_app' | 'digital_library'>('expert');
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
   const [masterAccessGranted, setMasterAccessGranted] = useState<boolean>(true);
 
@@ -188,9 +189,14 @@ export default function App() {
     }
   };
 
-  const handleOpenAskAI = (persona: AIExpertPersona = 'general', prefilledQuery: string = '') => {
+  const handleOpenAskAI = (
+    persona: AIExpertPersona = 'general',
+    prefilledQuery: string = '',
+    targetTab: 'expert' | 'all_chatbots' | 'language_vault' | 'master_app' | 'digital_library' = 'expert'
+  ) => {
     setSelectedAIPersona(persona);
     setInitialAIQuery(prefilledQuery);
+    setInitialAITab(targetTab);
     setIsAskAIOpen(true);
   };
 
@@ -426,6 +432,7 @@ export default function App() {
         onClose={() => setIsAskAIOpen(false)}
         initialPersona={selectedAIPersona}
         initialQuery={initialAIQuery}
+        initialTab={initialAITab}
       />
 
       {/* Universal Media & Video Link Player Modal */}

@@ -763,21 +763,39 @@ export const SuperStudentHub: React.FC<SuperStudentHubProps> = ({
             </div>
 
             {/* Quick Action Share & AI Mentor Buttons */}
-            <div className="flex items-center gap-2.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                onClick={() => onAskAI && onAskAI("Give me a 100% accurate, multi-language step-by-step verified explanation and formulas for my syllabus.")}
+                className="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-3.5 py-2 rounded-xl text-xs shadow-xs transition-all transform hover:-translate-y-0.5"
+                title="Open World-Famous AI Chatbots Directory"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-slate-950" />
+                <span>🌟 All World AI Chatbots</span>
+              </button>
+
+              <button
+                onClick={() => onAskAI && onAskAI("Show me the Multi-Language Solutions Vault with NCERT notes, textbooks, and video lectures.")}
+                className="flex items-center gap-1.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-3.5 py-2 rounded-xl text-xs shadow-xs transition-all transform hover:-translate-y-0.5"
+                title="Open Multi-Language Solutions Vault"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-emerald-200" />
+                <span>📚 Language Notes Vault</span>
+              </button>
+
               <button
                 onClick={shareAllPerks}
-                className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-4 py-2.5 rounded-xl text-xs border border-slate-200 transition-all transform hover:-translate-y-0.5"
+                className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-3 py-2 rounded-xl text-xs border border-slate-200 transition-all"
               >
-                <Share2 className="w-4 h-4 text-orange-600" />
-                <span>{copiedLink === 'all_perks' ? '✅ Copied All 16 Links!' : 'Share Links'}</span>
+                <Share2 className="w-3.5 h-3.5 text-orange-600" />
+                <span>{copiedLink === 'all_perks' ? '✅ Copied!' : 'Share'}</span>
               </button>
 
               <button
                 onClick={() => onAskAI && onAskAI("Act as an AI Masterclass Mentor. Guide me on how to begin with Introduction to Prompt Engineering, claim the GitHub Student Pack, and build my first AI project step by step.")}
-                className="flex items-center gap-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-bold px-4.5 py-2.5 rounded-xl text-xs shadow-orange-glow transition-all transform hover:-translate-y-0.5"
+                className="flex items-center gap-1.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-bold px-4 py-2 rounded-xl text-xs shadow-orange-glow transition-all transform hover:-translate-y-0.5"
               >
                 <Bot className="w-4 h-4 text-white" />
-                <span>Ask AI Mentor</span>
+                <span>Super AI Mentor</span>
               </button>
             </div>
           </div>
