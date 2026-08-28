@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { EDUCATION_SUBJECTS } from '../data/mockData';
 import { ClassGrade, SyllabusBoard, EducationSubject } from '../types';
+import { TUTOR_QUICK_AI_LINKS } from '../data/worldAiChatbotsData';
 import { 
   BookOpen, 
   Search, 
@@ -22,7 +23,10 @@ import {
   FileText,
   Globe,
   Award,
-  Layers
+  Layers,
+  Bot,
+  Mic,
+  MessageSquare
 } from 'lucide-react';
 import { MediaLinkModal } from './MediaLinkModal';
 
@@ -221,6 +225,67 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
               <ExternalLink className="w-3.5 h-3.5 text-slate-300" />
             </a>
           </div>
+        </div>
+      </div>
+
+      {/* AI TUTOR & HOMEWORK SOLUTIONS SUITE (Answers AI, ChatGPT, Perplexity, Google AI, All Solutions AI, Voice AI) */}
+      <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 rounded-3xl p-5 sm:p-6 text-white shadow-md border border-orange-400/40">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="bg-white text-slate-950 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-wider flex items-center gap-1 shadow-xs">
+                <Sparkles className="w-3 h-3 text-orange-600" /> AI Tutor Menu
+              </span>
+              <span className="text-xs text-orange-100 font-semibold">
+                Direct Solve Links & Voice Mode
+              </span>
+            </div>
+            <h3 className="text-lg sm:text-xl font-black text-white mt-1">
+              ⚡ Instant AI Solutions, Answers AI, ChatGPT & Voice Mentors
+            </h3>
+            <p className="text-xs text-orange-100 mt-0.5">
+              1-Click solve homework questions, step-by-step math derivations, science formulas, voice tutoring & exam practice.
+            </p>
+          </div>
+          <button
+            onClick={() => onAskAIAboutSubject('General Homework & Solutions', 'All')}
+            className="bg-slate-900 hover:bg-slate-800 text-amber-300 font-black px-4 py-2.5 rounded-2xl text-xs flex items-center gap-2 shrink-0 border border-amber-400/40 shadow-sm transition-all"
+          >
+            <Bot className="w-4 h-4 text-amber-300 animate-pulse" />
+            <span>Open Super AI Chatbot</span>
+          </button>
+        </div>
+
+        {/* Quick Launch Cards Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+          {TUTOR_QUICK_AI_LINKS.map((link) => (
+            <a
+              key={link.id}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white/10 hover:bg-white/20 border border-white/20 hover:border-amber-300 rounded-2xl p-3 text-left transition-all transform hover:-translate-y-0.5 flex flex-col justify-between shadow-xs"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[9px] font-black bg-amber-400 text-slate-950 px-1.5 py-0.5 rounded-md">
+                    {link.badge.split(' ')[0]} {link.badge.split(' ')[1] || ''}
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-orange-200 group-hover:text-white" />
+                </div>
+                <div className="font-black text-xs text-white group-hover:text-amber-200 leading-tight">
+                  {link.name}
+                </div>
+                <div className="text-[10px] text-orange-100 line-clamp-1 mt-0.5">
+                  {link.subtitle}
+                </div>
+              </div>
+              <div className="mt-2.5 text-[9px] font-bold text-amber-200 bg-black/20 group-hover:bg-black/30 px-2 py-1 rounded-lg text-center flex items-center justify-center gap-1">
+                <span>Solve Now</span>
+                <ArrowRight className="w-2.5 h-2.5" />
+              </div>
+            </a>
+          ))}
         </div>
       </div>
 

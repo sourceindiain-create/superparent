@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { AI_EXPERTS } from '../data/mockData';
 import { AIExpertPersona } from '../types';
-import { WORLD_AI_CHATBOTS, MULTI_LANGUAGE_SOLUTIONS_VAULT, WorldAIChatbot } from '../data/worldAiChatbotsData';
+import { WORLD_AI_CHATBOTS, MULTI_LANGUAGE_SOLUTIONS_VAULT, TUTOR_QUICK_AI_LINKS, WorldAIChatbot, TutorQuickAI } from '../data/worldAiChatbotsData';
 import { 
   Bot, 
   X, 
@@ -44,7 +44,10 @@ import {
   Boxes,
   FileText,
   Video,
-  Bookmark
+  Bookmark,
+  Calculator,
+  Compass,
+  Share2
 } from 'lucide-react';
 
 interface AskSuperAIModalProps {
@@ -72,7 +75,9 @@ const ICON_MAP: Record<string, any> = {
   Globe,
   Radio,
   FileText,
-  Boxes
+  Boxes,
+  Calculator,
+  Compass
 };
 
 export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
@@ -90,9 +95,24 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
   const [selectedImage, setSelectedImage] = useState<{ base64: string; mimeType: string; previewUrl: string } | null>(null);
   
   // World AI Directory filters
-  const [chatbotCategoryFilter, setChatbotCategoryFilter] = useState<'all' | 'text' | 'voice' | 'image' | 'multimodal' | 'research'>('all');
+  const [chatbotCategoryFilter, setChatbotCategoryFilter] = useState<'all' | 'text' | 'voice' | 'image' | 'multimodal' | 'research' | 'solutions'>('all');
   const [chatbotSearchQuery, setChatbotSearchQuery] = useState('');
   const [copiedPromptId, setCopiedPromptId] = useState<string | null>(null);
+  const [externalAiToast, setExternalAiToast] = useState<string | null>(null);
+
+  const handleLaunchExternalAI = (botUrl: string, botName: string, customPrompt?: string) => {
+    const textToCopy = customPrompt || promptInput.trim();
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy);
+      setExternalAiToast(`📋 Copied question! Opening ${botName}...`);
+    } else {
+      setExternalAiToast(`🚀 Opening ${botName}...`);
+    }
+    setTimeout(() => {
+      setExternalAiToast(null);
+    }, 3500);
+    window.open(botUrl, '_blank', 'noopener,noreferrer');
+  };
 
   // Web Speech Recognition (Voice to Text) State
   const [isListening, setIsListening] = useState(false);
@@ -751,6 +771,61 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
                 </div>
               )}
 
+              {/* Toast Feedback for External AI launch */}
+              {externalAiToast && (
+                <div className="bg-slate-900 text-amber-300 px-4 py-2.5 rounded-2xl text-xs font-bold shadow-xl border border-amber-500/50 flex items-center justify-between animate-bounce">
+                  <span>{externalAiToast}</span>
+                  <span className="text-[10px] text-slate-300 font-normal ml-2">Tip: Paste (Ctrl+V) directly into the AI chat box!</span>
+                </div>
+              )}
+
+              {/* WORLD AI TUTORS & HOMEWORK SOLUTIONS DOCK */}
+              <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-3.5 rounded-2xl border border-slate-700 shadow-md">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="bg-amber-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider">
+                      ⚡ Quick-Launch
+                    </span>
+                    <h4 className="font-extrabold text-xs text-white">
+                      World AI Tutors, Solutions & Voice AI Suite
+                    </h4>
+                  </div>
+                  <span className="text-[10px] text-amber-200/90 font-medium">
+                    1-Click solve with current prompt
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+                  {TUTOR_QUICK_AI_LINKS.map((quickAi) => (
+                    <button
+                      key={quickAi.id}
+                      type="button"
+                      onClick={() => handleLaunchExternalAI(quickAi.url, quickAi.name)}
+                      className="group relative bg-white/10 hover:bg-white/20 border border-white/15 hover:border-amber-400/80 rounded-xl p-2.5 text-left transition-all transform hover:-translate-y-0.5 flex flex-col justify-between"
+                      title={`Open ${quickAi.name} in new tab with your question copied`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-[9px] font-black bg-amber-400/20 text-amber-200 px-1.5 py-0.2 rounded">
+                            {quickAi.badge.split(' ')[0]} {quickAi.badge.split(' ')[1] || ''}
+                          </span>
+                          <ExternalLink className="w-3 h-3 text-slate-400 group-hover:text-amber-300" />
+                        </div>
+                        <div className="font-bold text-xs text-white group-hover:text-amber-200 leading-tight">
+                          {quickAi.name}
+                        </div>
+                        <div className="text-[10px] text-slate-300 line-clamp-1 mt-0.5">
+                          {quickAi.subtitle}
+                        </div>
+                      </div>
+                      <div className="mt-2 text-[9px] font-semibold text-amber-300/90 bg-black/30 px-1.5 py-0.5 rounded text-center">
+                        Launch & Solve ↗
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Input Area (Textarea + Voice Big Button + Image Upload) */}
               <form onSubmit={handleSubmitPrompt} className="space-y-3">
                 <div className="bg-white border-2 border-slate-200 focus-within:border-orange-500 rounded-3xl p-3 shadow-xs transition-all">
@@ -778,7 +853,7 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
                   {/* Actions Bar */}
                   <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-100 px-1">
                     {/* Left Actions: Web Speech Voice Mic + Diagram Upload */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       {/* Primary Web Speech API Voice Button */}
                       <button
                         type="button"
@@ -809,6 +884,41 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
                         <span className="hidden sm:inline">Attach Diagram/Photo</span>
                         <input type="file" accept="image/*,.pdf" onChange={handleImageChange} className="hidden" />
                       </label>
+
+                      {/* Quick launch to Answers AI or ChatGPT with current typed question */}
+                      {promptInput.trim() && (
+                        <div className="hidden sm:flex items-center gap-1.5 bg-amber-50 px-2.5 py-1.5 rounded-xl border border-amber-200 text-xs">
+                          <span className="text-[11px] font-bold text-amber-900">Solve in:</span>
+                          <button
+                            type="button"
+                            onClick={() => handleLaunchExternalAI('https://answersai.com/', 'Answers AI')}
+                            className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-2 py-0.5 rounded text-[10px] shadow-2xs"
+                          >
+                            ⚡ Answers AI
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleLaunchExternalAI('https://chatgpt.com/', 'ChatGPT')}
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-0.5 rounded text-[10px]"
+                          >
+                            💬 ChatGPT
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleLaunchExternalAI('https://www.perplexity.ai/', 'Perplexity AI')}
+                            className="bg-cyan-700 hover:bg-cyan-800 text-white font-bold px-2 py-0.5 rounded text-[10px]"
+                          >
+                            🔍 Perplexity
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleLaunchExternalAI('https://gemini.google.com/', 'Google Gemini')}
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-2 py-0.5 rounded text-[10px]"
+                          >
+                            🌐 Google AI
+                          </button>
+                        </div>
+                      )}
                     </div>
 
                     {/* Right Actions: Auto-Ask Toggle & Submit Button */}
@@ -983,7 +1093,8 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
                   <span>Category:</span>
                 </span>
                 {[
-                  { id: 'all', label: 'All AI Bots (18+)' },
+                  { id: 'all', label: 'All AI Bots (25+)' },
+                  { id: 'solutions', label: '📐 All Solutions & Homework AI' },
                   { id: 'text', label: '💬 Text & Reasoning' },
                   { id: 'voice', label: '🎙️ Voice & Audio' },
                   { id: 'image', label: '🎨 Image & Vision' },

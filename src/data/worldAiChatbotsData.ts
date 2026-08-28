@@ -2,7 +2,7 @@ export interface WorldAIChatbot {
   id: string;
   name: string;
   provider: string;
-  category: 'text' | 'voice' | 'image' | 'multimodal' | 'research';
+  category: 'text' | 'voice' | 'image' | 'multimodal' | 'research' | 'solutions';
   badge: string;
   description: string;
   teluguDesc: string;
@@ -17,7 +17,219 @@ export interface WorldAIChatbot {
   logoColor: string;
 }
 
+// Dedicated Quick-Launch AI Tutors & Solutions Engine List
+export interface TutorQuickAI {
+  id: string;
+  name: string;
+  subtitle: string;
+  teluguName: string;
+  badge: string;
+  icon: string;
+  url: string;
+  category: 'answer' | 'reasoning' | 'math' | 'voice' | 'search';
+  bgGradient: string;
+  description: string;
+}
+
+export const TUTOR_QUICK_AI_LINKS: TutorQuickAI[] = [
+  {
+    id: 'answers-ai',
+    name: 'Answers AI',
+    subtitle: '#1 Instant Homework & Test Solver',
+    teluguName: 'ఆన్సర్స్ AI (హోంవర్క్ & ఎగ్జామ్ సాల్వర్)',
+    badge: '⚡ Top Homework AI',
+    icon: 'Sparkles',
+    url: 'https://answersai.com/',
+    category: 'answer',
+    bgGradient: 'from-amber-600 to-orange-700',
+    description: 'Instant step-by-step answers for textbook questions, math problems, MCQs, and science homework.'
+  },
+  {
+    id: 'chatgpt-tutor',
+    name: 'ChatGPT (GPT-4o / o3)',
+    subtitle: 'OpenAI Universal Tutor & Socratic Guide',
+    teluguName: 'చాట్‌జిపిటి (సమగ్ర ట్యూటర్ & కోడర్)',
+    badge: '💬 World #1 Chat',
+    icon: 'Bot',
+    url: 'https://chatgpt.com/',
+    category: 'reasoning',
+    bgGradient: 'from-emerald-600 to-teal-800',
+    description: 'Step-by-step concept derivations, Socratic questioning, coding solutions, and homework guidance.'
+  },
+  {
+    id: 'perplexity-tutor',
+    name: 'Perplexity AI',
+    subtitle: '100% Sourced Academic Answer Engine',
+    teluguName: 'పర్ప్లెక్సిటీ AI (సోర్సెస్ & రిసెర్చ్)',
+    badge: '🔍 Verified Citations',
+    icon: 'Globe',
+    url: 'https://www.perplexity.ai/',
+    category: 'search',
+    bgGradient: 'from-cyan-600 to-blue-800',
+    description: 'Instant academic search with clickable source citations, zero hallucinations, and live web data.'
+  },
+  {
+    id: 'google-ai-gemini',
+    name: 'Google AI (Gemini)',
+    subtitle: 'Live Search & Multi-Language Master',
+    teluguName: 'గూగుల్ జెమిని AI (తెలుగు & లైవ్ సెర్చ్)',
+    badge: '🌐 Google Grounding',
+    icon: 'Zap',
+    url: 'https://gemini.google.com/',
+    category: 'reasoning',
+    bgGradient: 'from-blue-600 to-indigo-800',
+    description: 'Live Google search grounding, YouTube lesson summarizer, and multi-language Telugu/Hindi reasoning.'
+  },
+  {
+    id: 'mathway-solver',
+    name: 'Mathway & Wolfram (All Solutions AI)',
+    subtitle: 'Algebra, Calculus & Physics Equation Solver',
+    teluguName: 'మ్యాథ్‌వే & వోల్ఫ్రామ్ (గణిత పరిష్కారాలు)',
+    badge: '📐 All Solutions AI',
+    icon: 'Calculator',
+    url: 'https://www.mathway.com/',
+    category: 'math',
+    bgGradient: 'from-purple-600 to-indigo-900',
+    description: 'Instant symbolic algebra, geometry, calculus, chemistry balancing, and physics step solver.'
+  },
+  {
+    id: 'voice-chhot-ai',
+    name: 'Chhot / Voice AI (ElevenLabs & Voice Mode)',
+    subtitle: 'Real-time Conversational Voice Tutor',
+    teluguName: 'వాయిస్ AI (మాట్లాడుతూ నేర్చుకోండి)',
+    badge: '🎙️ Voice AI Tutor',
+    icon: 'Radio',
+    url: 'https://elevenlabs.io/',
+    category: 'voice',
+    bgGradient: 'from-rose-600 to-red-800',
+    description: 'Real-time speech-to-speech audio tutoring, story narration in Telugu/Hindi, and voice interactive learning.'
+  }
+];
+
 export const WORLD_AI_CHATBOTS: WorldAIChatbot[] = [
+  // ===================== ALL SOLUTIONS & HOMEWORK AI =====================
+  {
+    id: 'answers-ai-app',
+    name: 'Answers AI (Homework Solver)',
+    provider: 'Answers AI',
+    category: 'solutions',
+    badge: '#1 Homework & Test Solver',
+    description: 'Specialized AI homework solver that analyzes uploaded questions, screenshots, and textbook problem sets to give instant step-by-step solutions.',
+    teluguDesc: 'ఆన్సర్స్ AI - హోంవర్క్ ప్రశ్నలు మరియు పుస్తకాల్లోని లెక్కలకు తక్షణ స్టెప్ బై స్టెప్ సమాధానాలు అందిస్తుంది.',
+    hindiDesc: 'आंसर्स एआई - होमवर्क और परीक्षा प्रश्नों के त्वरित और सटीक चरण-दर-चरण समाधान।',
+    url: 'https://answersai.com/',
+    apiUrl: 'https://answersai.com/',
+    pricing: 'Free & Plus',
+    features: ['Instant Screenshot/Photo Solver', 'Step-by-step Math & Science Explanations', 'Practice Quiz Generator', 'Chrome Extension Available'],
+    bestFor: 'Daily school homework, difficult math equations, test revision',
+    samplePrompt: 'Solve this textbook question step-by-step: A car travels 150 km in 3 hours. Calculate average speed and acceleration.',
+    iconName: 'Sparkles',
+    logoColor: 'from-amber-600 to-orange-700'
+  },
+  {
+    id: 'photomath-ai',
+    name: 'Photomath (Camera Math Solver)',
+    provider: 'Google / Photomath',
+    category: 'solutions',
+    badge: 'Camera Snap to Solve',
+    description: 'Snap a picture of handwritten or printed math equations to get animated, step-by-step visual solution breakdowns and graphing calculator plots.',
+    teluguDesc: 'ఫోటోమ్యాథ్ - చేతిరాత లేదా ప్రింటెడ్ లెక్కల ఫోటో తీస్తే చాలు, పూర్తి పరిష్కారం వెంటనే లభిస్తుంది.',
+    hindiDesc: 'फोटोमैथ - गणित के किसी भी प्रश्न का फोटो खींचकर तुरंत विस्तृत हल प्राप्त करें।',
+    url: 'https://photomath.com/',
+    pricing: '100% Free Open Source',
+    features: ['Handwriting Recognition', 'Animated Step Solutions', 'Interactive Graphing Plots', 'Multiple Solving Methods'],
+    bestFor: 'Algebra, Quadratic equations, Trigonometry, Fractions',
+    samplePrompt: 'Solve 3x^2 - 12x + 9 = 0 using quadratic formula and factoring methods.',
+    iconName: 'Calculator',
+    logoColor: 'from-red-600 to-rose-700'
+  },
+  {
+    id: 'mathway-chegg',
+    name: 'Mathway (Universal Math & Chemistry)',
+    provider: 'Chegg',
+    category: 'solutions',
+    badge: 'Universal Equation Engine',
+    description: 'Comprehensive math solver covering Basic Math, Pre-Algebra, Algebra, Trigonometry, Precalculus, Calculus, Statistics, Finite Math, and Chemistry.',
+    teluguDesc: 'మ్యాథ్‌వే - బేసిక్ మ్యాథ్స్ నుండి కాలిక్యులస్ మరియు కెమిస్ట్రీ ఈక్వేషన్స్ వరకు అన్నీ పరిష్కరిస్తుంది.',
+    hindiDesc: 'मैथवे - बुनियादी गणित से लेकर उच्च स्तर के कैलकुलस और रसायन विज्ञान तक का समाधान।',
+    url: 'https://www.mathway.com/',
+    pricing: 'Free & Pro',
+    features: ['All Math Domains Covered', 'Chemistry Balancing Equations', 'Graphing & Geometry Tools', 'Step Derivations'],
+    bestFor: 'Class 6 to 12 Math, Chemistry equation balancing, Physics unit conversions',
+    samplePrompt: 'Balance the chemical equation: Fe + H2O -> Fe3O4 + H2 and state the reaction type.',
+    iconName: 'Calculator',
+    logoColor: 'from-blue-700 to-indigo-900'
+  },
+  {
+    id: 'wolfram-alpha',
+    name: 'Wolfram|Alpha (Computational Intelligence)',
+    provider: 'Wolfram Research',
+    category: 'solutions',
+    badge: 'Exact Computational Truth',
+    description: 'World-renowned computational knowledge engine providing exact symbolic derivations, physics formulas, chemical properties, and astronomy calculations.',
+    teluguDesc: 'వోల్ఫ్రామ్ ఆల్ఫా - శాస్త్రీయ లెక్కలు, భౌతిక శాస్త్ర సూత్రాలు మరియు ఖచ్చితమైన సమాచార ఇంజిన్.',
+    hindiDesc: 'वोल्फ्राम अल्फा - वैज्ञानिक गणनाओं, भौतिकी सूत्रों और सटीक डेटा का विश्व प्रसिद्ध इंजन।',
+    url: 'https://www.wolframalpha.com/',
+    apiUrl: 'https://products.wolframalpha.com/api/',
+    pricing: 'Free & Pro',
+    features: ['Exact Symbolic Computation', 'Physics & Chemistry Constants', 'Step-by-step Solutions', 'Data Visualizations'],
+    bestFor: 'Physics derivations, Olympiad science questions, astronomy data',
+    samplePrompt: 'Calculate gravitational force between Earth and Moon with exact formulas and SI units.',
+    iconName: 'BrainCircuit',
+    logoColor: 'from-orange-700 to-red-900'
+  },
+  {
+    id: 'symbolab-solver',
+    name: 'Symbolab (Step-by-Step Calculator)',
+    provider: 'Symbolab',
+    category: 'solutions',
+    badge: 'Step-by-step Math Solver',
+    description: 'Interactive step-by-step math solver with extensive cheat sheets, practice problems, graphing calculators, and geometry proofs.',
+    teluguDesc: 'సింబోల్యాబ్ - స్టెప్-బై-స్టెప్ మ్యాథ్స్ కాలిక్యులేటర్, గ్రాఫ్‌లు మరియు ప్రాక్టీస్ సమస్యలు.',
+    hindiDesc: 'सिम्बोलाब - विस्तृत चरणों के साथ गणित के सवालों का हल और ग्राफिंग टूल।',
+    url: 'https://www.symbolab.com/',
+    pricing: 'Free & Pro',
+    features: ['Cheat Sheets & Formulas', 'Geometry Step Proofs', 'Interactive Graphing', 'Practice Worksheets'],
+    bestFor: 'High school math, geometry theorems, calculus practice',
+    samplePrompt: 'Find derivative of f(x) = sin(2x) * cos(3x) with chain rule steps.',
+    iconName: 'Calculator',
+    logoColor: 'from-red-600 to-amber-700'
+  },
+  {
+    id: 'socratic-google',
+    name: 'Socratic by Google AI',
+    provider: 'Google',
+    category: 'solutions',
+    badge: 'Visual AI Learning App',
+    description: 'Google AI app that helps students understand homework problems using visual explainers, verified web resources, and animated YouTube lessons.',
+    teluguDesc: 'సొక్రటిక్ బై గూగుల్ - వీడియోలు, బొమ్మలు మరియు విశ్లేషణలతో హోంవర్క్ సులభంగా అర్థం చేసుకోవడానికి సహాయపడుతుంది.',
+    hindiDesc: 'सोक्रेटिक बाय गूगल - दृश्य व्याख्याओं और वीडियो के साथ होमवर्क समझाने वाला टूल।',
+    url: 'https://socratic.org/',
+    pricing: '100% Free Open Source',
+    features: ['Visual Explanations', 'Voice & Camera Query', 'Verified Educational Resources', 'Zero Ads'],
+    bestFor: 'Science diagrams, History timelines, Literature questions',
+    samplePrompt: 'Explain how tectonic plates cause earthquakes with a diagram explanation.',
+    iconName: 'Sparkles',
+    logoColor: 'from-blue-500 to-teal-600'
+  },
+  {
+    id: 'khanmigo-khan',
+    name: 'Khanmigo (Khan Academy AI Tutor)',
+    provider: 'Khan Academy',
+    category: 'solutions',
+    badge: 'Socratic 1-on-1 AI Tutor',
+    description: 'AI-powered personal tutor built on Khan Academy that guides students step-by-step without simply giving away the final answer, encouraging deep learning.',
+    teluguDesc: 'ఖాన్మిగో - సమాధానం నేరుగా చెప్పకుండా, పిల్లలు స్వయంగా ఆలోచించి పరిష్కరించేలా గైడ్ చేసే AI ట్యూటర్.',
+    hindiDesc: 'खानमीगो - सुकराती पद्धति से छात्रों को स्वयं समाधान खोजने के लिए प्रेरित करने वाला एआई शिक्षक।',
+    url: 'https://www.khanacademy.org/khanmigo',
+    pricing: 'Free Tier Available',
+    features: ['Socratic Guidance (No Direct Cheating)', 'Class LKG-12 Aligned', 'Coding & Math Hints', 'Story & Writing Coach'],
+    bestFor: 'Building deep conceptual understanding, independent thinking',
+    samplePrompt: 'Guide me on how to divide 3/4 by 2/3 without telling me the answer right away.',
+    iconName: 'GraduationCap',
+    logoColor: 'from-emerald-600 to-green-800'
+  },
+
   // ===================== TEXT & REASONING CHATBOTS =====================
   {
     id: 'chatgpt-openai',
