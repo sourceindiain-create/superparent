@@ -141,17 +141,18 @@ export const Header: React.FC<HeaderProps> = ({
           badge: '$200k+ Pack'
         },
         {
+          id: 'classroom',
+          label: t('navTutorsRoom', "🏛️ Tutor's Room (All Links, Videos, Books & Voice AI)"),
+          description: 'Master hub: Skill-Lync & web portals, video lectures, NCERT e-books, AI solvers & live Voice AI chatbot',
+          icon: GraduationCap,
+          badge: 'Master Tutor Room',
+          highlight: true
+        },
+        {
           id: 'education',
           label: t('navEducation', 'Education Hub'),
           description: 'CBSE, ICSE, NCERT, State Boards & Interactive 3D Lessons',
           icon: BookOpen
-        },
-        {
-          id: 'classroom',
-          label: t('navClassroom', 'Live Classroom & Rooms'),
-          description: 'Interactive Zoom & Google Meet rooms with whiteboards',
-          icon: Video,
-          badge: 'Live Rooms'
         },
         {
           id: 'language-lab',
@@ -457,13 +458,16 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={() => setActiveTab('classroom')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
-                activeTab === 'classroom'
-                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200'
-                  : 'text-slate-600 hover:text-slate-900'
+                activeTab === 'classroom' || activeTab === 'tutors-room'
+                  ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-xs'
+                  : 'text-slate-700 hover:text-orange-600'
               }`}
             >
-              <Video className="w-3.5 h-3.5 text-blue-600" />
-              <span>Live Classrooms</span>
+              <GraduationCap className="w-3.5 h-3.5 text-amber-500" />
+              <span>Tutor's Room</span>
+              <span className="bg-amber-100 text-amber-900 text-[9px] px-1.5 py-0.5 rounded-full font-bold">
+                Voice AI & Links
+              </span>
             </button>
 
             <button

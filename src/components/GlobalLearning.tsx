@@ -20,6 +20,13 @@ export const GlobalLearning: React.FC = () => {
 
   const globalResources = [
     {
+      title: 'Skill-Lync Student Learning Resources (resources.skill-lync.com)',
+      category: 'Engineering & Tech STEM Lab',
+      description: 'Free engineering blueprints, EV technology guides, MATLAB/Python workshops, and technical project roadmaps.',
+      url: 'https://resources.skill-lync.com/',
+      badge: 'Engineering Resources'
+    },
+    {
       title: 'Khan Academy Kids & Youth',
       category: 'Maths & Science',
       description: '100% Free interactive courses and videos for foundational learning and STEM practice.',

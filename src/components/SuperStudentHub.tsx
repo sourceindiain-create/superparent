@@ -525,6 +525,18 @@ export const SuperStudentHub: React.FC<SuperStudentHubProps> = ({
   // Categorized Student Resources Directory
   const studentResources = useMemo(() => [
     {
+      id: 'res-engineering-skills',
+      category: 'Engineering & Advanced Tech Learning Corner',
+      icon: 'Cpu',
+      tagline: 'Engineering project blueprints, EV technology, simulations, and career roadmaps.',
+      items: [
+        { name: 'Skill-Lync Learning Resources (resources.skill-lync.com)', desc: 'Free engineering project blueprints, EV technology guides, MATLAB/Python tutorials, CFD/FEA simulations, and technical webinars.', url: 'https://resources.skill-lync.com/', badge: 'Top Engineering Corner' },
+        { name: 'NPTEL & SWAYAM', desc: '3000+ free university-level courses taught by IIT & IISc professors with video lectures and lecture notes.', url: 'https://nptel.ac.in/', badge: 'IIT & IISc' },
+        { name: 'MIT OpenCourseWare', desc: 'Free undergraduate and graduate engineering, computer science, and physics lecture notes and exams.', url: 'https://ocw.mit.edu/', badge: 'MIT Official' },
+        { name: 'Javalab Science Simulators', desc: '600+ interactive physics, electronics, optics, and chemistry HTML5 real-time simulations.', url: 'https://javalab.org/en/', badge: 'STEM Lab' }
+      ]
+    },
+    {
       id: 'res-code',
       category: 'Code & Cloud Sandboxes',
       icon: 'Code2',
@@ -843,6 +855,7 @@ export const SuperStudentHub: React.FC<SuperStudentHubProps> = ({
               </span>
               {[
                 { label: 'All', val: 'all' },
+                { label: 'Skill-Lync (resources.skill-lync.com)', val: 'Skill-Lync' },
                 { label: 'Prompt Engineering', val: 'Prompt' },
                 { label: 'GitHub Pack ($200k+)', val: 'GitHub' },
                 { label: 'Reasoning (o1/o3)', val: 'Reasoning' },
@@ -935,7 +948,7 @@ export const SuperStudentHub: React.FC<SuperStudentHubProps> = ({
                 }`}
               >
                 <BookOpen className="w-3.5 h-3.5" />
-                <span>📚 Student Resources & Sandboxes</span>
+                <span>📚 Students Learning Corner & Resources</span>
               </button>
 
               <button
@@ -1680,14 +1693,79 @@ export const SuperStudentHub: React.FC<SuperStudentHubProps> = ({
       {/* ========================================================================= */}
       {activeSubTab === 'student-resources' && (
         <div className="space-y-6">
+          {/* Header Banner */}
           <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-clean space-y-2">
-            <h3 className="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-orange-600" />
-              <span>Curated Student Developer, STEM & Academic Sandboxes</span>
+            <div className="flex items-center gap-2">
+              <span className="bg-orange-600 text-white text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+                Verified Student Portal
+              </span>
+              <span className="text-xs font-bold text-orange-700">
+                విద్యార్థుల అభ్యాస కేంద్రం (Student Learning Corner)
+              </span>
+            </div>
+            <h3 className="text-lg sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+              <BookOpen className="w-6 h-6 text-orange-600" />
+              <span>Student Learning Corner: Tech, Engineering & STEM Sandboxes</span>
             </h3>
-            <p className="text-xs text-slate-600">
-              గణితం, సైన్స్ సిమ్యులేటర్లు, క్లౌడ్ కోడింగ్ IDEs, మరియు అంతర్జాతీయ పోటీల డైరెక్టరీ.
+            <p className="text-xs sm:text-sm text-slate-600">
+              ఉచిత ఇంజనీరింగ్ గైడ్లు, గణితం & సైన్స్ సిమ్యులేటర్లు, క్లౌడ్ కోడింగ్ IDEs, మరియు అంతర్జాతీయ పోటీల సమగ్ర డైరెక్టరీ.
             </p>
+          </div>
+
+          {/* FEATURED SPOTLIGHT: Skill-Lync Learning Resources */}
+          <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 rounded-3xl p-6 text-white border border-slate-800 shadow-clean-lg relative overflow-hidden space-y-4">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 relative z-10">
+              <div className="space-y-2 max-w-3xl">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="bg-orange-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" /> Featured Partner Resource
+                  </span>
+                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+                    ✓ Free Engineering Blueprints & Articles
+                  </span>
+                </div>
+
+                <h4 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2 flex-wrap">
+                  <span>🚀 Skill-Lync Student Learning Resources</span>
+                  <span className="text-xs bg-white/10 text-orange-300 px-2.5 py-0.5 rounded-md font-mono font-bold border border-white/10">
+                    resources.skill-lync.com
+                  </span>
+                </h4>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Access free engineering project blueprints, Electric Vehicle (EV) technology guides, Computational Fluid Dynamics (CFD), MATLAB/Python coding tutorials, CAD design roadmaps, and technical career whitepapers curated by industry leaders.
+                </p>
+
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {['⚡ EV & Battery Tech', '💻 Python & MATLAB', '🚗 Automotive & CFD', '🤖 Robotics & IoT', '🛠️ Capstone Projects'].map((tag, idx) => (
+                    <span key={idx} className="bg-white/10 text-slate-200 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-white/10">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 shrink-0">
+                <a
+                  href="https://resources.skill-lync.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-black text-xs px-5 py-3 rounded-xl shadow-orange-glow transition-all flex items-center justify-center gap-2"
+                >
+                  <span>Open resources.skill-lync.com</span>
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+
+                <button
+                  onClick={() => onAskAI && onAskAI("Explain top engineering and software project ideas from resources.skill-lync.com for students")}
+                  className="bg-white/10 hover:bg-white/20 text-white font-bold text-xs px-4 py-2.5 rounded-xl border border-white/20 transition-all flex items-center justify-center gap-1.5"
+                >
+                  <Bot className="w-3.5 h-3.5 text-orange-400" />
+                  <span>Ask AI About Skill-Lync Topics</span>
+                </button>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

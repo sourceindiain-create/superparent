@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { EDUCATION_SUBJECTS } from '../data/mockData';
 import { ClassGrade, SyllabusBoard, EducationSubject } from '../types';
 import { TUTOR_QUICK_AI_LINKS } from '../data/worldAiChatbotsData';
+import { GRADE_LESSONS_DATA, GradeLessonInfo } from '../data/gradeLessonsData';
 import { 
   BookOpen, 
   Search, 
@@ -26,7 +27,11 @@ import {
   Layers,
   Bot,
   Mic,
-  MessageSquare
+  MessageSquare,
+  Cpu,
+  Puzzle,
+  Gamepad2,
+  Check
 } from 'lucide-react';
 import { MediaLinkModal } from './MediaLinkModal';
 
@@ -40,10 +45,24 @@ const ICON_COMPONENTS: Record<string, any> = {
   BookOpen,
   Code,
   Zap,
-  Baby
+  Baby,
+  GraduationCap,
+  Sparkles,
+  Layers,
+  Award
 };
 
 export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject }) => {
+  const [activeViewMode, setActiveViewMode] = useState<'grade-directory' | 'all-subjects'>('grade-directory');
+  const [selectedGradeTab, setSelectedGradeTab] = useState<string>('ukg');
+  const [activeSubjectTabIdx, setActiveSubjectTabIdx] = useState<number>(0);
+  const [activeSubjectSection, setActiveSubjectSection] = useState<'lessons' | 'exercises' | 'weblinks' | 'videos' | 'books' | 'games'>('lessons');
+
+  // Interactive Grade Exercise State
+  const [selectedExerciseAnswers, setSelectedExerciseAnswers] = useState<Record<string, number>>({});
+  const [showExerciseExplanation, setShowExerciseExplanation] = useState<Record<string, boolean>>({});
+
+  // All subjects filter state
   const [selectedGrade, setSelectedGrade] = useState<string>('All');
   const [selectedBoard, setSelectedBoard] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -76,6 +95,9 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
       item.topics.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesGrade && matchesBoard && matchesSearch;
   });
+
+  const currentGradeData = GRADE_LESSONS_DATA.find(g => g.gradeId === selectedGradeTab) || GRADE_LESSONS_DATA[0];
+  const currentSubject = currentGradeData.subjects[activeSubjectTabIdx] || currentGradeData.subjects[0];
 
   const handleOpenAglasemPortal = (url: string = 'https://schools.aglasem.com/', title: string = 'Aglasem Schools & NCERT Solutions Portal') => {
     setActiveMedia({
@@ -124,20 +146,26 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
     });
   };
 
+  const handleExerciseSelect = (qIdx: number, optIdx: number) => {
+    const key = `${selectedGradeTab}-${activeSubjectTabIdx}-${qIdx}`;
+    setSelectedExerciseAnswers(prev => ({ ...prev, [key]: optIdx }));
+    setShowExerciseExplanation(prev => ({ ...prev, [key]: true }));
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-orange-600 to-amber-600 rounded-3xl p-6 sm:p-8 text-white shadow-orange-glow relative overflow-hidden border border-orange-400/40">
-        <div className="relative z-10 space-y-2 max-w-2xl">
+      <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 rounded-3xl p-6 sm:p-8 text-white shadow-orange-glow relative overflow-hidden border border-orange-400/40">
+        <div className="relative z-10 space-y-2 max-w-3xl">
           <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black border border-white/30 text-white">
             <GraduationCap className="w-4 h-4 text-amber-200" />
-            <span>Syllabus Hub • LKG to 10th Class</span>
+            <span>Grade-by-Grade Master Hub • UKG to 10th Class</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
-            📚 Education Hub & Digital Textbooks
+            📚 Easy Lessons, Exercises, Weblinks, Videos & Games
           </h2>
-          <p className="text-sm text-orange-50 font-medium">
-            State Board, CBSE, ICSE & International syllabus textbooks, Aglasem study materials, notes, video lessons, and instant AI doubt solving.
+          <p className="text-sm text-orange-50 font-medium leading-relaxed">
+            Grade-specific curriculum for <strong>UKG, 1st, 2nd, 3rd, 4th, 5th, and 6th to 10th Class</strong> with easy chapter notes, practice quizzes, free digital textbooks, video masterclasses, educational games, and <strong>CalcSolver</strong>.
           </p>
         </div>
         <div className="absolute right-4 bottom-0 opacity-15 pointer-events-none hidden md:block">
@@ -145,305 +173,658 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
         </div>
       </div>
 
-      {/* Featured Aglasem Education Portal Section */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-5 sm:p-6 text-white border border-slate-700 shadow-lg relative overflow-hidden">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 relative z-10">
-          <div className="space-y-2 max-w-2xl">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="bg-orange-500 text-white text-[11px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1">
-                <Globe className="w-3 h-3" /> Official Educational Portal
-              </span>
-              <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold px-2 py-0.5 rounded-full">
-                ✓ Free NCERT Solutions & Sample Papers
-              </span>
-            </div>
-            
-            <h3 className="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2 text-white">
-              <span>📖 Aglasem Education Hub</span>
-              <span className="text-xs bg-white/10 text-slate-300 px-2 py-0.5 rounded-md font-mono font-normal">
-                schools.aglasem.com
-              </span>
-            </h3>
-            
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Access comprehensive chapter-by-chapter NCERT Solutions, CBSE & State Board Question Banks, revision notes, sample papers, syllabus guides, and mock tests directly through Aglasem.
-            </p>
-
-            {/* Quick Links Pills */}
-            <div className="flex flex-wrap gap-2 pt-1">
-              <button
-                onClick={() => handleOpenAglasemPortal('https://schools.aglasem.com/ncert/', 'Aglasem NCERT Solutions & Textbooks')}
-                className="bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/15 transition-colors flex items-center gap-1.5"
-              >
-                <BookOpen className="w-3.5 h-3.5 text-orange-400" />
-                <span>NCERT Solutions</span>
-              </button>
-              
-              <button
-                onClick={() => handleOpenAglasemPortal('https://schools.aglasem.com/sample-papers/', 'Aglasem CBSE & State Board Sample Papers')}
-                className="bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/15 transition-colors flex items-center gap-1.5"
-              >
-                <FileText className="w-3.5 h-3.5 text-amber-400" />
-                <span>Sample Question Papers</span>
-              </button>
-
-              <button
-                onClick={() => handleOpenAglasemPortal('https://schools.aglasem.com/notes/', 'Aglasem Quick Revision Notes & Formulas')}
-                className="bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/15 transition-colors flex items-center gap-1.5"
-              >
-                <Layers className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Revision Notes & Mind Maps</span>
-              </button>
-
-              <button
-                onClick={() => handleOpenAglasemPortal('https://schools.aglasem.com/mock-test/', 'Aglasem Mock Tests & Olympiads')}
-                className="bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/15 transition-colors flex items-center gap-1.5"
-              >
-                <Award className="w-3.5 h-3.5 text-blue-400" />
-                <span>Online Mock Tests</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 w-full lg:w-auto shrink-0">
-            <button
-              onClick={() => handleOpenAglasemPortal('https://schools.aglasem.com/', 'Aglasem Schools Main Portal')}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-black px-5 py-2.5 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-orange-glow transition-all"
-            >
-              <Globe className="w-4 h-4" />
-              <span>Explore Aglasem Portal</span>
-            </button>
-            
-            <a
-              href="https://schools.aglasem.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white/10 hover:bg-white/20 text-white font-bold px-4 py-2.5 rounded-2xl text-xs flex items-center justify-center gap-2 border border-white/20 transition-all"
-            >
-              <span>Open in New Tab</span>
-              <ExternalLink className="w-3.5 h-3.5 text-slate-300" />
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* AI TUTOR & HOMEWORK SOLUTIONS SUITE (Answers AI, ChatGPT, Perplexity, Google AI, All Solutions AI, Voice AI) */}
-      <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 rounded-3xl p-5 sm:p-6 text-white shadow-md border border-orange-400/40">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="bg-white text-slate-950 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-wider flex items-center gap-1 shadow-xs">
-                <Sparkles className="w-3 h-3 text-orange-600" /> AI Tutor Menu
-              </span>
-              <span className="text-xs text-orange-100 font-semibold">
-                Direct Solve Links & Voice Mode
-              </span>
-            </div>
-            <h3 className="text-lg sm:text-xl font-black text-white mt-1">
-              ⚡ Instant AI Solutions, Answers AI, ChatGPT & Voice Mentors
-            </h3>
-            <p className="text-xs text-orange-100 mt-0.5">
-              1-Click solve homework questions, step-by-step math derivations, science formulas, voice tutoring & exam practice.
-            </p>
-          </div>
+      {/* Top View Toggle: Grade Directory vs All Subjects */}
+      <div className="flex items-center justify-between flex-wrap gap-3 bg-white p-3 rounded-2xl border border-slate-200 shadow-2xs">
+        <div className="flex items-center gap-2">
           <button
-            onClick={() => onAskAIAboutSubject('General Homework & Solutions', 'All')}
-            className="bg-slate-900 hover:bg-slate-800 text-amber-300 font-black px-4 py-2.5 rounded-2xl text-xs flex items-center gap-2 shrink-0 border border-amber-400/40 shadow-sm transition-all"
+            onClick={() => setActiveViewMode('grade-directory')}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer ${
+              activeViewMode === 'grade-directory'
+                ? 'bg-orange-600 text-white shadow-xs'
+                : 'text-slate-700 hover:bg-slate-100'
+            }`}
           >
-            <Bot className="w-4 h-4 text-amber-300 animate-pulse" />
-            <span>Open Super AI Chatbot</span>
+            🏛️ Grade-by-Grade Directory (UKG to 10th)
+          </button>
+
+          <button
+            onClick={() => setActiveViewMode('all-subjects')}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer ${
+              activeViewMode === 'all-subjects'
+                ? 'bg-orange-600 text-white shadow-xs'
+                : 'text-slate-700 hover:bg-slate-100'
+            }`}
+          >
+            🔍 All Board Textbooks & Search
           </button>
         </div>
 
-        {/* Quick Launch Cards Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
-          {TUTOR_QUICK_AI_LINKS.map((link) => (
-            <a
-              key={link.id}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group bg-white/10 hover:bg-white/20 border border-white/20 hover:border-amber-300 rounded-2xl p-3 text-left transition-all transform hover:-translate-y-0.5 flex flex-col justify-between shadow-xs"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[9px] font-black bg-amber-400 text-slate-950 px-1.5 py-0.5 rounded-md">
-                    {link.badge.split(' ')[0]} {link.badge.split(' ')[1] || ''}
-                  </span>
-                  <ExternalLink className="w-3.5 h-3.5 text-orange-200 group-hover:text-white" />
-                </div>
-                <div className="font-black text-xs text-white group-hover:text-amber-200 leading-tight">
-                  {link.name}
-                </div>
-                <div className="text-[10px] text-orange-100 line-clamp-1 mt-0.5">
-                  {link.subtitle}
-                </div>
-              </div>
-              <div className="mt-2.5 text-[9px] font-bold text-amber-200 bg-black/20 group-hover:bg-black/30 px-2 py-1 rounded-lg text-center flex items-center justify-center gap-1">
-                <span>Solve Now</span>
-                <ArrowRight className="w-2.5 h-2.5" />
-              </div>
-            </a>
-          ))}
-        </div>
+        {/* Quick CalcSolver Button */}
+        <button
+          onClick={() => setActiveMedia({
+            isOpen: true,
+            title: 'CalcSolver Universal Problem Solver',
+            teluguTitle: 'క్యాల్క్‌సాల్వర్ గణిత సాధకం',
+            category: 'Universal Math Solver',
+            webUrl: 'https://www.wolframalpha.com/',
+            description: 'Solve arithmetic, algebra equations, trigonometry, fractions, and scientific graphs step-by-step.',
+            keyPoints: [
+              'Step-by-step algebraic equation solver',
+              'Graphing functions and geometry visualizer',
+              'Fraction and decimal conversions',
+              'Class 1 to 10 math homework assistant'
+            ]
+          })}
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-100 transition-all cursor-pointer shadow-2xs"
+        >
+          <Calculator className="w-4 h-4 text-blue-600" />
+          <span>🧮 Launch CalcSolver</span>
+        </button>
       </div>
 
-      {/* Filter Bar in Clean White & Orange */}
-      <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Search Box */}
-          <div className="relative w-full md:w-80">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search subject, chapter or topic..."
-              className="w-full bg-slate-50 border border-slate-200 focus:border-orange-500 rounded-2xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:outline-none"
-            />
-          </div>
-
-          {/* Board Selector Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
-            <span className="text-xs font-bold text-slate-500 whitespace-nowrap mr-1">Board:</span>
-            {boards.map((board) => (
+      {/* VIEW MODE 1: GRADE-BY-GRADE MASTER DIRECTORY */}
+      {activeViewMode === 'grade-directory' && (
+        <div className="space-y-6">
+          {/* Grade Selector Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2">
+            {GRADE_LESSONS_DATA.map((g) => (
               <button
-                key={board}
-                onClick={() => setSelectedBoard(board)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-                  selectedBoard === board
-                    ? 'bg-orange-600 text-white shadow-xs font-black'
-                    : 'bg-slate-50 text-slate-700 hover:bg-orange-50 hover:text-orange-700 border border-slate-200'
+                key={g.gradeId}
+                onClick={() => {
+                  setSelectedGradeTab(g.gradeId);
+                  setActiveSubjectTabIdx(0);
+                }}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap transition-all cursor-pointer ${
+                  selectedGradeTab === g.gradeId
+                    ? `bg-gradient-to-r ${g.color} text-white shadow-xs`
+                    : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
                 }`}
               >
-                {board}
+                <span>{g.gradeName.split(' ')[0]}</span>
+                <span className="text-[10px] font-bold opacity-80">({g.ageRange.split(' ')[0]})</span>
               </button>
             ))}
           </div>
-        </div>
 
-        {/* Grade Selector Pills */}
-        <div className="pt-3 border-t border-slate-100">
-          <span className="text-xs font-black text-slate-600 uppercase tracking-wider block mb-2">
-            Select Class / Grade:
-          </span>
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
-            {grades.map((grade) => (
-              <button
-                key={grade}
-                onClick={() => setSelectedGrade(grade)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-                  selectedGrade === grade
-                    ? 'bg-orange-600 text-white shadow-xs font-black'
-                    : 'bg-slate-50 text-slate-700 border border-slate-200 hover:bg-orange-50 hover:text-orange-700'
-                }`}
-              >
-                {grade}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Subjects Grid in Crisp White Software Cards with Orange Highlights */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredSubjects.map((sub) => {
-          const IconComp = ICON_COMPONENTS[sub.icon] || BookOpen;
-          return (
-            <div
-              key={sub.id}
-              className="bg-white rounded-3xl border border-slate-200 hover:border-orange-400 p-5 shadow-xs hover:shadow-orange-card transition-all flex flex-col justify-between space-y-4"
-            >
-              <div className="space-y-3">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="w-11 h-11 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center font-bold border border-orange-200 shadow-2xs">
-                    <IconComp className="w-5 h-5" />
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="bg-orange-50 text-orange-700 border border-orange-200 text-[10px] font-black px-2.5 py-0.5 rounded-full">
-                      {sub.grade}
-                    </span>
-                    <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[10px] font-bold px-2 py-0.5 rounded-full">
-                      {sub.board}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-black text-slate-900 text-base leading-snug">
-                    {sub.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 font-semibold mt-1">
-                    {sub.chaptersCount} Chapters • Free Learning Resources
-                  </p>
-                </div>
-
-                <div className="bg-orange-50/50 p-3 rounded-2xl border border-orange-100 space-y-1.5">
-                  <span className="text-[10px] font-black text-orange-700 uppercase tracking-wider block">
-                    Key Topics Covered:
+          {/* Active Grade Hero Card */}
+          <div className={`${currentGradeData.bgLight} rounded-3xl p-6 border ${currentGradeData.borderColor} shadow-xs space-y-4`}>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white text-slate-900 border border-slate-200 shadow-2xs">
+                    {currentGradeData.badge}
                   </span>
-                  <ul className="text-xs text-slate-700 space-y-1">
-                    {sub.topics.map((t, idx) => (
-                      <li key={idx} className="flex items-center gap-1.5 font-medium">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0"></span>
-                        <span className="truncate">{t}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <span className="text-xs font-bold text-slate-600">Age: {currentGradeData.ageRange}</span>
                 </div>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900">
+                  {currentGradeData.gradeName}
+                </h3>
+                <p className="text-xs sm:text-sm font-bold text-slate-800">
+                  {currentGradeData.teluguGradeName} — {currentGradeData.description}
+                </p>
               </div>
 
-              {/* Action Buttons */}
-              <div className="pt-3 border-t border-slate-100 space-y-2">
-                <div className="grid grid-cols-3 gap-1.5">
-                  <button 
-                    onClick={() => handleOpenVideoLesson(sub)}
-                    className="flex items-center justify-center gap-1 bg-orange-50 hover:bg-orange-100 text-orange-700 text-[11px] font-bold py-2 px-2 rounded-xl border border-orange-200 transition-colors"
+              {/* Subject Tabs */}
+              <div className="flex items-center gap-1.5 flex-wrap bg-white/80 backdrop-blur-xs p-1.5 rounded-2xl border border-slate-200 shadow-2xs">
+                {currentGradeData.subjects.map((sub, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveSubjectTabIdx(idx)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                      activeSubjectTabIdx === idx
+                        ? 'bg-slate-900 text-white shadow-xs'
+                        : 'text-slate-700 hover:bg-slate-100'
+                    }`}
                   >
-                    <Video className="w-3.5 h-3.5 text-orange-600" />
-                    <span>Watch Video</span>
+                    {sub.name.split(' ')[0]}
                   </button>
+                ))}
+              </div>
+            </div>
 
-                  <button 
-                    onClick={() => handleDownloadPDF(sub)}
-                    className="flex items-center justify-center gap-1 bg-slate-50 hover:bg-slate-100 text-slate-700 text-[11px] font-bold py-2 px-2 rounded-xl border border-slate-200 transition-colors"
-                  >
-                    <FileText className="w-3.5 h-3.5 text-slate-600" />
-                    <span>E-Notes</span>
-                  </button>
-
-                  <button 
-                    onClick={() => setActiveQuizSubject(sub)}
-                    className="flex items-center justify-center gap-1 bg-orange-600 hover:bg-orange-700 text-white text-[11px] font-bold py-2 px-2 rounded-xl transition-colors shadow-2xs"
-                  >
-                    <HelpCircle className="w-3.5 h-3.5" />
-                    <span>Quiz</span>
-                  </button>
-                </div>
-
-                {/* Aglasem Direct Link Button */}
+            {/* Subject Inner Nav (Lessons, Exercises, Web Links, Video Links, Books, Games) */}
+            <div className="pt-2 border-t border-slate-200/80">
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
                 <button
-                  onClick={() => handleOpenAglasemPortal(sub.aglasemUrl || 'https://schools.aglasem.com/', `${sub.title} • Aglasem Solutions & Papers`)}
-                  className="w-full flex items-center justify-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold py-2 px-3 rounded-xl text-xs transition-colors"
+                  onClick={() => setActiveSubjectSection('lessons')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+                    activeSubjectSection === 'lessons'
+                      ? 'bg-orange-600 text-white shadow-2xs'
+                      : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                  }`}
                 >
-                  <Globe className="w-3.5 h-3.5 text-amber-700" />
-                  <span>Aglasem Solutions & Papers ({sub.grade})</span>
-                  <ExternalLink className="w-3 h-3 text-amber-700 ml-auto" />
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>📖 Easy Lessons & Key Points</span>
                 </button>
 
                 <button
-                  onClick={() => onAskAIAboutSubject(sub.title, sub.grade)}
-                  className="w-full flex items-center justify-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-black py-2.5 px-3 rounded-xl text-xs shadow-2xs transition-all"
+                  onClick={() => setActiveSubjectSection('exercises')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+                    activeSubjectSection === 'exercises'
+                      ? 'bg-orange-600 text-white shadow-2xs'
+                      : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                  }`}
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Ask AI Tutor Doubts ({sub.title})</span>
+                  <HelpCircle className="w-3.5 h-3.5" />
+                  <span>✍️ Practice Exercises ({currentSubject.exercises.length})</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveSubjectSection('weblinks')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+                    activeSubjectSection === 'weblinks'
+                      ? 'bg-orange-600 text-white shadow-2xs'
+                      : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                  }`}
+                >
+                  <Globe className="w-3.5 h-3.5" />
+                  <span>🌐 Verified Web Links ({currentSubject.webLinks.length})</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveSubjectSection('videos')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+                    activeSubjectSection === 'videos'
+                      ? 'bg-orange-600 text-white shadow-2xs'
+                      : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                  }`}
+                >
+                  <Video className="w-3.5 h-3.5" />
+                  <span>🎬 Video Lectures ({currentSubject.videoLinks.length})</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveSubjectSection('books')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+                    activeSubjectSection === 'books'
+                      ? 'bg-orange-600 text-white shadow-2xs'
+                      : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                  }`}
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>📚 E-Books & Worksheets ({currentSubject.books.length})</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveSubjectSection('games')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+                    activeSubjectSection === 'games'
+                      ? 'bg-orange-600 text-white shadow-2xs'
+                      : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                  }`}
+                >
+                  <Gamepad2 className="w-3.5 h-3.5" />
+                  <span>🎮 Learning Games ({currentSubject.games.length})</span>
                 </button>
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+
+          {/* ACTIVE SUBJECT CONTENT AREA */}
+          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-6">
+            {/* Header of Active Subject */}
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4 flex-wrap gap-3">
+              <div>
+                <h4 className="text-xl font-black text-slate-900">{currentSubject.name}</h4>
+                <p className="text-xs font-bold text-orange-700">{currentSubject.teluguName} • {currentSubject.summary}</p>
+              </div>
+
+              <button
+                onClick={() => onAskAIAboutSubject(currentSubject.name, currentGradeData.gradeName)}
+                className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-black py-2 px-4 rounded-xl flex items-center gap-2 cursor-pointer shadow-xs"
+              >
+                <Bot className="w-4 h-4 text-amber-400" />
+                <span>Ask AI Subject Tutor</span>
+              </button>
+            </div>
+
+            {/* 1. EASY LESSONS */}
+            {activeSubjectSection === 'lessons' && (
+              <div className="space-y-6">
+                <div className="space-y-3">
+                  <h5 className="font-black text-sm text-slate-900 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-orange-600" />
+                    <span>Core Lesson Key Takeaways & Simple Explanations:</span>
+                  </h5>
+                  <div className="space-y-3">
+                    {currentSubject.easyLessonKeyPoints.map((point, idx) => (
+                      <div key={idx} className="flex items-start gap-3 bg-orange-50/50 p-3.5 rounded-2xl border border-orange-100">
+                        <span className="w-6 h-6 rounded-full bg-orange-600 text-white text-xs font-black flex items-center justify-center flex-shrink-0">
+                          {idx + 1}
+                        </span>
+                        <p className="text-xs sm:text-sm font-medium text-slate-800 leading-relaxed">{point}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-2">
+                  <h5 className="font-black text-xs text-slate-500 uppercase tracking-wider">Covered Topics in Syllabus:</h5>
+                  <div className="flex flex-wrap gap-2">
+                    {currentSubject.coreTopics.map((topic, i) => (
+                      <span key={i} className="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-800 text-xs font-bold border border-slate-200">
+                        ✓ {topic}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 2. PRACTICE EXERCISES */}
+            {activeSubjectSection === 'exercises' && (
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  {currentSubject.exercises.map((ex, qIdx) => {
+                    const key = `${selectedGradeTab}-${activeSubjectTabIdx}-${qIdx}`;
+                    const selectedOpt = selectedExerciseAnswers[key];
+                    const isAnswered = selectedOpt !== undefined;
+                    const isCorrect = selectedOpt === ex.correctAnswer;
+
+                    return (
+                      <div key={qIdx} className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-4">
+                        <div className="flex items-start justify-between gap-2">
+                          <h5 className="font-black text-sm text-slate-900 leading-snug">
+                            Q{qIdx + 1}. {ex.question}
+                          </h5>
+                          <span className="text-[10px] font-black text-orange-700 bg-orange-100 px-2 py-0.5 rounded-md">
+                            Practice Quiz
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                          {ex.options.map((opt, optIdx) => {
+                            const isThisSelected = selectedOpt === optIdx;
+                            const isThisCorrect = optIdx === ex.correctAnswer;
+
+                            return (
+                              <button
+                                key={optIdx}
+                                onClick={() => handleExerciseSelect(qIdx, optIdx)}
+                                className={`text-left p-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                                  isAnswered
+                                    ? isThisCorrect
+                                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-2xs'
+                                      : isThisSelected
+                                        ? 'bg-red-600 text-white border-red-600'
+                                        : 'bg-white border-slate-200 text-slate-400 opacity-60'
+                                    : 'bg-white border-slate-200 text-slate-800 hover:bg-orange-50 hover:border-orange-300'
+                                }`}
+                              >
+                                {String.fromCharCode(65 + optIdx)}. {opt}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {showExerciseExplanation[key] && (
+                          <div className={`p-3.5 rounded-xl border text-xs font-medium space-y-1 ${
+                            isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'
+                          }`}>
+                            <div className="flex items-center gap-1.5 font-black">
+                              {isCorrect ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <HelpCircle className="w-4 h-4 text-amber-600" />}
+                              <span>{isCorrect ? 'Correct Answer! +50 Pts' : 'Review Explanation:'}</span>
+                            </div>
+                            <p>{ex.explanation}</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* 3. VERIFIED WEB LINKS */}
+            {activeSubjectSection === 'weblinks' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {currentSubject.webLinks.map((link, idx) => (
+                  <div key={idx} className="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between space-y-3">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-0.5 rounded-md">
+                          {link.badge}
+                        </span>
+                        <Globe className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <h5 className="font-black text-slate-900 text-sm">{link.title}</h5>
+                      <p className="text-xs text-slate-600 font-medium">{link.desc}</p>
+                    </div>
+
+                    <button
+                      onClick={() => setActiveMedia({
+                        isOpen: true,
+                        title: link.title,
+                        category: 'Verified Web Learning Portal',
+                        webUrl: link.url,
+                        description: link.desc,
+                        keyPoints: [
+                          'Interactive student exercises and tests',
+                          'Aligned with official syllabus curriculum',
+                          'Direct step-by-step guides and solutions'
+                        ]
+                      })}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      <span>Open Website</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* 4. VIDEO LECTURES */}
+            {activeSubjectSection === 'videos' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {currentSubject.videoLinks.map((vid, idx) => (
+                  <div key={idx} className="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between space-y-3">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-black uppercase tracking-wider bg-red-100 text-red-800 px-2 py-0.5 rounded-md">
+                          ⏱️ {vid.duration}
+                        </span>
+                        <span className="text-xs font-bold text-slate-500">{vid.channel}</span>
+                      </div>
+                      <h5 className="font-black text-slate-900 text-sm leading-snug">{vid.title}</h5>
+                    </div>
+
+                    <button
+                      onClick={() => setActiveMedia({
+                        isOpen: true,
+                        title: vid.title,
+                        category: `${vid.channel} • Video Masterclass`,
+                        videoUrl: vid.url,
+                        description: `Comprehensive video lecture for ${currentSubject.name} (${currentGradeData.gradeName}).`,
+                        keyPoints: currentSubject.easyLessonKeyPoints
+                      })}
+                      className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                    >
+                      <PlayCircle className="w-4 h-4 fill-current" />
+                      <span>Watch Video Lecture</span>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* 5. DIGITAL BOOKS & E-LIBRARY */}
+            {activeSubjectSection === 'books' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {currentSubject.books.map((book, idx) => (
+                  <div key={idx} className="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between space-y-3">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md">
+                          {book.type}
+                        </span>
+                        <FileText className="w-4 h-4 text-emerald-600" />
+                      </div>
+                      <h5 className="font-black text-slate-900 text-sm">{book.title}</h5>
+                      <p className="text-xs text-slate-500 font-bold">Author / Publisher: {book.author}</p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setActiveMedia({
+                          isOpen: true,
+                          title: book.title,
+                          category: `${book.type} Digital E-Book`,
+                          webUrl: book.previewUrl,
+                          description: `Free official e-textbook and practice reader for ${book.title}.`,
+                          keyPoints: currentSubject.easyLessonKeyPoints
+                        })}
+                        className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                      >
+                        <BookOpen className="w-3.5 h-3.5" />
+                        <span>Read Book Online</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* 6. LEARNING GAMES */}
+            {activeSubjectSection === 'games' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {currentSubject.games.map((game, idx) => (
+                  <div key={idx} className="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between space-y-3">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-black uppercase tracking-wider bg-amber-100 text-amber-800 px-2 py-0.5 rounded-md">
+                          {game.type}
+                        </span>
+                        <Gamepad2 className="w-4 h-4 text-amber-600" />
+                      </div>
+                      <h5 className="font-black text-slate-900 text-sm">{game.title}</h5>
+                      <p className="text-xs text-slate-600 font-medium">{game.description}</p>
+                    </div>
+
+                    <button
+                      onClick={() => setActiveMedia({
+                        isOpen: true,
+                        title: game.title,
+                        category: `${game.type} Interactive Game`,
+                        webUrl: game.url,
+                        description: game.description,
+                        keyPoints: [
+                          'Gamified learning aligned with syllabus',
+                          'Immediate cognitive feedback',
+                          '100% free and student friendly'
+                        ]
+                      })}
+                      className="w-full bg-amber-600 hover:bg-amber-700 text-white font-black text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                    >
+                      <PlayCircle className="w-4 h-4 fill-current" />
+                      <span>Play Educational Game</span>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* VIEW MODE 2: ALL SUBJECTS & SEARCH FILTER */}
+      {activeViewMode === 'all-subjects' && (
+        <div className="space-y-6">
+          {/* Featured Aglasem Education Portal Section */}
+          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-5 sm:p-6 text-white border border-slate-700 shadow-lg relative overflow-hidden">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 relative z-10">
+              <div className="space-y-2 max-w-2xl">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="bg-orange-500 text-white text-[11px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1">
+                    <Globe className="w-3 h-3" /> Official Educational Portal
+                  </span>
+                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold px-2 py-0.5 rounded-full">
+                    ✓ Free NCERT Solutions & Sample Papers
+                  </span>
+                </div>
+                
+                <h3 className="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2 text-white">
+                  <span>📖 Aglasem Education Hub</span>
+                  <span className="text-xs bg-white/10 text-slate-300 px-2 py-0.5 rounded-md font-mono font-normal">
+                    schools.aglasem.com
+                  </span>
+                </h3>
+                
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Access comprehensive chapter-by-chapter NCERT Solutions, CBSE & State Board Question Banks, revision notes, sample papers, syllabus guides, and mock tests directly through Aglasem.
+                </p>
+
+                {/* Quick Links Pills */}
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <button
+                    onClick={() => handleOpenAglasemPortal('https://schools.aglasem.com/ncert/', 'Aglasem NCERT Solutions & Textbooks')}
+                    className="bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/15 transition-colors flex items-center gap-1.5"
+                  >
+                    <BookOpen className="w-3.5 h-3.5 text-orange-400" />
+                    <span>NCERT Solutions</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleOpenAglasemPortal('https://schools.aglasem.com/cbse-sample-papers/', 'Aglasem CBSE Sample Papers & Marking Scheme')}
+                    className="bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/15 transition-colors flex items-center gap-1.5"
+                  >
+                    <FileText className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>CBSE Sample Papers</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleOpenAglasemPortal('https://schools.aglasem.com/notes/', 'Aglasem Chapter Revision Notes & Mind Maps')}
+                    className="bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/15 transition-colors flex items-center gap-1.5"
+                  >
+                    <Layers className="w-3.5 h-3.5 text-blue-400" />
+                    <span>Quick Revision Notes</span>
+                  </button>
+                </div>
+              </div>
+
+              <button
+                onClick={() => handleOpenAglasemPortal('https://schools.aglasem.com/', 'Aglasem Schools & NCERT Solutions Portal')}
+                className="bg-orange-500 hover:bg-orange-600 text-white font-black text-xs sm:text-sm py-3 px-5 rounded-2xl shadow-md transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer"
+              >
+                <span>Launch Aglasem Portal</span>
+                <ExternalLink className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Search & Filter Bar */}
+          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs space-y-4">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search subject, topics, formulas (e.g. Fractions, Electricity, Telugu, Acids)..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-orange-500 font-medium"
+                />
+              </div>
+
+              <div className="flex gap-2">
+                <select
+                  value={selectedGrade}
+                  onChange={(e) => setSelectedGrade(e.target.value)}
+                  className="px-3 py-2 rounded-2xl border border-slate-200 text-xs font-bold text-slate-700 bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-orange-500"
+                >
+                  {grades.map((g) => (
+                    <option key={g} value={g}>{g === 'All' ? 'All Classes (LKG-10)' : g}</option>
+                  ))}
+                </select>
+
+                <select
+                  value={selectedBoard}
+                  onChange={(e) => setSelectedBoard(e.target.value)}
+                  className="px-3 py-2 rounded-2xl border border-slate-200 text-xs font-bold text-slate-700 bg-slate-50 focus:outline-hidden focus:ring-2 focus:ring-orange-500"
+                >
+                  {boards.map((b) => (
+                    <option key={b} value={b}>{b === 'All' ? 'All Boards' : b}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Subject Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filteredSubjects.map((sub) => {
+              const IconComp = ICON_COMPONENTS[sub.icon] || BookOpen;
+
+              return (
+                <div
+                  key={sub.id}
+                  className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-start justify-between">
+                      <div className="p-2.5 rounded-2xl bg-orange-50 text-orange-600 border border-orange-100">
+                        <IconComp className="w-5 h-5" />
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                          {sub.grade}
+                        </span>
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-orange-50 text-orange-700 border border-orange-200">
+                          {sub.board}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-black text-slate-900 text-base leading-snug">{sub.title}</h4>
+                      <p className="text-xs text-slate-500 font-medium">{sub.chaptersCount} Chapters • Free Study Pack</p>
+                    </div>
+
+                    <div className="space-y-1.5 pt-1">
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Key Syllabus Topics:</span>
+                      <ul className="text-xs text-slate-600 space-y-1">
+                        {sub.topics.map((t, idx) => (
+                          <li key={idx} className="flex items-center gap-1.5 font-medium">
+                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0"></span>
+                            <span className="truncate">{t}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="pt-3 border-t border-slate-100 space-y-2">
+                    <div className="grid grid-cols-3 gap-1.5">
+                      <button 
+                        onClick={() => handleOpenVideoLesson(sub)}
+                        className="flex items-center justify-center gap-1 bg-orange-50 hover:bg-orange-100 text-orange-700 text-[11px] font-bold py-2 px-2 rounded-xl border border-orange-200 transition-colors cursor-pointer"
+                      >
+                        <Video className="w-3.5 h-3.5 text-orange-600" />
+                        <span>Video</span>
+                      </button>
+
+                      <button 
+                        onClick={() => handleDownloadPDF(sub)}
+                        className="flex items-center justify-center gap-1 bg-slate-50 hover:bg-slate-100 text-slate-700 text-[11px] font-bold py-2 px-2 rounded-xl border border-slate-200 transition-colors cursor-pointer"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-slate-600" />
+                        <span>E-Notes</span>
+                      </button>
+
+                      <button 
+                        onClick={() => setActiveQuizSubject(sub)}
+                        className="flex items-center justify-center gap-1 bg-orange-600 hover:bg-orange-700 text-white text-[11px] font-bold py-2 px-2 rounded-xl transition-colors shadow-2xs cursor-pointer"
+                      >
+                        <HelpCircle className="w-3.5 h-3.5" />
+                        <span>Quiz</span>
+                      </button>
+                    </div>
+
+                    {/* Aglasem Direct Link Button */}
+                    <button
+                      onClick={() => handleOpenAglasemPortal(sub.aglasemUrl || 'https://schools.aglasem.com/', `${sub.title} • Aglasem Solutions & Papers`)}
+                      className="w-full flex items-center justify-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold py-2 px-3 rounded-xl text-xs transition-colors cursor-pointer"
+                    >
+                      <Globe className="w-3.5 h-3.5 text-amber-700" />
+                      <span>Aglasem Solutions ({sub.grade})</span>
+                      <ExternalLink className="w-3 h-3 text-amber-700 ml-auto" />
+                    </button>
+
+                    <button
+                      onClick={() => onAskAIAboutSubject(sub.title, sub.grade)}
+                      className="w-full flex items-center justify-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-black py-2.5 px-3 rounded-xl text-xs shadow-2xs transition-all cursor-pointer"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                      <span>Ask AI Tutor Doubts</span>
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Media Link Modal for Video Lessons & Notes & Aglasem Links */}
       <MediaLinkModal
@@ -473,7 +854,7 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
                   setQuizAnswer(null);
                   setQuizSubmitted(false);
                 }}
-                className="text-slate-400 hover:text-slate-700 font-bold p-1 rounded-lg"
+                className="text-slate-400 hover:text-slate-700 font-bold p-1 rounded-lg cursor-pointer"
               >
                 ✕
               </button>
@@ -489,7 +870,7 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
                   <button
                     key={idx}
                     onClick={() => setQuizAnswer(idx)}
-                    className={`w-full text-left p-3 rounded-2xl border text-xs font-semibold transition-all ${
+                    className={`w-full text-left p-3 rounded-2xl border text-xs font-semibold transition-all cursor-pointer ${
                       quizAnswer === idx
                         ? 'bg-orange-600 text-white border-orange-600 font-bold shadow-xs'
                         : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-orange-50'
@@ -504,7 +885,7 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
                 <button
                   disabled={quizAnswer === null}
                   onClick={() => setQuizSubmitted(true)}
-                  className="w-full bg-orange-600 hover:bg-orange-700 disabled:opacity-50 text-white font-black py-3 rounded-2xl text-xs transition-colors shadow-xs"
+                  className="w-full bg-orange-600 hover:bg-orange-700 disabled:opacity-50 text-white font-black py-3 rounded-2xl text-xs transition-colors shadow-xs cursor-pointer"
                 >
                   Submit Answer
                 </button>

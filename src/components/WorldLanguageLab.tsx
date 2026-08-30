@@ -13,661 +13,532 @@ import {
   Zap,
   ArrowRight,
   Headphones,
-  FileText
+  FileText,
+  Play,
+  ExternalLink,
+  HelpCircle,
+  Video,
+  Layers,
+  Bot,
+  Gamepad2,
+  Check,
+  Calculator
 } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
+import { WORLD_LANGUAGES_DATA, WorldLanguageResource } from '../data/worldLanguagesData';
+import { MediaLinkModal } from './MediaLinkModal';
 
-interface LanguageData {
-  code: string;
-  name: string;
-  nativeName: string;
-  flag: string;
-  speechLangCode: string;
-  description: string;
-  vocabCategories: {
-    category: string;
-    words: {
-      native: string;
-      phonetic: string;
-      english: string;
-      telugu: string;
-      hindi: string;
-      example: string;
-    }[];
-  }[];
-  grammarRules: {
+export const WorldLanguageLab: React.FC = () => {
+  const [selectedLangCode, setSelectedLangCode] = useState<string>('te');
+  const [activeTab, setActiveTab] = useState<'alphabets' | 'vocab' | 'grammar' | 'exercises' | 'weblinks' | 'videos' | 'books'>('alphabets');
+  const [searchWord, setSearchWord] = useState('');
+  
+  // Exercise state
+  const [exerciseAnswers, setExerciseAnswers] = useState<Record<string, number>>({});
+  const [exerciseFeedback, setExerciseFeedback] = useState<Record<string, boolean>>({});
+
+  // Media Modal state
+  const [activeMedia, setActiveMedia] = useState<{
+    isOpen: boolean;
     title: string;
-    explanation: string;
-    example: string;
-  }[];
-  conversations: {
-    speaker: string;
-    nativeText: string;
-    englishText: string;
-    teluguText: string;
-  }[];
-}
+    teluguTitle?: string;
+    category?: string;
+    videoUrl?: string;
+    webUrl?: string;
+    description?: string;
+    keyPoints?: string[];
+  }>({
+    isOpen: false,
+    title: ''
+  });
 
-const WORLD_LANGUAGES: LanguageData[] = [
-  {
-    code: 'te',
-    name: 'Telugu',
-    nativeName: 'తెలుగు (ఆంధ్ర భాష)',
-    flag: '🇮🇳',
-    speechLangCode: 'te-IN',
-    description: 'The Italian of the East - rich in melody, ancient literature, and classical heritage.',
-    vocabCategories: [
-      {
-        category: 'Greetings & Courtesies',
-        words: [
-          { native: 'నమస్కారం', phonetic: 'Namaskaram', english: 'Hello / Greetings', telugu: 'నమస్కారం', hindi: 'नमस्ते', example: 'అందరికీ నమస్కారం (Greetings to all)' },
-          { native: 'ధన్యవాదాలు', phonetic: 'Dhanyavadalu', english: 'Thank you', telugu: 'ధన్యవాదాలు', hindi: 'धन्यवाद', example: 'మీ సహాయానికి ధన్యవాదాలు (Thank you for your help)' },
-          { native: 'స్వాగతం', phonetic: 'Swagatam', english: 'Welcome', telugu: 'స్వాగతం', hindi: 'स्वागत है', example: 'మా ఇంటికి స్వాగతం (Welcome to our home)' },
-          { native: 'శుభోదయం', phonetic: 'Shubhodayam', english: 'Good Morning', telugu: 'శుభోదయం', hindi: 'सुप्रभात', example: 'గురువుగారికి శుభోదయం (Good morning teacher)' }
-        ]
-      },
-      {
-        category: 'Classroom & Learning',
-        words: [
-          { native: 'పుస్తకము', phonetic: 'Pustakamu', english: 'Book', telugu: 'పుస్తకము', hindi: 'किताब', example: 'పుస్తకం చదవండి (Read the book)' },
-          { native: 'విద్యార్థి', phonetic: 'Vidyarthi', english: 'Student', telugu: 'విద్యార్థి', hindi: 'विद्यार्थी', example: 'క్రమశిక్షణ గల విద్యార్థి (Disciplined student)' },
-          { native: 'గురువు', phonetic: 'Guruvu', english: 'Teacher / Master', telugu: 'గురువు', hindi: 'गुरु', example: 'గురువే ప్రత్యక్ష దైవం (Teacher is divine guide)' },
-          { native: 'ప్రయోగం', phonetic: 'Prayogam', english: 'Experiment / Innovation', telugu: 'ప్రయోగం', hindi: 'प्रयोग', example: 'సైన్స్ ప్రయోగం చేద్దాం (Let us do science experiment)' }
-        ]
-      }
-    ],
-    grammarRules: [
-      { title: 'Ajanta Bhasha Rule', explanation: 'All Telugu words naturally end with a vowel sound (a, i, u, e, o), creating rhythmic sweetness.', example: 'రాముడు (Ramudu), పుస్తకము (Pustakamu), విద్యార్థి (Vidyarthi)' },
-      { title: 'Savarnadeergha Sandhi', explanation: 'When identical vowels (a, i, u, ri) meet in compound words, they merge into their prolonged sound.', example: 'దేవ + ఆలయము = దేవాలయము (Devalayamu)' }
-    ],
-    conversations: [
-      { speaker: 'Parent', nativeText: 'బాబూ! ఈ రోజు హోమ్‌వర్క్ పూర్తి చేశావా?', englishText: 'Dear son! Did you complete homework today?', teluguText: 'బాబూ! ఈ రోజు హోమ్‌వర్క్ పూర్తి చేశావా?' },
-      { speaker: 'Student', nativeText: 'అవును అమ్మా, మ్యాథ్స్ మరియు రోబోటిక్స్ ప్రాజెక్ట్ చేశాను!', englishText: 'Yes Mom, I did Maths and Robotics project!', teluguText: 'అవును అమ్మా, మ్యాథ్స్ మరియు రోబోటిక్స్ ప్రాజెక్ట్ చేశాను!' }
-    ]
-  },
-  {
-    code: 'hi',
-    name: 'Hindi',
-    nativeName: 'हिन्दी (राजभाषा)',
-    flag: '🇮🇳',
-    speechLangCode: 'hi-IN',
-    description: 'Devanagari script language spoken by hundreds of millions with rich poetic tradition.',
-    vocabCategories: [
-      {
-        category: 'Greetings & Respect',
-        words: [
-          { native: 'नमस्ते', phonetic: 'Namaste', english: 'Hello', telugu: 'నమస్కారం', hindi: 'नमस्ते', example: 'नमस्ते जी, आप कैसे हैं? (Hello, how are you?)' },
-          { native: 'धन्यवाद', phonetic: 'Dhanyavaad', english: 'Thank you', telugu: 'ధన్యవాదాలు', hindi: 'धन्यवाद', example: 'आपके मार्गदर्शन के लिए धन्यवाद। (Thank you for your guidance.)' },
-          { native: 'सुप्रभात', phonetic: 'Suprabhat', english: 'Good Morning', telugu: 'శుభోదయం', hindi: 'सुप्रभात', example: 'सभी मित्रों को सुप्रभात! (Good morning to all friends!)' },
-          { native: 'कृपया', phonetic: 'Kripaya', english: 'Please', telugu: 'దయచేసి', hindi: 'कृपया', example: 'कृपया यहाँ बैठिए। (Please sit here.)' }
-        ]
-      },
-      {
-        category: 'Education & Knowledge',
-        words: [
-          { native: 'ज्ञान', phonetic: 'Gyaan', english: 'Knowledge', telugu: 'జ్ఞానం', hindi: 'ज्ञान', example: 'ज्ञान ही सबसे बड़ी शक्ति है। (Knowledge is the greatest power.)' },
-          { native: 'अभ्यास', phonetic: 'Abhyaas', english: 'Practice / Homework', telugu: 'అభ్యాసం', hindi: 'अभ्यास', example: 'नियमित अभ्यास से सफलता मिलती है। (Regular practice brings success.)' },
-          { native: 'मित्र', phonetic: 'Mitra', english: 'Friend', telugu: 'స్నేహితుడు', hindi: 'मित्र', example: 'वह मेरा सच्चा मित्र है। (He is my true friend.)' }
-        ]
-      }
-    ],
-    grammarRules: [
-      { title: 'SOV Sentence Structure', explanation: 'Hindi follows Subject-Object-Verb word order.', example: 'मैं (Subject) किताब (Object) पढ़ता हूँ (Verb).' },
-      { title: 'Gender of Nouns', explanation: 'Every noun in Hindi is grammatically Masculine (पुल्लिंग) or Feminine (स्त्रीलिंग).', example: 'सूरज (Masculine), नदी (Feminine)' }
-    ],
-    conversations: [
-      { speaker: 'Teacher', nativeText: 'क्या सबने आज का विज्ञान पाठ समझ लिया?', englishText: 'Did everyone understand today’s science lesson?', teluguText: 'అందరికీ ఈ రోజు సైన్స్ పాఠం అర్థమైందా?' },
-      { speaker: 'Student', nativeText: 'जी सर, हमने प्रयोग पूरा कर लिया है!', englishText: 'Yes Sir, we have completed the experiment!', teluguText: 'అవును సర్, మేము ప్రయోగం పూర్తి చేశాము!' }
-    ]
-  },
-  {
-    code: 'en',
-    name: 'English',
-    nativeName: 'English (Global Lingua Franca)',
-    flag: '🇬🇧',
-    speechLangCode: 'en-US',
-    description: 'International language for global science, technology, communication, and commerce.',
-    vocabCategories: [
-      {
-        category: 'STEM & Tech Vocabulary',
-        words: [
-          { native: 'Algorithm', phonetic: 'Al-guh-ri-thm', english: 'Step-by-step logic', telugu: 'క్రమ పద్ధతి సూత్రం', hindi: 'कलन विधि', example: 'Write an algorithm to sort numbers.' },
-          { native: 'Hypothesis', phonetic: 'Hy-poth-uh-sis', english: 'Scientific proposition', telugu: 'శాస్త్రీయ ఊహ', hindi: 'परिकल्पना', example: 'Test your hypothesis with an experiment.' },
-          { native: 'Perseverance', phonetic: 'Pur-suh-veer-uhns', english: 'Continued effort despite difficulty', telugu: 'పట్టుదల', hindi: 'दृढ़ता', example: 'Perseverance leads to mastery.' }
-        ]
-      }
-    ],
-    grammarRules: [
-      { title: 'SVO Sentence Order', explanation: 'Standard English sentences follow Subject-Verb-Object order.', example: 'The student (S) designed (V) a robot (O).' }
-    ],
-    conversations: [
-      { speaker: 'Mentor', nativeText: 'How is your drone prototype working today?', englishText: 'How is your drone prototype working today?', teluguText: 'ఈ రోజు మీ డ్రోన్ ప్రయోగం ఎలా పనిచేస్తోంది?' },
-      { speaker: 'Student', nativeText: 'It is flying stably with the new gyroscope sensor!', englishText: 'It is flying stably with the new gyroscope sensor!', teluguText: 'కొత్త గైరోస్కోప్ సెన్సార్‌తో ఇది స్థిరంగా ఎగురుతోంది!' }
-    ]
-  },
-  {
-    code: 'sa',
-    name: 'Sanskrit',
-    nativeName: 'संस्कृतम् (దేవభాష / देववाणी)',
-    flag: '🕉️',
-    speechLangCode: 'hi-IN',
-    description: 'The mother of Indo-European languages, with mathematical grammar codified by Panini.',
-    vocabCategories: [
-      {
-        category: 'Vedic & Moral Wisdom',
-        words: [
-          { native: 'सत्यम्', phonetic: 'Satyam', english: 'Truth', telugu: 'సత్యం', hindi: 'सत्य', example: 'सत्यमेव जयते (Truth alone triumphs)' },
-          { native: 'धर्मः', phonetic: 'Dharmah', english: 'Righteous Duty', telugu: 'ధర్మం', hindi: 'धर्म', example: 'धर्मो रक्षति रक्षितः (Dharma protects those who uphold it)' },
-          { native: 'विद्या', phonetic: 'Vidya', english: 'Sacred Knowledge', telugu: 'విద్య', hindi: 'विद्या', example: 'सा विद्या या विमुक्तये (Knowledge is that which liberates)' },
-          { native: 'शान्तिः', phonetic: 'Shantih', english: 'Peace & Harmony', telugu: 'శాంతి', hindi: 'शांति', example: 'सर्वेषां शान्तिर्भवतु (May there be peace for all)' }
-        ]
-      }
-    ],
-    grammarRules: [
-      { title: 'Vibhakti (8 Cases)', explanation: 'Sanskrit uses 8 grammatical cases to denote relationship between words without changing sentence meaning even if word order changes.', example: 'రామః (Nominative), రామం (Accusative), రామేణ (Instrumental)' }
-    ],
-    conversations: [
-      { speaker: 'Guru', nativeText: 'किं त्वं श्लोकं स्मरसि?', englishText: 'Do you remember the shloka?', teluguText: 'నీకు శ్లోకం గుర్తున్నదా?' },
-      { speaker: 'Shishya', nativeText: 'आम् आचार्य! अहं सम्पूर्णं गीताश्लोकं स्मरामि।', englishText: 'Yes Master! I remember the entire Gita shloka.', teluguText: 'అవును గురువుగారూ! నేను శ్లోకాన్ని కంఠస్థం చేశాను.' }
-    ]
-  },
-  {
-    code: 'es',
-    name: 'Spanish',
-    nativeName: 'Español',
-    flag: '🇪🇸',
-    speechLangCode: 'es-ES',
-    description: 'Second most spoken native language worldwide, spoken across 20+ countries.',
-    vocabCategories: [
-      {
-        category: 'Daily Expressions',
-        words: [
-          { native: 'Hola', phonetic: 'OH-lah', english: 'Hello', telugu: 'హలో', hindi: 'नमस्ते', example: '¡Hola! ¿Cómo estás? (Hello! How are you?)' },
-          { native: 'Gracias', phonetic: 'GRAH-syahs', english: 'Thank you', telugu: 'ధన్యవాదాలు', hindi: 'धन्यवाद', example: 'Muchas gracias (Thank you very much)' },
-          { native: 'Buenos días', phonetic: 'BWAY-nohs DEE-ahs', english: 'Good morning', telugu: 'శుభోదయం', hindi: 'सुप्रभात', example: 'Buenos días profesor (Good morning teacher)' },
-          { native: 'Amigo', phonetic: 'ah-MEE-goh', english: 'Friend', telugu: 'స్నేహితుడు', hindi: 'दोस्त', example: 'Él es mi mejor amigo (He is my best friend)' }
-        ]
-      }
-    ],
-    grammarRules: [
-      { title: 'Gendered Nouns & Adjectives', explanation: 'Nouns ending in -o are generally masculine, and -a are feminine.', example: 'El libro rojo (The red book), La casa blanca (The white house)' }
-    ],
-    conversations: [
-      { speaker: 'A', nativeText: '¿Cómo te llamas?', englishText: 'What is your name?', teluguText: 'నీ పేరు ఏమిటి?' },
-      { speaker: 'B', nativeText: 'Me llamo Chaitanya. Mucho gusto.', englishText: 'My name is Chaitanya. Nice to meet you.', teluguText: 'నా పేరు చైతన్య. మిమ్మల్ని కలవడం సంతోషం.' }
-    ]
-  },
-  {
-    code: 'fr',
-    name: 'French',
-    nativeName: 'Français',
-    flag: '🇫🇷',
-    speechLangCode: 'fr-FR',
-    description: 'The language of diplomacy, international organizations, literature, and art.',
-    vocabCategories: [
-      {
-        category: 'Essential Phrases',
-        words: [
-          { native: 'Bonjour', phonetic: 'bohn-zhoor', english: 'Hello / Good morning', telugu: 'నమస్కారం', hindi: 'नमस्ते', example: 'Bonjour tout le monde! (Hello everyone!)' },
-          { native: 'Merci', phonetic: 'mair-see', english: 'Thank you', telugu: 'ధన్యవాదాలు', hindi: 'धन्यवाद', example: 'Merci beaucoup! (Thank you very much!)' },
-          { native: 'S’il vous plaît', phonetic: 'seel voo pleh', english: 'Please', telugu: 'దయచేసి', hindi: 'कृपया', example: 'Aidez-moi, s’il vous plaît (Help me please)' }
-        ]
-      }
-    ],
-    grammarRules: [
-      { title: 'Liaison & Pronunciation', explanation: 'Silent final consonants often sound when followed by a vowel.', example: 'Les amis (pronounced Lay-zah-mee)' }
-    ],
-    conversations: [
-      { speaker: 'A', nativeText: 'Comment allez-vous?', englishText: 'How are you doing?', teluguText: 'మీరు ఎలా ఉన్నారు?' },
-      { speaker: 'B', nativeText: 'Très bien, merci! Et vous?', englishText: 'Very well, thank you! And you?', teluguText: 'చాలా బాగున్నాను, ధన్యవాదాలు! మరి మీరు?' }
-    ]
-  },
-  {
-    code: 'de',
-    name: 'German',
-    nativeName: 'Deutsch',
-    flag: '🇩🇪',
-    speechLangCode: 'de-DE',
-    description: 'Language of engineering, scientific precision, philosophy, and European innovation.',
-    vocabCategories: [
-      {
-        category: 'Engineering & Basics',
-        words: [
-          { native: 'Guten Tag', phonetic: 'GOO-ten tahk', english: 'Good day / Hello', telugu: 'నమస్కారం', hindi: 'नमस्ते', example: 'Guten Tag, Herr Professor (Good day Professor)' },
-          { native: 'Danke', phonetic: 'DAHN-kuh', english: 'Thank you', telugu: 'ధన్యవాదాలు', hindi: 'धन्यवाद', example: 'Danke schön! (Thank you very much!)' },
-          { native: 'Wissenschaft', phonetic: 'VIS-en-shaft', english: 'Science & Knowledge', telugu: 'విజ్ఞానశాస్త్రం', hindi: 'विज्ञान', example: 'Wissenschaft schafft Zukunft (Science creates future)' }
-        ]
-      }
-    ],
-    grammarRules: [
-      { title: 'Capitalizing All Nouns', explanation: 'In German, every single noun must always start with a capital letter.', example: 'Das Buch (The book), Der Computer (The computer)' }
-    ],
-    conversations: [
-      { speaker: 'A', nativeText: 'Wie geht es dir?', englishText: 'How are you?', teluguText: 'నువ్వు ఎలా ఉన్నావు?' },
-      { speaker: 'B', nativeText: 'Mir geht es super, danke!', englishText: 'I am doing great, thank you!', teluguText: 'నేను చాలా బాగున్నాను, ధన్యవాదాలు!' }
-    ]
-  },
-  {
-    code: 'ja',
-    name: 'Japanese',
-    nativeName: '日本語 (Nihongo)',
-    flag: '🇯🇵',
-    speechLangCode: 'ja-JP',
-    description: 'Language of robotics, anime, technology, polite culture, and Zen philosophy.',
-    vocabCategories: [
-      {
-        category: 'Honorifics & Greetings',
-        words: [
-          { native: 'こんにちは', phonetic: 'Konnichiwa', english: 'Hello', telugu: 'నమస్తే', hindi: 'नमस्ते', example: '皆さん、こんにちは (Hello everyone)' },
-          { native: 'ありがとう', phonetic: 'Arigatou', english: 'Thank you', telugu: 'ధన్యవాదాలు', hindi: 'धन्यवाद', example: 'どうもありがとう (Thank you very much)' },
-          { native: 'がんばって', phonetic: 'Ganbatte', english: 'Do your best!', telugu: 'ఉత్సాహంగా శ్రమించు', hindi: 'पूरी कोशिश करो', example: 'テストがんばって! (Do your best on the test!)' }
-        ]
-      }
-    ],
-    grammarRules: [
-      { title: 'Particle Markers', explanation: 'Particles like は (wa), を (o), に (ni) indicate grammatical roles of words in sentence.', example: 'わたし は がくせい です (Watashi wa gakusei desu - I am a student)' }
-    ],
-    conversations: [
-      { speaker: 'Sensei', nativeText: '宿題をしましたか？', englishText: 'Did you do the homework?', teluguText: 'హోమ్‌వర్క్ చేశావా?' },
-      { speaker: 'Student', nativeText: 'はい、ぜんぶ終わりました！', englishText: 'Yes, I finished everything!', teluguText: 'అవును, మొత్తం పూర్తి చేశాను!' }
-    ]
-  }
-];
+  const currentLang = WORLD_LANGUAGES_DATA.find(l => l.code === selectedLangCode) || WORLD_LANGUAGES_DATA[0];
 
-export const WorldLanguageLab: React.FC<{
-  onAskAI?: (query: string) => void;
-}> = ({ onAskAI }) => {
-  const { t, language } = useLanguage();
-  const [selectedLang, setSelectedLang] = useState<LanguageData>(WORLD_LANGUAGES[0]);
-  const [activeCategoryIdx, setActiveCategoryIdx] = useState<number>(0);
-  const [activeSubTab, setActiveSubTab] = useState<'vocab' | 'grammar' | 'dialogue' | 'translator'>('vocab');
-  const [speechRate, setSpeechRate] = useState<number>(0.9);
-  const [speakingWord, setSpeakingWord] = useState<string | null>(null);
-
-  // AI Translator Sandbox State
-  const [inputTransText, setInputTransText] = useState('Welcome to Super Parent Gurukul. Knowledge is the ultimate power!');
-  const [targetTransLang, setTargetTransLang] = useState('te');
-  const [translatedResult, setTranslatedResult] = useState('సూపర్ పేరెంట్ గురుకులంలోకి స్వాగతం. జ్ఞానమే అంతిమ శక్తి!');
-
-  // Audio Speech Synthesis function
-  const playNativeSpeech = (text: string, langCode: string) => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel(); // Stop prior speech
+  const playSpeech = (text: string, langCode: string) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = langCode || 'en-US';
-      utterance.rate = speechRate;
-      utterance.pitch = 1.0;
-
-      utterance.onstart = () => setSpeakingWord(text);
-      utterance.onend = () => setSpeakingWord(null);
-      utterance.onerror = () => setSpeakingWord(null);
-
+      utterance.lang = langCode;
+      utterance.rate = 0.85;
       window.speechSynthesis.speak(utterance);
     }
   };
 
-  const handleTranslate = () => {
-    // Quick multilingual translation mapper for sandbox
-    const textLower = inputTransText.toLowerCase();
-    if (targetTransLang === 'te') {
-      setTranslatedResult('సూపర్ పేరెంట్ గురుకులంలోకి స్వాగతం! పిల్లలు మరియు తల్లిదండ్రుల సమగ్ర విద్యా నైపుణ్యాల కేంద్రం.');
-    } else if (targetTransLang === 'hi') {
-      setTranslatedResult('सुपर पेरेंट गुरुकुल में आपका स्वागत है! ज्ञान ही सबसे बड़ी शक्ति है और अभ्यास से सफलता मिलती है।');
-    } else if (targetTransLang === 'sa') {
-      setTranslatedResult('गुरुकुले भवतां स्वागतम्। सा विद्या या विमुक्तये, ज्ञानं परमं बलम्।');
-    } else if (targetTransLang === 'es') {
-      setTranslatedResult('¡Bienvenidos a Super Parent Gurukul! ¡El conocimiento es el poder supremo!');
-    } else if (targetTransLang === 'fr') {
-      setTranslatedResult('Bienvenue à Super Parent Gurukul ! La connaissance est le pouvoir ultime.');
-    } else if (targetTransLang === 'de') {
-      setTranslatedResult('Willkommen bei Super Parent Gurukul! Wissen ist die höchste Macht.');
-    } else if (targetTransLang === 'ja') {
-      setTranslatedResult('スーパーペアレント・グルクルへようこそ！知識は究極の力です。');
-    } else {
-      setTranslatedResult(inputTransText);
-    }
+  const handleExerciseSelect = (qIdx: number, optIdx: number) => {
+    const key = `${selectedLangCode}-${qIdx}`;
+    setExerciseAnswers(prev => ({ ...prev, [key]: optIdx }));
+    setExerciseFeedback(prev => ({ ...prev, [key]: true }));
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 rounded-3xl p-6 sm:p-8 text-white shadow-orange-glow relative overflow-hidden border border-orange-400/40">
-        <div className="relative z-10 space-y-3 max-w-3xl">
-          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black border border-white/30 text-white">
+      <div className="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-800 rounded-3xl p-6 sm:p-8 text-white shadow-indigo-glow relative overflow-hidden border border-indigo-400/40">
+        <div className="relative z-10 space-y-2 max-w-3xl">
+          <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black border border-white/30 text-white">
             <Globe className="w-4 h-4 text-amber-200" />
-            <span>Telugu • Hindi • English • Sanskrit • Spanish • French • German • Japanese</span>
+            <span>Polyglot Language Academy • Telugu, Hindi, US English, Japanese & German</span>
           </div>
-
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
-            🌐 World Languages Learning Lab & Audio Trainer
-          </h1>
-
-          <p className="text-sm text-orange-50 font-medium leading-relaxed">
-            {language === 'te'
-              ? 'తెలుగు, హిందీ, ఇంగ్లీష్, సంస్కృతం మరియు ప్రముఖ ప్రపంచ భాషలను స్పష్టమైన ఆడియో ఉచ్చారణ, పదజాలం ఫ్లాష్‌కార్డులు, వ్యాకరణ సూత్రాలు మరియు AI స్పీచ్ ట్రాన్స్‌లేటర్‌తో నేర్చుకోండి.'
-              : language === 'hi'
-              ? 'तेलुगु, हिन्दी, अंग्रेज़ी, संस्कृत और प्रमुख विश्व भाषाओं को सटीक ऑडियो उच्चारण, शब्दावली फ्लैशकार्ड, व्याकरण और एआई अनुवादक के साथ सीखें।'
-              : 'Master Telugu, Hindi, English, Sanskrit, and leading world languages with authentic native audio pronunciation, visual flashcards, grammar rules, and AI sentence speech translator.'
-            }
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            🌍 World Language Practice & Cultural Academy
+          </h2>
+          <p className="text-sm text-indigo-100 font-medium leading-relaxed">
+            Master native scripts, conversational phrases, grammar rules, verified web links, video tutorials, e-books, and audio pronunciation across <strong>Telugu, Hindi, US English, Japanese (Japan), and German (Germany)</strong>.
           </p>
-
-          <div className="flex flex-wrap items-center gap-3 pt-1">
-            <span className="bg-black/20 text-white text-[11px] font-bold px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5">
-              <Headphones className="w-3.5 h-3.5 text-amber-300" />
-              Real Web Speech Synthesis Audio
-            </span>
-            <span className="bg-black/20 text-white text-[11px] font-bold px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
-              Earn Multilingual Scholar Star Badges
-            </span>
-          </div>
         </div>
-
-        <div className="absolute right-4 -bottom-6 opacity-10 pointer-events-none hidden md:block">
+        <div className="absolute right-4 bottom-0 opacity-15 pointer-events-none hidden md:block">
           <Languages className="w-64 h-64 text-white" />
         </div>
       </div>
 
-      {/* Language Selector Carousel */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2">
-        {WORLD_LANGUAGES.map((lang) => (
-          <button
-            key={lang.code}
-            onClick={() => {
-              setSelectedLang(lang);
-              setActiveCategoryIdx(0);
-            }}
-            className={`px-4 py-2.5 rounded-2xl border text-left shrink-0 transition-all flex items-center gap-2.5 ${
-              selectedLang.code === lang.code
-                ? 'bg-orange-600 text-white border-orange-600 shadow-xs font-black'
-                : 'bg-white border-slate-200 text-slate-800 hover:bg-orange-50 hover:border-orange-200'
-            }`}
-          >
-            <span className="text-xl">{lang.flag}</span>
-            <div>
-              <div className="text-xs font-black">{lang.name}</div>
-              <div className={`text-[10px] ${selectedLang.code === lang.code ? 'text-orange-100' : 'text-slate-500'}`}>
-                {lang.nativeName.split(' ')[0]}
-              </div>
-            </div>
-          </button>
-        ))}
-      </div>
-
-      {/* Sub-tabs: Vocabulary, Grammar, Dialogues, AI Translator */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-2 rounded-2xl border border-slate-200 shadow-2xs">
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={() => setActiveSubTab('vocab')}
-            className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
-              activeSubTab === 'vocab' ? 'bg-orange-600 text-white shadow-xs' : 'text-slate-600 hover:bg-orange-50'
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Vocabulary Flashcards</span>
-          </button>
-
-          <button
-            onClick={() => setActiveSubTab('grammar')}
-            className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
-              activeSubTab === 'grammar' ? 'bg-orange-600 text-white shadow-xs' : 'text-slate-600 hover:bg-orange-50'
-            }`}
-          >
-            <FileText className="w-3.5 h-3.5" />
-            <span>Grammar & Rules</span>
-          </button>
-
-          <button
-            onClick={() => setActiveSubTab('dialogue')}
-            className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
-              activeSubTab === 'dialogue' ? 'bg-orange-600 text-white shadow-xs' : 'text-slate-600 hover:bg-orange-50'
-            }`}
-          >
-            <MessageSquare className="w-3.5 h-3.5" />
-            <span>Conversational Dialogues</span>
-          </button>
-
-          <button
-            onClick={() => setActiveSubTab('translator')}
-            className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
-              activeSubTab === 'translator' ? 'bg-orange-600 text-white shadow-xs' : 'text-slate-600 hover:bg-orange-50'
-            }`}
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>AI Speech & Sentence Translator</span>
-          </button>
-        </div>
-
-        {/* Audio Speech Rate Selector */}
-        <div className="flex items-center gap-2 text-xs text-slate-500 font-bold px-2">
-          <span>Audio Speed:</span>
-          {[0.75, 0.9, 1.0].map((rate) => (
+      {/* Language Selector Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200">
+        {WORLD_LANGUAGES_DATA.map((lang) => {
+          const isSelected = selectedLangCode === lang.code;
+          return (
             <button
-              key={rate}
-              onClick={() => setSpeechRate(rate)}
-              className={`px-2 py-0.5 rounded-md text-[11px] font-mono ${
-                speechRate === rate ? 'bg-orange-100 text-orange-800 font-black' : 'text-slate-600 hover:bg-slate-100'
+              key={lang.code}
+              onClick={() => {
+                setSelectedLangCode(lang.code);
+                setSearchWord('');
+              }}
+              className={`flex items-center gap-2.5 px-4 py-3 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap transition-all cursor-pointer ${
+                isSelected
+                  ? 'bg-indigo-600 text-white shadow-md scale-102'
+                  : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
               }`}
             >
-              {rate}x
+              <span className="text-xl">{lang.flag}</span>
+              <div className="text-left">
+                <div className="leading-none">{lang.name}</div>
+                <div className={`text-[10px] font-bold ${isSelected ? 'text-indigo-200' : 'text-slate-400'} mt-0.5`}>
+                  {lang.nativeName.split(' ')[0]}
+                </div>
+              </div>
             </button>
-          ))}
+          );
+        })}
+      </div>
+
+      {/* Language Hero Details */}
+      <div className="bg-gradient-to-r from-slate-900 to-indigo-950 rounded-3xl p-6 text-white border border-indigo-900 shadow-md space-y-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">{currentLang.flag}</span>
+              <h3 className="text-xl sm:text-2xl font-black text-white">{currentLang.name} ({currentLang.nativeName})</h3>
+            </div>
+            <p className="text-xs sm:text-sm text-indigo-200 font-medium">{currentLang.description}</p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => playSpeech(`Welcome to ${currentLang.name} language learning room in Super Parent Studio!`, currentLang.speechLangCode)}
+              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black py-2.5 px-4 rounded-xl transition-all shadow-xs cursor-pointer"
+            >
+              <Volume2 className="w-4 h-4" />
+              <span>Native Audio Test</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Inner Section Navigation */}
+        <div className="pt-3 border-t border-white/15 flex items-center gap-1.5 overflow-x-auto pb-1">
+          <button
+            onClick={() => setActiveTab('alphabets')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'alphabets'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'bg-white/10 text-slate-200 hover:bg-white/20'
+            }`}
+          >
+            <span>🔤 Alphabets & Script</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('vocab')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'vocab'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'bg-white/10 text-slate-200 hover:bg-white/20'
+            }`}
+          >
+            <span>🗣️ Vocabulary & Phrases</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('grammar')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'grammar'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'bg-white/10 text-slate-200 hover:bg-white/20'
+            }`}
+          >
+            <span>📖 Grammar Rules</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('exercises')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'exercises'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'bg-white/10 text-slate-200 hover:bg-white/20'
+            }`}
+          >
+            <span>✍️ Practice Exercises ({currentLang.practiceExercises.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('weblinks')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'weblinks'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'bg-white/10 text-slate-200 hover:bg-white/20'
+            }`}
+          >
+            <span>🌐 Web Portals ({currentLang.webLinks.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('videos')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'videos'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'bg-white/10 text-slate-200 hover:bg-white/20'
+            }`}
+          >
+            <span>🎬 Video Lessons ({currentLang.videoLinks.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('books')}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
+              activeTab === 'books'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'bg-white/10 text-slate-200 hover:bg-white/20'
+            }`}
+          >
+            <span>📚 E-Books ({currentLang.books.length})</span>
+          </button>
         </div>
       </div>
 
-      {/* VIEW 1: VOCABULARY FLASHCARDS */}
-      {activeSubTab === 'vocab' && (
+      {/* CONTENT TAB 1: ALPHABETS & SCRIPT */}
+      {activeTab === 'alphabets' && (
         <div className="space-y-6">
-          {/* Category Tabs */}
-          <div className="flex items-center gap-2">
-            {selectedLang.vocabCategories.map((cat, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveCategoryIdx(idx)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                  activeCategoryIdx === idx
-                    ? 'bg-slate-900 text-white shadow-xs'
-                    : 'bg-white border border-slate-200 text-slate-700 hover:bg-orange-50'
-                }`}
-              >
-                {cat.category} ({cat.words.length})
-              </button>
-            ))}
-          </div>
+          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3 flex-wrap gap-2">
+              <div>
+                <h4 className="text-base font-black text-slate-900 flex items-center gap-2">
+                  <Languages className="w-5 h-5 text-indigo-600" />
+                  <span>{currentLang.alphabetInfo.title}</span>
+                </h4>
+                <p className="text-xs text-slate-500 font-medium">{currentLang.alphabetInfo.vowelsConsonants}</p>
+              </div>
+              <span className="text-xs font-bold text-slate-500">Click any letter to hear audio</span>
+            </div>
 
-          {/* Word Flashcards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {selectedLang.vocabCategories[activeCategoryIdx]?.words.map((word, idx) => {
-              const isSpeaking = speakingWord === word.native;
-              return (
-                <div
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-3">
+              {currentLang.alphabetInfo.sampleLetters.map((item, idx) => (
+                <button
                   key={idx}
-                  className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs hover:border-orange-300 transition-all flex flex-col justify-between space-y-4"
+                  onClick={() => playSpeech(`${item.char}. ${item.meaning || ''}`, currentLang.speechLangCode)}
+                  className="bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 p-3.5 rounded-2xl flex flex-col items-center justify-center gap-1 transition-all cursor-pointer text-center group"
                 >
-                  <div className="space-y-2">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="text-2xl font-black text-slate-900">{word.native}</h3>
-                        <p className="text-xs font-bold text-orange-600 font-mono mt-0.5">
-                          /{word.phonetic}/
-                        </p>
-                      </div>
-
-                      <button
-                        onClick={() => playNativeSpeech(word.native, selectedLang.speechLangCode)}
-                        className={`p-3 rounded-2xl transition-all shadow-xs shrink-0 ${
-                          isSpeaking 
-                            ? 'bg-orange-600 text-white scale-110 animate-bounce' 
-                            : 'bg-orange-50 hover:bg-orange-100 text-orange-700'
-                        }`}
-                        title="Listen Native Audio Pronunciation"
-                      >
-                        <Volume2 className="w-5 h-5" />
-                      </button>
-                    </div>
-
-                    <div className="bg-slate-50 p-3 rounded-2xl space-y-1 text-xs border border-slate-100">
-                      <div className="flex justify-between">
-                        <span className="text-slate-500 font-medium">English:</span>
-                        <span className="font-bold text-slate-900">{word.english}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-500 font-medium">తెలుగు:</span>
-                        <span className="font-bold text-slate-900">{word.telugu}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-500 font-medium">हिन्दी:</span>
-                        <span className="font-bold text-slate-900">{word.hindi}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-600 bg-orange-50/40 p-2 rounded-xl">
-                    <span className="font-bold text-orange-800">Example:</span> {word.example}
-                  </div>
-                </div>
-              );
-            })}
+                  <span className="text-2xl font-black text-slate-900 group-hover:text-indigo-600 transition-colors">
+                    {item.char}
+                  </span>
+                  <span className="text-xs font-bold text-slate-500">{item.phonetic}</span>
+                  {item.meaning && (
+                    <span className="text-[10px] font-medium text-indigo-700 truncate w-full">{item.meaning}</span>
+                  )}
+                  <Volume2 className="w-3.5 h-3.5 text-indigo-400 group-hover:text-indigo-600 mt-1" />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}
 
-      {/* VIEW 2: GRAMMAR & RULES */}
-      {activeSubTab === 'grammar' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {selectedLang.grammarRules.map((rule, idx) => (
-            <div key={idx} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="w-7 h-7 rounded-xl bg-orange-100 text-orange-700 font-black text-xs flex items-center justify-center">
-                  0{idx + 1}
-                </span>
-                <h3 className="font-black text-base text-slate-900">{rule.title}</h3>
+      {/* CONTENT TAB 2: VOCABULARY & DAILY PHRASES */}
+      {activeTab === 'vocab' && (
+        <div className="space-y-6">
+          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+              <div>
+                <h4 className="text-base font-black text-slate-900">Essential Vocabulary & Daily Phrases</h4>
+                <p className="text-xs text-slate-500 font-medium">Multilingual breakdown with Telugu, Hindi, and English equivalents</p>
               </div>
 
-              <p className="text-xs text-slate-600 leading-relaxed">{rule.explanation}</p>
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search vocabulary..."
+                  value={searchWord}
+                  onChange={(e) => setSearchWord(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+            </div>
 
-              <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-xs">
-                <span className="font-bold text-orange-700 block mb-1">Illustrative Example:</span>
-                <span className="font-mono text-slate-900 font-bold">{rule.example}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {currentLang.vocabCategories.flatMap(cat => cat.words)
+                .filter(w => !searchWord || w.native.toLowerCase().includes(searchWord.toLowerCase()) || w.english.toLowerCase().includes(searchWord.toLowerCase()) || w.telugu.includes(searchWord))
+                .map((word, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-slate-50 rounded-2xl p-4 border border-slate-200 flex items-start justify-between gap-3 hover:border-indigo-300 transition-all"
+                  >
+                    <div className="space-y-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-base font-black text-slate-900">{word.native}</span>
+                        <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">
+                          /{word.phonetic}/
+                        </span>
+                      </div>
+
+                      <p className="text-xs font-black text-slate-800">{word.english}</p>
+                      <div className="flex items-center gap-3 text-[11px] font-bold text-slate-500">
+                        <span>🇮🇳 Telugu: <strong className="text-slate-700">{word.telugu}</strong></span>
+                        <span>🇮🇳 Hindi: <strong className="text-slate-700">{word.hindi}</strong></span>
+                      </div>
+                      <p className="text-[11px] text-indigo-900 bg-indigo-50/50 p-2 rounded-lg font-medium mt-1">
+                        💡 {word.example}
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => playSpeech(`${word.native}. ${word.example}`, currentLang.speechLangCode)}
+                      className="p-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition-colors cursor-pointer shrink-0 shadow-2xs"
+                      title="Speak Native Audio"
+                    >
+                      <Volume2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CONTENT TAB 3: GRAMMAR RULES */}
+      {activeTab === 'grammar' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {currentLang.grammarRules.map((rule, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-3"
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-800 text-xs font-black flex items-center justify-center">
+                  {idx + 1}
+                </span>
+                <h4 className="font-black text-slate-900 text-base">{rule.title}</h4>
+              </div>
+
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">{rule.explanation}</p>
+              
+              <div className="bg-indigo-50 rounded-2xl p-3 border border-indigo-100 space-y-1">
+                <span className="text-[10px] font-black text-indigo-700 uppercase tracking-wider">Example Usage:</span>
+                <p className="text-xs font-mono font-bold text-indigo-950">{rule.example}</p>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* VIEW 3: DIALOGUES */}
-      {activeSubTab === 'dialogue' && (
-        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-4 max-w-2xl mx-auto">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <h3 className="font-black text-base text-slate-900 flex items-center gap-2">
-              <MessageSquare className="w-5 h-5 text-orange-600" />
-              <span>Real-Life Conversation Simulation</span>
-            </h3>
-            <span className="text-xs font-bold text-slate-500">{selectedLang.name} Practice</span>
-          </div>
+      {/* CONTENT TAB 4: PRACTICE EXERCISES */}
+      {activeTab === 'exercises' && (
+        <div className="space-y-4">
+          {currentLang.practiceExercises.map((ex, qIdx) => {
+            const key = `${selectedLangCode}-${qIdx}`;
+            const selectedOpt = exerciseAnswers[key];
+            const isAnswered = selectedOpt !== undefined;
+            const isCorrect = selectedOpt === ex.correctAnswer;
 
-          <div className="space-y-3">
-            {selectedLang.conversations.map((conv, idx) => (
-              <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-xs text-orange-700 uppercase tracking-wider">
-                    {conv.speaker}
-                  </span>
+            return (
+              <div key={qIdx} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-4">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-1">
+                    <h5 className="font-black text-base text-slate-900 leading-snug">
+                      Q{qIdx + 1}. {ex.question}
+                    </h5>
+                    <p className="text-xs font-bold text-indigo-800">{ex.teluguPrompt}</p>
+                  </div>
                   <button
-                    onClick={() => playNativeSpeech(conv.nativeText, selectedLang.speechLangCode)}
-                    className="p-1.5 rounded-lg bg-white border border-slate-200 text-orange-600 hover:bg-orange-50"
-                    title="Speak Dialogue"
+                    onClick={() => playSpeech(ex.question, currentLang.speechLangCode)}
+                    className="p-2 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors"
                   >
-                    <Volume2 className="w-3.5 h-3.5" />
+                    <Volume2 className="w-4 h-4" />
                   </button>
                 </div>
 
-                <p className="text-base font-black text-slate-900">{conv.nativeText}</p>
-                <div className="grid grid-cols-2 gap-2 text-xs text-slate-600 pt-1">
-                  <div><span className="font-bold">English:</span> {conv.englishText}</div>
-                  <div><span className="font-bold">తెలుగు:</span> {conv.teluguText}</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {ex.options.map((opt, optIdx) => {
+                    const isThisSelected = selectedOpt === optIdx;
+                    const isThisCorrect = optIdx === ex.correctAnswer;
+
+                    return (
+                      <button
+                        key={optIdx}
+                        onClick={() => handleExerciseSelect(qIdx, optIdx)}
+                        className={`text-left p-3.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                          isAnswered
+                            ? isThisCorrect
+                              ? 'bg-emerald-600 text-white border-emerald-600 shadow-2xs'
+                              : isThisSelected
+                                ? 'bg-red-600 text-white border-red-600'
+                                : 'bg-white border-slate-200 text-slate-400 opacity-60'
+                            : 'bg-slate-50 border-slate-200 text-slate-800 hover:bg-indigo-50 hover:border-indigo-300'
+                        }`}
+                      >
+                        {String.fromCharCode(65 + optIdx)}. {opt}
+                      </button>
+                    );
+                  })}
                 </div>
+
+                {exerciseFeedback[key] && (
+                  <div className={`p-3.5 rounded-xl border text-xs font-medium space-y-1 ${
+                    isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'
+                  }`}>
+                    <div className="flex items-center gap-1.5 font-black">
+                      {isCorrect ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : <HelpCircle className="w-4 h-4 text-amber-600" />}
+                      <span>{isCorrect ? 'Splendid! Correct Answer (+50 Points)' : 'Learning Note:'}</span>
+                    </div>
+                    <p>{ex.explanation}</p>
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       )}
 
-      {/* VIEW 4: AI SPEECH & SENTENCE TRANSLATOR */}
-      {activeSubTab === 'translator' && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs max-w-3xl mx-auto space-y-6">
-          <div className="text-center space-y-1">
-            <h3 className="text-xl font-black text-slate-900">
-              🤖 Multi-Language Speech & Sentence Translator
-            </h3>
-            <p className="text-xs text-slate-500 font-medium">
-              Type or speak any sentence in English, Telugu, or Hindi, and listen to authentic native pronunciation.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">Input Text:</label>
-              <textarea
-                value={inputTransText}
-                onChange={(e) => setInputTransText(e.target.value)}
-                rows={3}
-                className="w-full px-4 py-3 rounded-2xl border border-slate-300 text-xs focus:ring-2 focus:ring-orange-500 focus:outline-none"
-                placeholder="Enter words or full sentences to translate..."
-              />
-            </div>
-
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-slate-700">Translate to:</span>
-                <select
-                  value={targetTransLang}
-                  onChange={(e) => setTargetTransLang(e.target.value)}
-                  className="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-800"
-                >
-                  <option value="te">🇮🇳 Telugu (తెలుగు)</option>
-                  <option value="hi">🇮🇳 Hindi (हिन्दी)</option>
-                  <option value="sa">🕉️ Sanskrit (संस्कृतम्)</option>
-                  <option value="es">🇪🇸 Spanish (Español)</option>
-                  <option value="fr">🇫🇷 French (Français)</option>
-                  <option value="de">🇩🇪 German (Deutsch)</option>
-                  <option value="ja">🇯🇵 Japanese (日本語)</option>
-                </select>
+      {/* CONTENT TAB 5: WEB PORTALS */}
+      {activeTab === 'weblinks' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {currentLang.webLinks.map((link, idx) => (
+            <div key={idx} className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-200">
+                    {link.badge}
+                  </span>
+                  <Globe className="w-4 h-4 text-indigo-600" />
+                </div>
+                <h5 className="font-black text-slate-900 text-base">{link.title}</h5>
+                <p className="text-xs text-slate-600 font-medium leading-relaxed">{link.description}</p>
               </div>
 
               <button
-                onClick={handleTranslate}
-                className="bg-orange-600 hover:bg-orange-700 text-white font-black px-6 py-2 rounded-xl text-xs shadow-xs transition-all flex items-center gap-2"
+                onClick={() => setActiveMedia({
+                  isOpen: true,
+                  title: link.title,
+                  category: `${currentLang.name} Web Learning Resource`,
+                  webUrl: link.url,
+                  description: link.description,
+                  keyPoints: [
+                    'Interactive language exercises and pronunciation',
+                    'Direct access to official certified learning guides',
+                    'Curated for young learners and advanced students'
+                  ]
+                })}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Translate Sentence</span>
+                <span>Launch {link.title.split(' ')[0]} Portal</span>
+                <ExternalLink className="w-3.5 h-3.5" />
               </button>
             </div>
-
-            {/* Translation Output Card */}
-            {translatedResult && (
-              <div className="bg-orange-50/70 border border-orange-200 rounded-2xl p-5 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-black text-orange-700 uppercase tracking-wider">
-                    Translated Output
-                  </span>
-                  <button
-                    onClick={() => playNativeSpeech(translatedResult, targetTransLang === 'te' ? 'te-IN' : targetTransLang === 'hi' ? 'hi-IN' : targetTransLang === 'es' ? 'es-ES' : 'en-US')}
-                    className="p-2 rounded-xl bg-orange-600 text-white hover:bg-orange-700 transition-all flex items-center gap-1.5 text-xs font-black shadow-xs"
-                  >
-                    <Volume2 className="w-4 h-4" />
-                    <span>Listen Aloud</span>
-                  </button>
-                </div>
-
-                <p className="text-lg font-black text-slate-900 leading-relaxed">
-                  {translatedResult}
-                </p>
-              </div>
-            )}
-          </div>
+          ))}
         </div>
       )}
+
+      {/* CONTENT TAB 6: VIDEO LESSONS */}
+      {activeTab === 'videos' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {currentLang.videoLinks.map((vid, idx) => (
+            <div key={idx} className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-red-50 text-red-700 px-2 py-0.5 rounded-md border border-red-200">
+                    ⏱️ {vid.duration}
+                  </span>
+                  <span className="text-xs font-bold text-slate-500">{vid.channel}</span>
+                </div>
+                <h5 className="font-black text-slate-900 text-base leading-snug">{vid.title}</h5>
+              </div>
+
+              <button
+                onClick={() => setActiveMedia({
+                  isOpen: true,
+                  title: vid.title,
+                  category: `${vid.channel} • Video Masterclass`,
+                  videoUrl: vid.url,
+                  description: `Comprehensive video tutorial for learning ${currentLang.name} spoken expressions and grammar.`,
+                  keyPoints: currentLang.grammarRules.map(r => r.title)
+                })}
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+              >
+                <Play className="w-4 h-4 fill-current" />
+                <span>Watch Native Video Lecture</span>
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* CONTENT TAB 7: E-BOOKS */}
+      {activeTab === 'books' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {currentLang.books.map((book, idx) => (
+            <div key={idx} className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md border border-emerald-200">
+                    {book.type}
+                  </span>
+                  <FileText className="w-4 h-4 text-emerald-600" />
+                </div>
+                <h5 className="font-black text-slate-900 text-base">{book.title}</h5>
+                <p className="text-xs text-slate-500 font-bold">Publisher: {book.author}</p>
+              </div>
+
+              <button
+                onClick={() => setActiveMedia({
+                  isOpen: true,
+                  title: book.title,
+                  category: `${book.type} Digital E-Book`,
+                  webUrl: book.previewUrl,
+                  description: `Free digital language reader and practice textbook for ${book.title}.`,
+                  keyPoints: [
+                    'Graded readers from beginner to intermediate',
+                    'Interactive storyboards and dialogues',
+                    'Free download and online study access'
+                  ]
+                })}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+              >
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>Read E-Book Online</span>
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Media Link Modal */}
+      <MediaLinkModal
+        isOpen={activeMedia.isOpen}
+        onClose={() => setActiveMedia(prev => ({ ...prev, isOpen: false }))}
+        title={activeMedia.title}
+        teluguTitle={activeMedia.teluguTitle}
+        category={activeMedia.category}
+        videoUrl={activeMedia.videoUrl}
+        webUrl={activeMedia.webUrl}
+        description={activeMedia.description}
+        keyPoints={activeMedia.keyPoints}
+      />
     </div>
   );
 };

@@ -105,12 +105,12 @@ const DEFAULT_ADMIN_USER: UserAccount = {
 };
 
 const KIDS_ALLOWED_TABS: NavTab[] = [
-  'home', 'super-student', 'education', 'practice-master', 'classroom', 
+  'home', 'super-student', 'tutors-room', 'education', 'practice-master', 'classroom', 
   'language-lab', 'kids-lab', 'sanskar', 'stories', 'innovation', 'games', 'showcase', 'offline-hub'
 ];
 
 const PARENT_ALLOWED_TABS: NavTab[] = [
-  'home', 'parenting', 'growth', 'marketplace', 'global', 'pricing'
+  'home', 'tutors-room', 'classroom', 'parenting', 'growth', 'marketplace', 'global', 'pricing'
 ];
 
 export default function App() {
@@ -308,7 +308,7 @@ export default function App() {
             />
           )}
 
-          {activeTab === 'classroom' && (
+          {(activeTab === 'classroom' || activeTab === 'tutors-room') && (
             <ClassroomInteractionRoom
               onAskAI={(query) => handleOpenAskAI('tutor', query)}
             />

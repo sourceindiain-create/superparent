@@ -61,6 +61,7 @@ export type SyllabusBoard = 'CBSE' | 'State Board' | 'ICSE' | 'International' | 
 export type NavTab = 
   | 'home'
   | 'super-student'
+  | 'tutors-room'
   | 'kids-lab'
   | 'practice-master'
   | 'classroom'

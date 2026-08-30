@@ -382,7 +382,32 @@ export const PracticeMasterZone: React.FC<PracticeMasterZoneProps> = ({ onAskAI 
       suggestedPrompt: 'What are the top Javalab simulations for learning light refraction, pendulum motion, and electric induction?'
     },
 
-    // --- 3. TECHNICAL & RESEARCH (IEEE, arXiv, NPTEL, MIT) ---
+    // --- 3. TECHNICAL & RESEARCH (IEEE, arXiv, NPTEL, MIT, Skill-Lync) ---
+    {
+      id: 'skill-lync-resources',
+      title: 'Skill-Lync Technical Learning Resources & Engineering Lab',
+      teluguTitle: 'స్కిల్-లింక్ లెర్నింగ్ రిసోర్సెస్ & ఇంజనీరింగ్ ప్రాజెక్ట్స్',
+      domain: 'technical-startups',
+      category: 'engineering-research',
+      categoryLabel: 'Engineering & Research',
+      format: 'portals',
+      targetAudience: 'Engineering Students, Tech Enthusiasts & High School Innovators',
+      badge: 'Free Tech Resources',
+      badgeColor: 'bg-orange-100 text-orange-800 border-orange-200',
+      icon: Cpu,
+      iconColor: 'text-orange-600',
+      bgColor: 'bg-orange-50',
+      url: 'https://resources.skill-lync.com/',
+      description: 'Comprehensive engineering learning repository featuring free technical blogs, project blueprints, simulation guides (CFD, FEA, CAD, MATLAB), EV technology, and software development roadmaps.',
+      teluguDescription: 'మెకానికల్, ఈవీ, ఎలక్ట్రికల్, కంప్యూటర్ సైన్స్ ప్రాజెక్ట్‌లు మరియు టెక్నికల్ గైడ్‌ల సమగ్ర పోర్టల్.',
+      features: [
+        'Free Technical Guides & Engineering Career Roadmaps',
+        'Project Blueprints across EV, Automotive, Robotics & Software',
+        'MATLAB, Python, CAD, CFD & Embedded Systems Learning Notes',
+        'Industry Webinars, Expert Whitepapers & Case Studies'
+      ],
+      suggestedPrompt: 'Explore engineering project ideas and skill development roadmaps on resources.skill-lync.com'
+    },
     {
       id: 'ieee-xplore',
       title: 'IEEE Xplore Digital Library & IEEE Open',

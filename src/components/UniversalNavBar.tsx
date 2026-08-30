@@ -16,7 +16,8 @@ import {
   CheckCheck,
   Video,
   Languages,
-  HardDrive
+  HardDrive,
+  GraduationCap
 } from 'lucide-react';
 import { APP_THEMES } from '../data/themes';
 import { useLanguage } from '../context/LanguageContext';
@@ -52,10 +53,11 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
   const getTabLabel = (tab: NavTab) => {
     switch (tab) {
       case 'home': return t('navHome', 'Home Overview');
+      case 'tutors-room': return t('navTutorsRoom', "Tutor's Room (All Links, Videos, Books, AI & Voice)");
       case 'super-student': return t('navSuperStudent', 'Super Student Hub ($200k+ Free Packs & AI)');
       case 'kids-lab': return t('navKidsLab', 'Kids Lab (3D Anatomy & AI Creative Studio)');
       case 'practice-master': return t('navPracticeMaster', 'Practice Master Zone (Global Portals & Research)');
-      case 'classroom': return t('navClassroom', 'Live Interaction Room & Classrooms (Zoom/Meet)');
+      case 'classroom': return t('navClassroom', "Tutor's Room & Interactive Classroom (Links, Videos, Books, Voice AI)");
       case 'language-lab': return t('navLanguageLab', 'World Language Lab (Telugu, Hindi, English, Sanskrit)');
       case 'offline-hub': return t('navOfflineHub', 'Offline Learning Hub & Service Worker Cache');
       case 'education': return t('navEducation', 'Education Hub (LKG - Class 10)');
@@ -145,17 +147,17 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
 
         {/* Right Side: Quick Action Links & Diagnostic Trigger */}
         <div className="flex items-center gap-2 flex-wrap">
-          {/* Quick Classrooms Button */}
+          {/* Quick Tutors Room Button */}
           <button
             onClick={() => setActiveTab('classroom')}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
-              activeTab === 'classroom'
-                ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
-                : 'bg-blue-50 text-blue-800 border-blue-200 hover:bg-blue-100'
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black border transition-all cursor-pointer ${
+              activeTab === 'classroom' || activeTab === 'tutors-room'
+                ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white border-orange-600 shadow-xs'
+                : 'bg-orange-50 text-orange-900 border-orange-200 hover:bg-orange-100 shadow-2xs'
             }`}
           >
-            <Video className="w-3.5 h-3.5 text-blue-600" />
-            <span className="hidden sm:inline">Live Room</span>
+            <GraduationCap className="w-3.5 h-3.5 text-orange-600" />
+            <span>🏛️ Tutor's Room (Voice AI & Links)</span>
           </button>
 
           {/* Quick Language Lab Button */}
