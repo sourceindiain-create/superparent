@@ -225,6 +225,117 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
       {/* VIEW MODE 1: GRADE-BY-GRADE MASTER DIRECTORY */}
       {activeViewMode === 'grade-directory' && (
         <div className="space-y-6">
+          {/* Top Kids Practice & Learning Portals Launchpad */}
+          <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-rose-500/10 rounded-3xl p-4 sm:p-5 border border-amber-200/80 shadow-2xs space-y-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🌟</span>
+                <div>
+                  <h4 className="font-black text-slate-900 text-sm sm:text-base">Kids All Classes Practice & Visual Learning Portals</h4>
+                  <p className="text-xs text-slate-600 font-medium">Instant interactive access to Kiddo Worksheets, hand2mind, and PBS KIDS for all grades.</p>
+                </div>
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
+                Verified Global EdTech
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              {/* Portal 1: Kiddo Worksheets */}
+              <button
+                onClick={() => setActiveMedia({
+                  isOpen: true,
+                  title: 'kiddoworksheets - Visual Treat Worksheets',
+                  teluguTitle: 'కిడ్డో వర్క్‌షీట్స్ - సంఖ్యలు, అక్షరాల ట్రేసింగ్ & మోటార్ స్కిల్స్',
+                  category: 'Visual Learning & Printable Sheets',
+                  webUrl: 'https://www.kiddoworksheets.com',
+                  description: 'Kiddo worksheets are a visual treat that will help teach your kids number and letter recognition, basic scientific principles, and tracing to improve fine motor skills.',
+                  keyPoints: [
+                    'Number & letter recognition with engaging visual illustrations',
+                    'Fine motor skills tracing worksheets for early handwriting',
+                    'Basic scientific principles, animal charts, and primary math printables'
+                  ]
+                })}
+                className="bg-white p-3.5 rounded-2xl border border-rose-200 hover:border-rose-400 hover:shadow-xs transition-all text-left flex flex-col justify-between space-y-2 cursor-pointer group"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200">
+                    Printable Worksheets
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-rose-500 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+                <div>
+                  <h5 className="font-black text-slate-900 text-xs sm:text-sm">kiddoworksheets.com</h5>
+                  <p className="text-[11px] text-slate-500 font-medium line-clamp-2 leading-relaxed">
+                    Letter & number tracing, basic science, and fine motor skills.
+                  </p>
+                </div>
+              </button>
+
+              {/* Portal 2: hand2mind */}
+              <button
+                onClick={() => setActiveMedia({
+                  isOpen: true,
+                  title: 'hand2mind - Manipulative-Based Educational Resources',
+                  teluguTitle: 'హ్యాండ్‌2మైండ్ - హ్యాండ్స్-ఆన్ STEM & మ్యాథ్స్ మానిప్యులేటివ్స్',
+                  category: 'Hands-On STEM & Math Kits',
+                  webUrl: 'https://www.hand2mind.com',
+                  description: 'Visit hand2mind - formerly ETA Cuisenaire - and browse our selection of manipulative based educational resources for PreK through grade 12 teachers and kids.',
+                  keyPoints: [
+                    'Hands-on math manipulatives: Cuisenaire rods, Base Ten blocks, Fraction tiles',
+                    'STEM & Science investigation kits for experiential classroom learning',
+                    'Literacy & Phonics multisensory tools for PreK through Grade 12'
+                  ]
+                })}
+                className="bg-white p-3.5 rounded-2xl border border-amber-200 hover:border-amber-400 hover:shadow-xs transition-all text-left flex flex-col justify-between space-y-2 cursor-pointer group"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+                    PreK to Grade 12
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-amber-600 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+                <div>
+                  <h5 className="font-black text-slate-900 text-xs sm:text-sm">hand2mind.com</h5>
+                  <p className="text-[11px] text-slate-500 font-medium line-clamp-2 leading-relaxed">
+                    Manipulative based educational resources, Cuisenaire rods & STEM kits.
+                  </p>
+                </div>
+              </button>
+
+              {/* Portal 3: PBS KIDS */}
+              <button
+                onClick={() => setActiveMedia({
+                  isOpen: true,
+                  title: 'PBS KIDS - Educational Games & Shows',
+                  teluguTitle: 'పిబిఎస్ కిడ్స్ - ఎడ్యుకేషనల్ గేమ్స్, సైన్స్ & రీడింగ్ షోలు',
+                  category: 'Kids Video & Game Portal',
+                  webUrl: 'https://pbskids.org',
+                  description: 'Educational games and videos from Daniel Tiger’s Neighborhood, Wild Kratts, Curious George, and other beloved PBS KIDS shows!',
+                  keyPoints: [
+                    '100+ Free interactive learning games covering nature, math, and literacy',
+                    'Child-safe, ad-free streaming videos and full episodes',
+                    'Curriculum-designed tracks supporting cognitive development'
+                  ]
+                })}
+                className="bg-white p-3.5 rounded-2xl border border-emerald-200 hover:border-emerald-400 hover:shadow-xs transition-all text-left flex flex-col justify-between space-y-2 cursor-pointer group"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
+                    100% Free Games
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-emerald-600 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+                <div>
+                  <h5 className="font-black text-slate-900 text-xs sm:text-sm">pbskids.org</h5>
+                  <p className="text-[11px] text-slate-500 font-medium line-clamp-2 leading-relaxed">
+                    Educational games and videos from Daniel Tiger, Wild Kratts & Arthur.
+                  </p>
+                </div>
+              </button>
+            </div>
+          </div>
+
           {/* Grade Selector Pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2">
             {GRADE_LESSONS_DATA.map((g) => (

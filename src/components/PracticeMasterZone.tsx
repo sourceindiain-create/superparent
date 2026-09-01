@@ -357,6 +357,78 @@ export const PracticeMasterZone: React.FC<PracticeMasterZoneProps> = ({ onAskAI 
       suggestedPrompt: 'Which PhET simulations are best for understanding Ohm law and electric circuits?'
     },
     {
+      id: 'pbs-kids-portal',
+      title: 'PBS KIDS - Educational Games & Videos',
+      teluguTitle: 'పిబిఎస్ కిడ్స్ - ఎడ్యుకేషనల్ గేమ్స్, సైన్స్ & రీడింగ్ వీడియోలు',
+      domain: 'academic',
+      category: 'kids-stem-creative',
+      categoryLabel: 'Kids & Creative Labs',
+      format: 'portals',
+      targetAudience: 'Preschool to Primary (All Ages), Kids & Teachers',
+      badge: '100% Free Games & Shows',
+      badgeColor: 'bg-lime-100 text-lime-800 border-lime-200',
+      icon: Sparkles,
+      iconColor: 'text-lime-600',
+      bgColor: 'bg-lime-50',
+      url: 'https://pbskids.org',
+      description: 'Educational games and videos from Daniel Tiger’s Neighborhood, Wild Kratts, Curious George, Arthur, and other beloved PBS KIDS shows!',
+      teluguDescription: 'వైల్డ్ క్రాట్స్, డేనియల్ టైగర్ మరియు క్యూరియస్ జార్జ్ యానిమేటెడ్ పాత్రలతో సైన్స్, మ్యాథ్స్ మరియు రీడింగ్ గేమ్స్.',
+      features: [
+        '100+ Free interactive learning games covering nature, math, and literacy',
+        'Child-safe, ad-free streaming videos and full episodes',
+        'Curriculum-designed tracks supporting cognitive development'
+      ],
+      suggestedPrompt: 'What are the top educational games and STEM activities available on pbskids.org for elementary children?'
+    },
+    {
+      id: 'kiddo-worksheets',
+      title: 'Kiddo Worksheets - Visual Learning & Printables',
+      teluguTitle: 'కిడ్డో వర్క్‌షీట్స్ - నంబర్లు, లెటర్స్ & ఫైన్ మోటార్ స్కిల్స్',
+      domain: 'academic',
+      category: 'kids-stem-creative',
+      categoryLabel: 'Kids & Creative Labs',
+      format: 'portals',
+      targetAudience: 'Pre-K, Kindergarten & Primary Class Students',
+      badge: 'Visual Treat Worksheets',
+      badgeColor: 'bg-rose-100 text-rose-800 border-rose-200',
+      icon: FileText,
+      iconColor: 'text-rose-600',
+      bgColor: 'bg-rose-50',
+      url: 'https://www.kiddoworksheets.com',
+      description: 'Kiddo worksheets are a visual treat that will help teach your kids number and letter recognition, basic scientific principles, and tracing to improve fine motor skills.',
+      teluguDescription: 'పిల్లల కోసం ఆకర్షణీయమైన రంగుల వర్క్‌షీట్లు - అక్షరాల ట్రేసింగ్, సంఖ్యల గుర్తింపు, సైన్స్ మరియు చేతిరాత సాధన.',
+      features: [
+        'Number & letter recognition with engaging visual illustrations and coloring',
+        'Fine motor skills tracing worksheets for early handwriting and pencil grip',
+        'Basic scientific principles, animal habits, patterns, and primary math printables'
+      ],
+      suggestedPrompt: 'How can visual tracing worksheets from kiddoworksheets.com improve fine motor skills and handwriting in early learners?'
+    },
+    {
+      id: 'hand2mind-learning',
+      title: 'hand2mind - Manipulative-Based Educational Resources',
+      teluguTitle: 'హ్యాండ్‌2మైండ్ - హ్యాండ్స్-ఆన్ లెర్నింగ్ & సైన్స్/మ్యాథ్స్ మానిప్యులేటివ్స్',
+      domain: 'academic',
+      category: 'kids-stem-creative',
+      categoryLabel: 'Kids & Creative Labs',
+      format: 'portals',
+      targetAudience: 'PreK through Grade 12 Teachers, Students & Parents',
+      badge: 'PreK to Grade 12 Hands-On',
+      badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
+      icon: Layers,
+      iconColor: 'text-amber-600',
+      bgColor: 'bg-amber-50',
+      url: 'https://www.hand2mind.com',
+      description: 'Visit hand2mind - formerly ETA Cuisenaire - and browse our selection of manipulative based educational resources for PreK through grade 12 teachers and kids.',
+      teluguDescription: 'పిల్లలు వస్తువులను చేతులతో తాకుతూ గణితం, సైన్స్ మరియు STEM ప్రయోగాలు నేర్చుకునే హ్యాండ్స్-ఆన్ విద్యా వనరుల పోర్టల్.',
+      features: [
+        'Hands-on math manipulatives: Cuisenaire rods, Base Ten blocks, Fraction tiles & Number lines',
+        'STEM & Science investigation kits for experiential classroom and home learning',
+        'Literacy & Phonics multisensory tools for PreK through Grade 12'
+      ],
+      suggestedPrompt: 'How can hand2mind math manipulatives like Cuisenaire rods help elementary students understand fractions and place value?'
+    },
+    {
       id: 'javalab-simulations',
       title: 'Javalab.org - Interactive Science Simulations',
       teluguTitle: 'జావా ల్యాబ్ (Javalab.org) - ఇంటరాక్టివ్ సైన్స్ & ఫిజిక్స్ సిమ్యులేషన్స్',

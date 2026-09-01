@@ -92,9 +92,11 @@ export const GRADE_LESSONS_DATA: GradeLessonInfo[] = [
           }
         ],
         webLinks: [
+          { title: 'Kiddo Worksheets - Phonics, Letters & Tracing', url: 'https://www.kiddoworksheets.com', badge: 'Visual Worksheets', desc: 'Visual treat worksheets for number and letter recognition, basic scientific principles, and tracing to improve fine motor skills.' },
+          { title: 'PBS KIDS Phonics & Reading Shows', url: 'https://pbskids.org', badge: 'PBS KIDS', desc: 'Educational games and videos from Daniel Tiger’s Neighborhood, Wild Kratts, and PBS KIDS shows!' },
+          { title: 'hand2mind Early Literacy & Multisensory Phonics', url: 'https://www.hand2mind.com', badge: 'hand2mind', desc: 'Hands-on manipulative based learning resources for PreK through grade 12.' },
           { title: 'Starfall Early Phonics Free', url: 'https://www.starfall.com/h/ltr-classic/', badge: 'Interactive', desc: 'Step-by-step interactive phonics and early reading games.' },
-          { title: 'ABCya! Kindergarten Games', url: 'https://www.abcya.com/grades/k', badge: 'Games', desc: 'Free educational learning games for letters and words.' },
-          { title: 'Oxford Owl Free Early Phonics', url: 'https://home.oxfordowl.co.uk/reading/reading-schemes-oxford-levels/read-write-inc-phonics-guide/', badge: 'Phonics Guide', desc: 'Parent guide and printable phonics sheets.' }
+          { title: 'ABCya! Kindergarten Games', url: 'https://www.abcya.com/grades/k', badge: 'Games', desc: 'Free educational learning games for letters and words.' }
         ],
         videoLinks: [
           { title: 'Jolly Phonics Letter Sounds (A to Z Songs)', url: 'https://www.youtube.com/watch?v=BELlZKpi1Zs', duration: '15 min', channel: 'Phonics Club' },
@@ -135,7 +137,9 @@ export const GRADE_LESSONS_DATA: GradeLessonInfo[] = [
           }
         ],
         webLinks: [
-          { title: 'PBS Kids Math Games', url: 'https://pbskids.org/games/math', badge: 'PBS Kids', desc: 'Counting, sorting, and pattern games for preschoolers.' },
+          { title: 'Kiddo Worksheets - Math & Numbers Visual Treats', url: 'https://www.kiddoworksheets.com', badge: 'Kiddo Worksheets', desc: 'Engaging printable worksheets for number tracing, counting, and pattern recognition.' },
+          { title: 'hand2mind Early Math Manipulatives', url: 'https://www.hand2mind.com', badge: 'hand2mind', desc: 'Hands-on counting blocks, number frames, and early geometric shapes.' },
+          { title: 'PBS Kids Math Games & Counting', url: 'https://pbskids.org/games/math', badge: 'PBS KIDS', desc: 'Counting, sorting, and pattern games featuring Daniel Tiger and Wild Kratts.' },
           { title: 'Math Playground Kindergarten', url: 'https://www.mathplayground.com/grade_k_games.html', badge: 'Math Games', desc: 'Interactive number recognition and fun addition games.' }
         ],
         videoLinks: [
@@ -222,6 +226,9 @@ export const GRADE_LESSONS_DATA: GradeLessonInfo[] = [
           }
         ],
         webLinks: [
+          { title: 'hand2mind Grade 1 Hands-On Math Manipulatives', url: 'https://www.hand2mind.com', badge: 'hand2mind', desc: 'Base ten blocks, Cuisenaire rods, and 1-100 number boards for Grade 1 mastery.' },
+          { title: 'Kiddo Worksheets - 1st Grade Addition & Numbers', url: 'https://www.kiddoworksheets.com', badge: 'Kiddo Worksheets', desc: 'Visual worksheets for addition, subtraction, and number recognition.' },
+          { title: 'PBS KIDS Educational Math Games', url: 'https://pbskids.org/games', badge: 'PBS KIDS', desc: 'Problem solving and math games with Wild Kratts and Arthur.' },
           { title: 'NCERT Class 1 Joyful Mathematics', url: 'https://ncert.nic.in/textbook.php?aemh1=0-13', badge: 'Official NCERT', desc: 'Full official NCERT Class 1 textbook with interactive chapters.' },
           { title: 'Aglasem NCERT Class 1 Maths Solutions', url: 'https://schools.aglasem.com/ncert-solutions-class-1-maths/', badge: 'Aglasem', desc: 'Chapter-by-chapter exercises with explanations and printable sheets.' }
         ],
@@ -256,6 +263,9 @@ export const GRADE_LESSONS_DATA: GradeLessonInfo[] = [
           }
         ],
         webLinks: [
+          { title: 'Kiddo Worksheets - Science, Plants & Animals', url: 'https://www.kiddoworksheets.com', badge: 'Kiddo Worksheets', desc: 'Visual diagrams and tracing worksheets for 5 sense organs and plant parts.' },
+          { title: 'PBS KIDS Nature & Animal Explorations', url: 'https://pbskids.org/wildkratts', badge: 'PBS KIDS', desc: 'Animal habits, creature powers, and environmental learning with Wild Kratts.' },
+          { title: 'hand2mind STEM & Science Exploration Kits', url: 'https://www.hand2mind.com', badge: 'hand2mind', desc: 'Hands-on sensory and science learning kits for early explorers.' },
           { title: 'Aglasem Class 1 EVS Practice Sheets', url: 'https://schools.aglasem.com/cbse-class-1-evs/', badge: 'Aglasem', desc: 'Worksheets on animals, plants, and body parts.' }
         ],
         videoLinks: [
@@ -309,6 +319,9 @@ export const GRADE_LESSONS_DATA: GradeLessonInfo[] = [
           }
         ],
         webLinks: [
+          { title: 'hand2mind Grade 2 Place Value & Time Manipulatives', url: 'https://www.hand2mind.com', badge: 'hand2mind', desc: 'Analog clock manipulatives, place value disks, and hands-on math tools.' },
+          { title: 'Kiddo Worksheets - Grade 2 Tables & Word Problems', url: 'https://www.kiddoworksheets.com', badge: 'Kiddo Worksheets', desc: 'Visual worksheets for times tables, clock reading, and carry-forward addition.' },
+          { title: 'PBS KIDS Grade 2 Math Challenges', url: 'https://pbskids.org/games', badge: 'PBS KIDS', desc: 'Multiplication concepts and time reading games.' },
           { title: 'Aglasem NCERT Class 2 Maths Solutions', url: 'https://schools.aglasem.com/ncert-solutions-class-2-maths/', badge: 'Aglasem', desc: 'Step-by-step solutions for class 2 math exercises.' },
           { title: 'Khan Academy Early Math', url: 'https://www.khanacademy.org/math/early-math', badge: 'Khan Academy', desc: 'Free interactive practice lessons with hints and video walkthroughs.' }
         ],
@@ -363,6 +376,9 @@ export const GRADE_LESSONS_DATA: GradeLessonInfo[] = [
           }
         ],
         webLinks: [
+          { title: 'hand2mind Fraction Towers & Geometry Tools', url: 'https://www.hand2mind.com', badge: 'hand2mind', desc: 'Manipulative fraction bars, Cuisenaire rods, and 2D/3D geometric solids.' },
+          { title: 'Kiddo Worksheets - Fractions & Division Practice', url: 'https://www.kiddoworksheets.com', badge: 'Kiddo Worksheets', desc: 'Visual worksheets for fractions (1/2, 1/3, 1/4) and division sharing.' },
+          { title: 'PBS KIDS Science & Problem Solving', url: 'https://pbskids.org', badge: 'PBS KIDS', desc: 'Curriculum-aligned science and math games for 3rd graders.' },
           { title: 'NCERT Class 3 Math Magic', url: 'https://ncert.nic.in/textbook.php?cemh1=0-14', badge: 'Official NCERT', desc: 'Official math magic interactive textbook.' },
           { title: 'Aglasem Class 3 NCERT Solutions', url: 'https://schools.aglasem.com/ncert-solutions-class-3-maths/', badge: 'Aglasem', desc: 'Solved exercises for all chapters.' }
         ],
@@ -411,6 +427,9 @@ export const GRADE_LESSONS_DATA: GradeLessonInfo[] = [
           }
         ],
         webLinks: [
+          { title: 'hand2mind STEM Experiments & Solar System Models', url: 'https://www.hand2mind.com', badge: 'hand2mind', desc: 'Hands-on science kits, planetarium models, and states of matter exploration.' },
+          { title: 'Kiddo Worksheets - Solar System & Science Charts', url: 'https://www.kiddoworksheets.com', badge: 'Kiddo Worksheets', desc: 'Visual printable sheets for 8 planets, photosynthesis, and water cycle.' },
+          { title: 'PBS KIDS Nature Explorers', url: 'https://pbskids.org', badge: 'PBS KIDS', desc: 'Environmental and space inquiry games.' },
           { title: 'Aglasem NCERT Class 4 EVS & Science', url: 'https://schools.aglasem.com/ncert-solutions-class-4-evs/', badge: 'Aglasem', desc: 'Chapter summaries and verified solutions.' },
           { title: 'NASA Space Place for Kids', url: 'https://spaceplace.nasa.gov/', badge: 'NASA', desc: 'Interactive 3D exploration of planets, stars, and rovers.' }
         ],
@@ -465,6 +484,8 @@ export const GRADE_LESSONS_DATA: GradeLessonInfo[] = [
           }
         ],
         webLinks: [
+          { title: 'hand2mind Decimals, Angles & Geometry Kits', url: 'https://www.hand2mind.com', badge: 'hand2mind', desc: 'Protractors, angle creators, decimal grids, and fraction-decimal-percent tiles.' },
+          { title: 'Kiddo Worksheets - Grade 5 Angles & Decimal Practice', url: 'https://www.kiddoworksheets.com', badge: 'Kiddo Worksheets', desc: 'Visual worksheets for LCM, HCF, decimals, and angle identification.' },
           { title: 'Aglasem NCERT Class 5 Maths Solutions', url: 'https://schools.aglasem.com/ncert-solutions-class-5-maths/', badge: 'Aglasem', desc: 'Complete solved chapters and sample mock tests.' },
           { title: 'CalcSolver Math Equation Solver', url: 'https://www.wolframalpha.com/', badge: 'CalcSolver', desc: 'Step-by-step arithmetic and geometry calculation solver.' }
         ],
@@ -561,6 +582,7 @@ export const GRADE_LESSONS_DATA: GradeLessonInfo[] = [
           }
         ],
         webLinks: [
+          { title: 'hand2mind STEM & High School Science Kits', url: 'https://www.hand2mind.com', badge: 'hand2mind', desc: 'Physics electricity circuits, chemical reaction kits, and algebra tiles.' },
           { title: 'PhET Interactive Science Simulations (Free)', url: 'https://phet.colorado.edu/en/simulations/browse', badge: 'PhET Colorado', desc: 'Free interactive HTML5 physics, chemistry, and biology labs.' },
           { title: 'Aglasem NCERT Class 10 Science Solutions', url: 'https://schools.aglasem.com/ncert-solutions-class-10-science/', badge: 'Aglasem', desc: 'Chapter-wise reactions, diagrams, and revision notes.' }
         ],

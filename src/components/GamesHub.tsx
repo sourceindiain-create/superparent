@@ -263,12 +263,28 @@ export const GamesHub: React.FC = () => {
 
   const FREE_KIDS_PORTALS = [
     {
-      title: 'PBS KIDS Educational Games (100+ Free)',
-      url: 'https://pbskids.org/games',
+      title: 'PBS KIDS - Educational Games & Videos',
+      url: 'https://pbskids.org',
       logo: 'https://pbskids.org/favicon.ico',
-      category: 'Preschool & Primary',
-      badge: '100% Free',
-      description: 'Science, math, reading, and problem-solving games featuring Wild Kratts, Curious George, and Arthur.'
+      category: 'Preschool to Primary (All Ages)',
+      badge: '100% Free & Certified',
+      description: 'Educational games and videos from Daniel Tiger’s Neighborhood, Wild Kratts, Curious George, and other beloved PBS KIDS shows!'
+    },
+    {
+      title: 'kiddoworksheets - Visual Treat Printables',
+      url: 'https://www.kiddoworksheets.com',
+      logo: 'https://www.kiddoworksheets.com/favicon.ico',
+      category: 'Pre-K, Kindergarten & Primary',
+      badge: 'Visual Learning',
+      description: 'Kiddo worksheets are a visual treat that will help teach your kids number and letter recognition, basic scientific principles, and tracing to improve fine motor skills.'
+    },
+    {
+      title: 'hand2mind - Manipulative-Based Resources',
+      url: 'https://www.hand2mind.com',
+      logo: 'https://www.hand2mind.com/favicon.ico',
+      category: 'PreK through Grade 12',
+      badge: 'Hands-On STEM & Math',
+      description: 'Visit hand2mind - formerly ETA Cuisenaire - and browse our selection of manipulative based educational resources for PreK through grade 12 teachers and kids.'
     },
     {
       title: 'ABCya! Kids Learning & Practice Games',
