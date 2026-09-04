@@ -14,78 +14,168 @@
   }
 }
 
-/* Professional White & Orange Software Tokens */
+/* theosm™ Dribbble 27700505 Branding Design Tokens */
 :root {
-  --software-orange: #EA580C;
-  --software-orange-bright: #F97316;
-  --software-orange-light: #FFF7ED;
-  --software-orange-subtle: #FFEDD5;
-  --software-orange-border: #FED7AA;
-  --software-slate-dark: #0F172A;
+  --branding-obsidian: #021807;
+  --branding-lime: #63C633;
+  --branding-chartreuse: #B5D545;
+  --branding-kelly: #2FA212;
+  --branding-pine: #1B5F0E;
+  --branding-pistachio: #CBD6A3;
+  --branding-cream: #F8FAF4;
+
+  --software-orange: #63C633;
+  --software-orange-bright: #B5D545;
+  --software-orange-light: #EDF8E5;
+  --software-orange-subtle: #CBD6A3;
+  --software-orange-border: #CBD6A3;
+  --software-slate-dark: #021807;
   --software-white: #FFFFFF;
+}
+
+/* theosm™ Dribbble Branding Elevation and Cards */
+.branding-card {
+  background-color: #021807;
+  color: #CBD6A3;
+  border: 1px solid rgba(99, 198, 51, 0.3);
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px -10px rgba(2, 24, 7, 0.5);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.branding-card:hover {
+  border-color: rgba(99, 198, 51, 0.7);
+  box-shadow: 0 20px 40px -12px rgba(99, 198, 51, 0.18);
+  transform: translateY(-1px);
+}
+
+.branding-card-light {
+  background-color: #FFFFFF;
+  border: 1px solid #CBD6A3;
+  border-radius: 1.25rem;
+  box-shadow: 0 2px 8px rgba(2, 24, 7, 0.04);
+  transition: all 0.2s ease-in-out;
+}
+
+.branding-card-light:hover {
+  border-color: #63C633;
+  box-shadow: 0 8px 24px -4px rgba(99, 198, 51, 0.12);
+}
+
+/* theosm™ Signature High-Contrast Neo-Lime Button */
+.branding-btn-primary {
+  background-color: #63C633;
+  color: #021807;
+  font-weight: 900;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(99, 198, 51, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.branding-btn-primary:hover {
+  background-color: #B5D545;
+  box-shadow: 0 6px 20px rgba(99, 198, 51, 0.35);
+  transform: translateY(-1px);
+}
+
+.branding-btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* theosm™ Dark Obsidian Button */
+.branding-btn-dark {
+  background-color: #021807;
+  color: #63C633;
+  border: 1px solid rgba(99, 198, 51, 0.4);
+  font-weight: 800;
+  border-radius: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.branding-btn-dark:hover {
+  background-color: #1B5F0E;
+  color: #FFFFFF;
+  border-color: #63C633;
+}
+
+/* theosm™ Badge */
+.branding-badge {
+  background-color: #021807;
+  color: #63C633;
+  border: 1px solid rgba(99, 198, 51, 0.3);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.6875rem;
 }
 
 /* Polished SaaS Elevation and Cards */
 .software-card {
   background-color: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 1rem;
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  border: 1px solid #CBD6A3;
+  border-radius: 1.25rem;
+  box-shadow: 0 1px 3px 0 rgba(2, 24, 7, 0.04);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .software-card:hover {
-  border-color: #FDBA74;
-  box-shadow: 0 10px 25px -5px rgba(234, 88, 12, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+  border-color: #63C633;
+  box-shadow: 0 10px 25px -5px rgba(99, 198, 51, 0.12);
 }
 
 .software-card-active {
   background-color: #FFFFFF;
-  border: 2px solid #EA580C;
-  box-shadow: 0 8px 24px -4px rgba(234, 88, 12, 0.14);
+  border: 2px solid #63C633;
+  box-shadow: 0 8px 24px -4px rgba(99, 198, 51, 0.18);
 }
 
 .software-orange-gradient {
-  background: linear-gradient(135deg, #EA580C 0%, #F97316 50%, #FB923C 100%);
+  background: linear-gradient(135deg, #021807 0%, #1B5F0E 50%, #2FA212 100%);
 }
 
 .software-orange-soft-gradient {
-  background: linear-gradient(135deg, #FFF7ED 0%, #FFFFFF 60%, #FFF7ED 100%);
+  background: linear-gradient(135deg, #EDF8E5 0%, #FFFFFF 60%, #EDF8E5 100%);
 }
 
 .software-btn-primary {
-  background: linear-gradient(135deg, #EA580C 0%, #F97316 100%);
-  color: #FFFFFF;
-  font-weight: 700;
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);
+  background-color: #63C633;
+  color: #021807;
+  font-weight: 800;
+  border-radius: 0.875rem;
+  box-shadow: 0 2px 10px rgba(99, 198, 51, 0.25);
   transition: all 0.15s ease-in-out;
 }
 
 .software-btn-primary:hover {
-  background: linear-gradient(135deg, #C2410C 0%, #EA580C 100%);
-  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35);
+  background-color: #B5D545;
+  box-shadow: 0 4px 16px rgba(99, 198, 51, 0.35);
   transform: translateY(-1px);
 }
 
 .software-btn-secondary {
   background-color: #FFFFFF;
-  color: #EA580C;
-  border: 1.5px solid #FDBA74;
+  color: #021807;
+  border: 1.5px solid #CBD6A3;
   font-weight: 700;
-  border-radius: 0.75rem;
+  border-radius: 0.875rem;
   transition: all 0.15s ease-in-out;
 }
 
 .software-btn-secondary:hover {
-  background-color: #FFF7ED;
-  border-color: #EA580C;
+  background-color: #EDF8E5;
+  border-color: #63C633;
 }
 
 .software-badge-orange {
-  background-color: #FFF7ED;
-  color: #C2410C;
-  border: 1px solid #FFEDD5;
+  background-color: #EDF8E5;
+  color: #1B5F0E;
+  border: 1px solid #CBD6A3;
   font-weight: 700;
   border-radius: 9999px;
 }

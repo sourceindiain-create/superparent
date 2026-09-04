@@ -1,11 +1,78 @@
 import { ThemeConfig, AppThemeId } from '../types';
 
 export const APP_THEMES: Record<AppThemeId, ThemeConfig> = {
+  'theosm-branding': {
+    id: 'theosm-branding',
+    name: 'theosm™ Neo-Lime Branding',
+    teluguName: 'దోస్మ్ నియో-లైమ్ బ్రాండింగ్',
+    description: 'High-contrast Dribbble 27700505 Branding System: #021807 obsidian, #63C633 electric lime, #B5D545 chartreuse & #CBD6A3 pistachio',
+    brandTag: 'THEOSM™',
+    primary: '#63C633', // Electric Neo-Lime (Dribbble 27700505)
+    primaryHover: '#2FA212', // Kelly Green
+    primaryLight: '#EDF8E5', // Soft Pistachio Tint
+    accent: '#B5D545', // Chartreuse Pear Accent
+    bgMain: '#F8FAF4', // Clean Studio Mint-White
+    cardBg: '#FFFFFF',
+    border: '#CBD6A3', // Pale Pistachio Sage Border
+    textPrimary: '#021807', // Obsidian Black-Green
+    textMuted: '#1B5F0E', // Deep Forest Tone
+    ring: '#63C633',
+    badgeBg: '#021807',
+    badgeText: '#63C633',
+    gradientFrom: '#021807',
+    gradientTo: '#1B5F0E',
+    palette: ['#021807', '#63C633', '#B5D545', '#CBD6A3']
+  },
+  'byjus-purple': {
+    id: 'byjus-purple',
+    name: "Visual 3D Learning",
+    teluguName: 'విజువల్ 3D లెర్నింగ్',
+    description: "Iconic royal violet purple, radiant gold & clean lavender cards for concept mastery",
+    brandTag: "Visual 3D",
+    primary: '#7E22CE', // Violet/Purple 700
+    primaryHover: '#6B21A8', // Purple 800
+    primaryLight: '#F3E8FF', // Purple 100
+    accent: '#F59E0B', // Amber 500 Gold
+    bgMain: '#FAF5FF', // Purple 50 / Lavender tint
+    cardBg: '#FFFFFF',
+    border: '#E9D5FF',
+    textPrimary: '#3B0764',
+    textMuted: '#6B21A8',
+    ring: '#9333EA',
+    badgeBg: '#F3E8FF',
+    badgeText: '#6B21A8',
+    gradientFrom: '#7E22CE',
+    gradientTo: '#9333EA',
+    palette: ['#7E22CE', '#F59E0B', '#F3E8FF'] // 3 Color Triad
+  },
+  'unacademy-green': {
+    id: 'unacademy-green',
+    name: 'Top Educator Live',
+    teluguName: 'టాప్ ఎడ్యుకేటర్ లైవ్',
+    description: 'Signature electric emerald, deep space navy & clean slate for live interactive classes',
+    brandTag: 'Top Educator',
+    primary: '#08BD80', // Iconic Unacademy Emerald
+    primaryHover: '#059669', // Emerald 700
+    primaryLight: '#D1FAE5', // Emerald 100
+    accent: '#0284C7', // Sky 600
+    bgMain: '#F8FAFC', // Slate 50
+    cardBg: '#FFFFFF',
+    border: '#CBD5E1',
+    textPrimary: '#0F172A',
+    textMuted: '#334155',
+    ring: '#08BD80',
+    badgeBg: '#ECFDF5',
+    badgeText: '#065F46',
+    gradientFrom: '#08BD80',
+    gradientTo: '#0F172A',
+    palette: ['#08BD80', '#0F172A', '#D1FAE5'] // 3 Color Triad
+  },
   'gurukul-amber': {
     id: 'gurukul-amber',
     name: 'Kids Saffron Amber',
     teluguName: 'పిల్లల గురుకుల కేసరి',
     description: 'Vibrant saffron, auspicious amber gold & warm ivory for Kids Workspace',
+    brandTag: 'Gurukul',
     primary: '#EA580C', // Orange 600
     primaryHover: '#C2410C', // Orange 700
     primaryLight: '#FFEDD5', // Orange 100
@@ -27,6 +94,7 @@ export const APP_THEMES: Record<AppThemeId, ThemeConfig> = {
     name: 'Parents Royal Blue',
     teluguName: 'తల్లిదండ్రుల రాయల్ బ్లూ',
     description: 'Complete executive azure blue, sky accents & navy for Parents Workspace',
+    brandTag: 'Parents Blue',
     primary: '#2563EB', // Blue 600
     primaryHover: '#1D4ED8', // Blue 700
     primaryLight: '#DBEAFE', // Blue 100
@@ -48,6 +116,7 @@ export const APP_THEMES: Record<AppThemeId, ThemeConfig> = {
     name: 'Admin Vedic Green',
     teluguName: 'అడ్మిన్ మరకత పచ్చ',
     description: 'Serene emerald green, cyber mint & jade for Admin Workspace',
+    brandTag: 'Admin Master',
     primary: '#059669', // Emerald 600
     primaryHover: '#047857', // Emerald 700
     primaryLight: '#D1FAE5', // Emerald 100

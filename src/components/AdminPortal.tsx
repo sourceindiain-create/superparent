@@ -25,10 +25,12 @@ import {
   AlertTriangle,
   Server,
   Zap,
-  Flame
+  Flame,
+  Cloud
 } from 'lucide-react';
 import { APP_THEMES } from '../data/themes';
 import { FirebaseHealthCheck } from './FirebaseHealthCheck';
+import { CloudSqlDeveloperStudio } from './CloudSqlDeveloperStudio';
 
 interface AdminPortalProps {
   currentUser: UserAccount;
@@ -49,7 +51,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 }) => {
   const theme = APP_THEMES[currentTheme] || APP_THEMES['gurukul-amber'];
 
-  const [activeAdminSection, setActiveAdminSection] = useState<'overview' | 'payments' | 'coupons' | 'access' | 'testing' | 'marketplace' | 'users' | 'logs' | 'architecture' | 'firebase-check'>('overview');
+  const [activeAdminSection, setActiveAdminSection] = useState<'overview' | 'sql-studio' | 'payments' | 'coupons' | 'access' | 'testing' | 'marketplace' | 'users' | 'logs' | 'architecture' | 'firebase-check'>('overview');
   const [adminPayments, setAdminPayments] = useState<any[]>([
     {
       orderId: 'ORD-SP-2026-9812',
@@ -328,8 +330,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
       <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
         {[
           { id: 'overview', label: 'System Overview & Metrics', icon: BarChart3 },
-          { id: 'payments', label: `💳 All Payments (${adminPayments.length})`, icon: Database },
-          { id: 'coupons', label: `🏷️ Coupons CMS (${adminCoupons.length})`, icon: Award },
+          { id: 'sql-studio', label: '⚡ Cloud SQL & Dev Studio', icon: Database },
+          { id: 'payments', label: `💳 All Payments (${adminPayments.length})`, icon: Award },
+          { id: 'coupons', label: `🏷️ Coupons CMS (${adminCoupons.length})`, icon: Sparkles },
           { id: 'firebase-check', label: '🔥 Firebase Health Check', icon: Flame },
           { id: 'architecture', label: 'Full-Stack Architecture & Firebase Security', icon: Server },
           { id: 'access', label: '100% Access Control', icon: KeyRoundIcon },
@@ -1503,6 +1506,11 @@ GO`}</pre>
             </div>
           </div>
         </div>
+      )}
+
+      {/* SECTION: Cloud SQL & Developer Studio */}
+      {activeAdminSection === 'sql-studio' && (
+        <CloudSqlDeveloperStudio />
       )}
 
       {/* SECTION 8: Firebase Live Health Check & Diagnostic */}

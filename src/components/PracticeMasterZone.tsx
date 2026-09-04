@@ -357,6 +357,30 @@ export const PracticeMasterZone: React.FC<PracticeMasterZoneProps> = ({ onAskAI 
       suggestedPrompt: 'Which PhET simulations are best for understanding Ohm law and electric circuits?'
     },
     {
+      id: 'e-learning-for-kids',
+      title: 'e-Learning for Kids - Free Digital Elementary Education',
+      teluguTitle: 'ఇ-లెర్నింగ్ ఫర్ కిడ్స్ - ఉచిత డిజిటల్ గణితం & సైన్స్ పాఠ్యాంశాలు',
+      domain: 'academic',
+      category: 'kids-stem-creative',
+      categoryLabel: 'Kids & Creative Labs',
+      format: 'portals',
+      targetAudience: 'Children Ages 5 - 12, Elementary & Primary School Students',
+      badge: '800+ Free Interactive Courses',
+      badgeColor: 'bg-cyan-100 text-cyan-800 border-cyan-200',
+      icon: Globe,
+      iconColor: 'text-cyan-600',
+      bgColor: 'bg-cyan-50',
+      url: 'https://www.e-learningforkids.org',
+      description: 'Free, fun digital education for children worldwide aged 5 to 12. Offers 800+ interactive courses in mathematics, science, environmental inquiry, health, and computer skills.',
+      teluguDescription: 'ప్రపంచవ్యాప్తంగా 5 నుండి 12 సంవత్సరాల వయస్సు గల పిల్లల కోసం 800కి పైగా ఉచిత డిజిటల్ మ్యాథ్స్, సైన్స్ మరియు పర్యావరణ అధ్యయనాల కోర్సులు.',
+      features: [
+        'Interactive math: Counting, addition, fractions, geometry, and multiplication journeys',
+        'Science & Environment: Earth systems, animals, weather cycles, space, and human health',
+        'Gamified checkpoints and self-paced digital certificates'
+      ],
+      suggestedPrompt: 'How can e-learningforkids.org help 5-12 year olds master math and science through gamified interactive lessons?'
+    },
+    {
       id: 'pbs-kids-portal',
       title: 'PBS KIDS - Educational Games & Videos',
       teluguTitle: 'పిబిఎస్ కిడ్స్ - ఎడ్యుకేషనల్ గేమ్స్, సైన్స్ & రీడింగ్ వీడియోలు',

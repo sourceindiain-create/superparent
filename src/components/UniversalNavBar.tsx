@@ -33,6 +33,7 @@ interface UniversalNavBarProps {
   onOpenAskAI: () => void;
   onToggleMasterAccess: () => void;
   masterAccessGranted: boolean;
+  onOpenContact?: () => void;
 }
 
 export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
@@ -45,7 +46,8 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
   onSelectTheme,
   onOpenAskAI,
   onToggleMasterAccess,
-  masterAccessGranted
+  masterAccessGranted,
+  onOpenContact
 }) => {
   const { t, language } = useLanguage();
   const theme = APP_THEMES[currentTheme] || APP_THEMES['gurukul-amber'];
@@ -79,7 +81,10 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
   };
 
   return (
-    <div className="bg-white/95 backdrop-blur-md border-b border-orange-100 sticky top-[89px] lg:top-[93px] z-30 shadow-xs transition-all">
+    <div 
+      className="bg-white/95 backdrop-blur-md border-b sticky top-[89px] lg:top-[93px] z-30 shadow-xs transition-all"
+      style={{ borderColor: theme.border }}
+    >
       <div className="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-3">
         {/* Left Side: Back, Return, Home buttons & Breadcrumbs */}
         <div className="flex items-center gap-2 flex-wrap">
@@ -89,7 +94,7 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
             disabled={tabHistory.length <= 1}
             className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
               tabHistory.length > 1
-                ? 'bg-white hover:bg-orange-50 text-slate-800 border border-orange-200 shadow-2xs transform hover:-translate-x-0.5 cursor-pointer'
+                ? 'bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-2xs transform hover:-translate-x-0.5 cursor-pointer'
                 : 'bg-slate-50 text-slate-400 border border-slate-200 cursor-not-allowed'
             }`}
             title="Go Back to previous view"
@@ -107,20 +112,24 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
             }}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-orange-50 text-slate-800 border border-orange-200 shadow-2xs transition-all cursor-pointer"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-2xs transition-all cursor-pointer"
             title="Return to Home or reset view"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-orange-600" />
+            <RotateCcw className="w-3.5 h-3.5 text-slate-600" />
             <span>{t('return', 'Return')}</span>
           </button>
 
           {/* Home Button */}
           <button
             onClick={() => setActiveTab('home')}
+            style={{
+              backgroundColor: activeTab === 'home' ? theme.primary : undefined,
+              color: activeTab === 'home' ? '#ffffff' : undefined
+            }}
             className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
               activeTab === 'home'
-                ? 'bg-orange-600 text-white shadow-xs'
-                : 'bg-orange-50 hover:bg-orange-100 text-orange-800 border border-orange-200'
+                ? 'shadow-xs'
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200'
             }`}
             title="Go to Home"
           >
@@ -128,18 +137,82 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
             <span>{t('navHome', 'Home')}</span>
           </button>
 
-          <span className="text-orange-200 hidden sm:inline">|</span>
+          <span className="text-slate-200 hidden sm:inline">|</span>
+
+          {/* Direct EdTech Theme Selector Chips */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => onSelectTheme('theosm-branding')}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTheme === 'theosm-branding'
+                  ? 'bg-[#021807] text-[#63C633] shadow-xs ring-1 ring-[#63C633]'
+                  : 'bg-emerald-50 hover:bg-emerald-100 text-[#021807] border border-[#CBD6A3]'
+              }`}
+              title="Switch to theosm™ Neo-Lime Branding (Dribbble 27700505)"
+            >
+              <span>⚡</span>
+              <span className="hidden sm:inline">THEOSM™</span>
+            </button>
+
+            <button
+              onClick={() => onSelectTheme('byjus-purple')}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTheme === 'byjus-purple'
+                  ? 'bg-purple-700 text-white shadow-xs ring-1 ring-purple-400'
+                  : 'bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200'
+              }`}
+              title="Switch to Royal Violet & Gold Theme"
+            >
+              <span>🟣</span>
+              <span className="hidden sm:inline">Visual 3D</span>
+            </button>
+
+            <button
+              onClick={() => onSelectTheme('unacademy-green')}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTheme === 'unacademy-green'
+                  ? 'bg-emerald-600 text-white shadow-xs ring-1 ring-emerald-400'
+                  : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200'
+              }`}
+              title="Switch to Emerald Live Prep Theme"
+            >
+              <span>🟢</span>
+              <span className="hidden sm:inline">Top Educator</span>
+            </button>
+
+            <button
+              onClick={() => onSelectTheme('gurukul-amber')}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTheme === 'gurukul-amber'
+                  ? 'bg-orange-600 text-white shadow-xs ring-1 ring-orange-400'
+                  : 'bg-orange-50 hover:bg-orange-100 text-orange-950 border border-orange-200'
+              }`}
+              title="Switch to Gurukul Saffron Amber Theme"
+            >
+              <span>🟠</span>
+              <span className="hidden sm:inline">Gurukul</span>
+            </button>
+          </div>
+
+          <span className="text-slate-200 hidden md:inline">|</span>
 
           {/* Dynamic Breadcrumbs */}
-          <div className="hidden md:flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+          <div className="hidden lg:flex items-center gap-1.5 text-xs font-semibold text-slate-600">
             <span 
               onClick={() => setActiveTab('home')}
-              className="cursor-pointer hover:text-orange-600 text-slate-500"
+              className="cursor-pointer hover:text-slate-900 text-slate-500"
             >
-              Gurukul
+              Super Parent
             </span>
-            <ChevronRight className="w-3.5 h-3.5 text-orange-400" />
-            <span className="text-slate-900 font-extrabold max-w-[320px] truncate bg-orange-50 text-orange-900 px-2.5 py-0.5 rounded-lg border border-orange-200 shadow-2xs">
+            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+            <span 
+              className="font-extrabold max-w-[280px] truncate px-2.5 py-0.5 rounded-lg border shadow-2xs text-xs"
+              style={{ 
+                backgroundColor: theme.badgeBg, 
+                color: theme.badgeText, 
+                borderColor: theme.border 
+              }}
+            >
               {getTabLabel(activeTab)}
             </span>
           </div>
@@ -147,17 +220,29 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
 
         {/* Right Side: Quick Action Links & Diagnostic Trigger */}
         <div className="flex items-center gap-2 flex-wrap">
+          {/* Direct Contact Button */}
+          {onOpenContact && (
+            <button
+              onClick={onOpenContact}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black bg-[#021807] hover:bg-[#1B5F0E] text-[#63C633] border border-[#63C633]/40 shadow-xs transition-all cursor-pointer"
+              title="Open Direct Brand Contacts (WhatsApp / Email)"
+            >
+              <span>📞</span>
+              <span>Contacts</span>
+            </button>
+          )}
+
           {/* Quick Tutors Room Button */}
           <button
             onClick={() => setActiveTab('classroom')}
             className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black border transition-all cursor-pointer ${
               activeTab === 'classroom' || activeTab === 'tutors-room'
-                ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white border-orange-600 shadow-xs'
-                : 'bg-orange-50 text-orange-900 border-orange-200 hover:bg-orange-100 shadow-2xs'
+                ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                : 'bg-slate-50 text-slate-900 border-slate-200 hover:bg-slate-100 shadow-2xs'
             }`}
           >
-            <GraduationCap className="w-3.5 h-3.5 text-orange-600" />
-            <span>🏛️ Tutor's Room (Voice AI & Links)</span>
+            <GraduationCap className="w-3.5 h-3.5" style={{ color: theme.primary }} />
+            <span>🏛️ Tutor's Room</span>
           </button>
 
           {/* Quick Language Lab Button */}
@@ -165,11 +250,11 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
             onClick={() => setActiveTab('language-lab')}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
               activeTab === 'language-lab'
-                ? 'bg-orange-600 text-white border-orange-600 shadow-xs'
-                : 'bg-orange-50 text-orange-800 border-orange-200 hover:bg-orange-100'
+                ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
             }`}
           >
-            <Languages className="w-3.5 h-3.5 text-orange-600" />
+            <Languages className="w-3.5 h-3.5" style={{ color: theme.primary }} />
             <span className="hidden sm:inline">Language Lab</span>
           </button>
 

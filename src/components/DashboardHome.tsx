@@ -1,5 +1,5 @@
-import React from 'react';
-import { UserRole, NavTab, AIExpertPersona } from '../types';
+import React, { useState, useEffect } from 'react';
+import { UserRole, NavTab, AIExpertPersona, AppThemeId } from '../types';
 import { 
   Sparkles, 
   BookOpen, 
@@ -26,9 +26,17 @@ import {
   FileCheck2, 
   Smile, 
   Crown,
-  ShoppingBag 
+  ShoppingBag,
+  Layers,
+  Check
 } from 'lucide-react';
 import { DailyReflectionZone } from './DailyReflectionZone';
+import { ByjusLearningTemplate } from './ByjusLearningTemplate';
+import { UnacademyLearningTemplate } from './UnacademyLearningTemplate';
+import { SoftwareToolboxModal } from './SoftwareToolboxModal';
+import { BrandingHeroBanner } from './BrandingHeroBanner';
+import { BrandingContactSection } from './BrandingContactSection';
+import { APP_THEMES } from '../data/themes';
 
 interface DashboardHomeProps {
   role: UserRole;
@@ -40,6 +48,9 @@ interface DashboardHomeProps {
   currentXP?: number;
   streakDays?: number;
   onEarnXP?: (points: number, reason?: string) => void;
+  currentTheme?: AppThemeId;
+  onSelectTheme?: (theme: AppThemeId) => void;
+  onOpenContact?: () => void;
 }
 
 export const DashboardHome: React.FC<DashboardHomeProps> = ({
@@ -51,8 +62,27 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
   studentName = 'Chaitanya Reddy',
   currentXP = 3450,
   streakDays = 14,
-  onEarnXP
+  onEarnXP,
+  currentTheme = 'theosm-branding',
+  onSelectTheme,
+  onOpenContact
 }) => {
+  const [edTechView, setEdTechView] = useState<'byjus' | 'unacademy' | 'unified'>(() => {
+    if (currentTheme === 'byjus-purple') return 'byjus';
+    if (currentTheme === 'unacademy-green') return 'unacademy';
+    return 'unified';
+  });
+
+  const [isToolboxOpen, setIsToolboxOpen] = useState(false);
+
+  // Sync view when currentTheme changes from external selectors
+  useEffect(() => {
+    if (currentTheme === 'byjus-purple') {
+      setEdTechView('byjus');
+    } else if (currentTheme === 'unacademy-green') {
+      setEdTechView('unacademy');
+    }
+  }, [currentTheme]);
 
   const WORKSPACE_TABS: { id: UserRole; label: string; icon: string; themeName: string }[] = [
     { id: 'student', label: 'Kids Workspace', icon: '👦', themeName: 'Amber' },
@@ -598,11 +628,185 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
     }
   ];
 
+  const themeObj = APP_THEMES[currentTheme || 'theosm-branding'] || APP_THEMES['theosm-branding'];
+
   return (
     <div className="space-y-6">
       
-      {/* Workspace Banner (Amber / Saffron) */}
-      <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      {/* Flagship Dribbble Branding Hero Banner */}
+      <BrandingHeroBanner
+        theme={themeObj}
+        onNavigateTab={setActiveTab}
+        onOpenContact={onOpenContact || (() => {})}
+        onOpenAskAI={() => onOpenAskAI('general', '')}
+      />
+
+      {/* Software Utility Dock Modal */}
+      <SoftwareToolboxModal
+        isOpen={isToolboxOpen}
+        onClose={() => setIsToolboxOpen(false)}
+        currentTheme={currentTheme}
+      />
+
+      {/* Professional EdTech Operating Bar (THEOSM • BYJU'S • Unacademy • Unified) */}
+      <div className="bg-white rounded-2xl p-3 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-xs font-black text-slate-800 flex items-center gap-1 mr-1">
+            <Layers className="w-4 h-4 text-[#021807]" />
+            <span>EdTech Template:</span>
+          </span>
+
+          {/* THEOSM™ Mode Tab */}
+          <button
+            onClick={() => {
+              setEdTechView('unified');
+              if (onSelectTheme) onSelectTheme('theosm-branding');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              currentTheme === 'theosm-branding'
+                ? 'bg-[#021807] text-[#63C633] shadow-xs ring-2 ring-[#63C633]'
+                : 'bg-emerald-50 hover:bg-emerald-100 text-[#021807] border border-[#CBD6A3]'
+            }`}
+          >
+            <span>⚡</span>
+            <span>THEOSM™ Neo-Lime</span>
+          </button>
+
+          {/* Visual 3D Mode Tab */}
+          <button
+            onClick={() => {
+              setEdTechView('byjus');
+              if (onSelectTheme) onSelectTheme('byjus-purple');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              edTechView === 'byjus' || currentTheme === 'byjus-purple'
+                ? 'bg-purple-700 text-white shadow-xs ring-2 ring-purple-300'
+                : 'bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200'
+            }`}
+          >
+            <span>🟣</span>
+            <span>Visual 3D Learning</span>
+          </button>
+
+          {/* Top Educator Live Mode Tab */}
+          <button
+            onClick={() => {
+              setEdTechView('unacademy');
+              if (onSelectTheme) onSelectTheme('unacademy-green');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              edTechView === 'unacademy' || currentTheme === 'unacademy-green'
+                ? 'bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-300'
+                : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200'
+            }`}
+          >
+            <span>🟢</span>
+            <span>Top Educator Live</span>
+          </button>
+
+          {/* Unified Gurukul Pro Tab */}
+          <button
+            onClick={() => {
+              setEdTechView('unified');
+              if (onSelectTheme) onSelectTheme('gurukul-amber');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              edTechView === 'unified' && currentTheme === 'gurukul-amber'
+                ? 'bg-orange-600 text-white shadow-xs ring-2 ring-orange-300'
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200'
+            }`}
+          >
+            <span>🟠</span>
+            <span>Unified Gurukul</span>
+          </button>
+        </div>
+
+        {/* Right side toolbox button */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsToolboxOpen(true)}
+            className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-black shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <Layers className="w-3.5 h-3.5 text-amber-300" />
+            <span>Software Tools (Timer, Calc, Notes)</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Conditionally Render Dedicated BYJU'S Experience */}
+      {edTechView === 'byjus' && (
+        <ByjusLearningTemplate
+          studentName={studentName}
+          currentXP={currentXP}
+          streakDays={streakDays}
+          onNavigateTab={setActiveTab}
+          onOpenAskAI={onOpenAskAI}
+          onEarnXP={onEarnXP}
+        />
+      )}
+
+      {/* Conditionally Render Dedicated Unacademy Experience */}
+      {edTechView === 'unacademy' && (
+        <UnacademyLearningTemplate
+          studentName={studentName}
+          currentXP={currentXP}
+          streakDays={streakDays}
+          onNavigateTab={setActiveTab}
+          onOpenAskAI={onOpenAskAI}
+          onEarnXP={onEarnXP}
+        />
+      )}
+
+      {/* Unified Multi-EdTech Overview (when Unified is selected) */}
+      {edTechView === 'unified' && (
+        <>
+          {/* Quick EdTech Jump Cards (Byju's 3D & Unacademy Live) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Byju's Card */}
+            <div 
+              onClick={() => {
+                setEdTechView('byjus');
+                if (onSelectTheme) onSelectTheme('byjus-purple');
+              }}
+              className="p-5 rounded-3xl bg-gradient-to-br from-purple-800 to-purple-950 text-white shadow-md border border-purple-500/30 flex items-center justify-between gap-4 cursor-pointer hover:scale-[1.01] transition-transform"
+            >
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded bg-amber-400 text-purple-950 text-[10px] font-black uppercase">
+                    Visual 3D Template
+                  </span>
+                  <span className="text-xs text-purple-200">Concept Mastery 3D</span>
+                </div>
+                <h3 className="text-base font-black">Visual Concept Animations & 60s Doubt Solver</h3>
+                <p className="text-xs text-purple-200">Interactive 3D rocket physics, visual geometry proofs, and adaptive difficulty ladder.</p>
+              </div>
+              <ArrowRight className="w-6 h-6 text-amber-300 shrink-0" />
+            </div>
+
+            {/* Unacademy Card */}
+            <div 
+              onClick={() => {
+                setEdTechView('unacademy');
+                if (onSelectTheme) onSelectTheme('unacademy-green');
+              }}
+              className="p-5 rounded-3xl bg-gradient-to-br from-slate-900 to-emerald-950 text-white shadow-md border border-emerald-500/30 flex items-center justify-between gap-4 cursor-pointer hover:scale-[1.01] transition-transform"
+            >
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded bg-emerald-400 text-slate-950 text-[10px] font-black uppercase">
+                    Live Classroom Template
+                  </span>
+                  <span className="text-xs text-emerald-300">Live Classroom & Combat</span>
+                </div>
+                <h3 className="text-base font-black">Interactive Live Classes & All India Combat Polls</h3>
+                <p className="text-xs text-slate-300">Top IIT/AIIMS educators, live classroom chat, daily scholarship tests, and percentiles.</p>
+              </div>
+              <ArrowRight className="w-6 h-6 text-emerald-400 shrink-0" />
+            </div>
+          </div>
+
+          {/* Workspace Banner (Amber / Saffron) */}
+          <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-2 max-w-2xl">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black tracking-wide border border-white/30">
             <Sparkles className="w-3.5 h-3.5 text-amber-200" />
@@ -876,6 +1080,14 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
         </div>
 
       </div>
+      </>
+      )}
+
+      {/* Flagship Dribbble Branding Direct Contacts Station */}
+      <BrandingContactSection
+        theme={themeObj}
+        onOpenModal={onOpenContact || (() => {})}
+      />
 
     </div>
   );

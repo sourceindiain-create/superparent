@@ -240,8 +240,39 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-              {/* Portal 1: Kiddo Worksheets */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+              {/* Portal 1: e-Learning for Kids */}
+              <button
+                onClick={() => setActiveMedia({
+                  isOpen: true,
+                  title: 'e-Learning for Kids - Free Digital Curriculum',
+                  teluguTitle: 'ఇ-లెర్నింగ్ ఫర్ కిడ్స్ - 800+ గణితం & సైన్స్ డిజిటల్ కోర్సులు',
+                  category: 'Global Digital Education (Ages 5-12)',
+                  webUrl: 'https://www.e-learningforkids.org',
+                  description: 'Free, fun digital education for children worldwide aged 5 to 12. Offers 800+ interactive courses in mathematics, science, environmental inquiry, and computer skills.',
+                  keyPoints: [
+                    'Interactive math courses: counting, fractions, geometry, multiplication',
+                    'Science & Environmental units: earth, space, biology, and weather',
+                    'Gamified learning checkpoints and certificates for kids'
+                  ]
+                })}
+                className="bg-white p-3.5 rounded-2xl border border-cyan-200 hover:border-cyan-400 hover:shadow-xs transition-all text-left flex flex-col justify-between space-y-2 cursor-pointer group"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-cyan-50 text-cyan-800 border border-cyan-200">
+                    Ages 5 - 12
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-cyan-600 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+                <div>
+                  <h5 className="font-black text-slate-900 text-xs sm:text-sm">e-learningforkids.org</h5>
+                  <p className="text-[11px] text-slate-500 font-medium line-clamp-2 leading-relaxed">
+                    800+ Free interactive digital courses in math, science & environment.
+                  </p>
+                </div>
+              </button>
+
+              {/* Portal 2: Kiddo Worksheets */}
               <button
                 onClick={() => setActiveMedia({
                   isOpen: true,
@@ -272,7 +303,7 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
                 </div>
               </button>
 
-              {/* Portal 2: hand2mind */}
+              {/* Portal 3: hand2mind */}
               <button
                 onClick={() => setActiveMedia({
                   isOpen: true,
@@ -303,7 +334,7 @@ export const EducationHub: React.FC<EducationHubProps> = ({ onAskAIAboutSubject 
                 </div>
               </button>
 
-              {/* Portal 3: PBS KIDS */}
+              {/* Portal 4: PBS KIDS */}
               <button
                 onClick={() => setActiveMedia({
                   isOpen: true,

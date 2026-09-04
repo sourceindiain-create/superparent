@@ -36,7 +36,8 @@ import {
   Sliders,
   Maximize2,
   Minimize2,
-  Crown
+  Crown,
+  Phone
 } from 'lucide-react';
 import { APP_THEMES } from '../data/themes';
 
@@ -52,6 +53,7 @@ interface SoftwareShellProps {
   onSelectTheme: (theme: AppThemeId) => void;
   masterAccessGranted: boolean;
   onToggleMasterAccess: () => void;
+  onOpenContact?: () => void;
   children: React.ReactNode;
 }
 
@@ -80,6 +82,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
   onSelectTheme,
   masterAccessGranted,
   onToggleMasterAccess,
+  onOpenContact,
   children
 }) => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -241,21 +244,30 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
                 onClick={() => handleSelectTab('home')}
                 className="flex items-center gap-2.5 cursor-pointer group"
               >
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-600 via-amber-500 to-orange-700 text-white flex items-center justify-center font-black shadow-md shadow-orange-600/20 ring-2 ring-orange-100 group-hover:scale-105 transition-transform">
+                <div 
+                  className="w-10 h-10 rounded-2xl text-white flex items-center justify-center font-black shadow-md ring-2 ring-white group-hover:scale-105 transition-transform"
+                  style={{ background: `linear-gradient(135deg, ${theme.gradientFrom}, ${theme.gradientTo})` }}
+                >
                   <Crown className="w-5 h-5 text-amber-100" />
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
                     <span className="font-black text-sm text-slate-900 tracking-tight">SUPER PARENT</span>
-                    <span className="text-[9px] font-black uppercase px-1.5 py-0.2 bg-orange-100 text-orange-800 rounded">SaaS</span>
+                    <span 
+                      className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded"
+                      style={{ backgroundColor: theme.badgeBg, color: theme.badgeText }}
+                    >
+                      {theme.brandTag || 'Pro'}
+                    </span>
                   </div>
-                  <p className="text-[10px] text-slate-400 font-bold leading-tight">All-in-One Gurukul LMS</p>
+                  <p className="text-[10px] text-slate-400 font-bold leading-tight">All-in-One EdTech LMS</p>
                 </div>
               </div>
             ) : (
               <div 
                 onClick={() => handleSelectTab('home')}
-                className="w-10 h-10 mx-auto rounded-2xl bg-gradient-to-br from-orange-600 to-amber-600 text-white flex items-center justify-center font-black shadow-md cursor-pointer"
+                className="w-10 h-10 mx-auto rounded-2xl text-white flex items-center justify-center font-black shadow-md cursor-pointer"
+                style={{ background: `linear-gradient(135deg, ${theme.gradientFrom}, ${theme.gradientTo})` }}
               >
                 <Crown className="w-5 h-5 text-amber-100" />
               </div>
@@ -392,29 +404,33 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
           ))}
         </nav>
 
-        {/* 3 Color Themes Quick Selector in Sidebar */}
+        {/* EdTech & Workspace Themes Selector in Sidebar */}
         {!isSidebarCollapsed ? (
           <div className="p-3 border-t border-slate-100 bg-slate-50/50 space-y-2">
             <div className="flex items-center justify-between px-1">
               <span className="text-[10px] font-black uppercase text-slate-400 flex items-center gap-1">
-                <Palette className="w-3 h-3 text-orange-500" />
-                <span>3 Colors Theme Menu</span>
+                <Palette className="w-3 h-3 text-purple-600" />
+                <span>EdTech & Workspace Themes</span>
               </span>
               <span className="text-[9px] font-bold text-slate-400 capitalize">{currentTheme.replace('-', ' ')}</span>
             </div>
-            <div className="grid grid-cols-3 gap-1.5">
+            <div className="grid grid-cols-2 gap-1.5">
               {Object.values(APP_THEMES).map(t => {
                 const isSelected = currentTheme === t.id;
                 return (
                   <button
                     key={t.id}
                     onClick={() => onSelectTheme(t.id)}
+                    style={{
+                      borderColor: isSelected ? t.primary : undefined,
+                      boxShadow: isSelected ? `0 0 0 1px ${t.primary}` : undefined
+                    }}
                     className={`p-2 rounded-xl border flex flex-col items-center gap-1 transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-white border-orange-500 shadow-xs ring-1 ring-orange-400'
+                        ? 'bg-white shadow-xs'
                         : 'bg-white/80 hover:bg-white border-slate-200'
                     }`}
-                    title={`${t.name} (${t.teluguName})`}
+                    title={`${t.name} (${t.teluguName}) - ${t.description}`}
                   >
                     <div className="flex -space-x-1 items-center">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: t.primary }} />
@@ -422,7 +438,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
                       <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: t.primaryLight }} />
                     </div>
                     <span className="text-[9px] font-black text-slate-800 truncate w-full text-center">
-                      {t.name.split(' ')[0]}
+                      {t.brandTag || t.name.split(' ')[0]}
                     </span>
                   </button>
                 );
@@ -442,25 +458,39 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
         )}
 
         {/* User Card & Logout Bottom Anchor */}
-        <div className="p-3 border-t border-slate-100 bg-slate-50/70">
+        <div className="p-3 border-t border-slate-100 bg-slate-50/70 space-y-2">
           {!isSidebarCollapsed ? (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="text-2xl">{currentUser.avatar}</span>
-                <div className="min-w-0">
-                  <div className="text-xs font-black text-slate-900 truncate">{currentUser.name}</div>
-                  <div className="text-[10px] font-bold text-orange-600 truncate">{currentUser.enrollmentStatus}</div>
+            <>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-2xl">{currentUser.avatar}</span>
+                  <div className="min-w-0">
+                    <div className="text-xs font-black text-slate-900 truncate">{currentUser.name}</div>
+                    <div className="text-[10px] font-bold text-emerald-600 truncate">{currentUser.enrollmentStatus}</div>
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={onLogout}
+                  className="text-slate-400 hover:text-rose-600 p-1.5 rounded-xl hover:bg-rose-50 transition-colors cursor-pointer"
+                  title="Logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={onLogout}
-                className="text-slate-400 hover:text-rose-600 p-1.5 rounded-xl hover:bg-rose-50 transition-colors cursor-pointer"
-                title="Logout"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
+
+              {onOpenContact && (
+                <button
+                  type="button"
+                  onClick={onOpenContact}
+                  className="w-full py-2 px-3 rounded-xl bg-[#021807] hover:bg-[#1B5F0E] text-[#63C633] border border-[#63C633]/40 text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer"
+                  title="Direct Contacts & Advisory"
+                >
+                  <Phone className="w-3.5 h-3.5 text-[#63C633]" />
+                  <span>Reach Founder & Contacts</span>
+                </button>
+              )}
+            </>
           ) : (
             <button
               type="button"
@@ -613,12 +643,28 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
             {/* Super AI Quick Action Button */}
             <button
               onClick={() => onOpenAskAI('general', '')}
-              className="px-3.5 py-1.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-black text-xs rounded-full shadow-md shadow-orange-600/20 flex items-center gap-1.5 transition-all cursor-pointer active:scale-98"
+              style={{
+                background: `linear-gradient(135deg, ${theme.gradientFrom}, ${theme.gradientTo})`
+              }}
+              className="px-3.5 py-1.5 text-white font-black text-xs rounded-full shadow-md flex items-center gap-1.5 transition-all cursor-pointer active:scale-98 hover:brightness-110"
             >
               <Bot className="w-3.5 h-3.5 text-amber-200" />
               <span className="hidden sm:inline">Super AI</span>
               <Sparkles className="w-3 h-3 text-amber-200" />
             </button>
+
+            {/* Direct Contacts Action Button */}
+            {onOpenContact && (
+              <button
+                type="button"
+                onClick={onOpenContact}
+                className="px-3.5 py-1.5 bg-[#021807] hover:bg-[#1B5F0E] text-[#63C633] border border-[#63C633]/40 font-black text-xs rounded-full shadow-xs flex items-center gap-1.5 transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                title="Direct Reach & Contacts (Email / WhatsApp)"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#63C633]" />
+                <span className="hidden sm:inline">Contacts</span>
+              </button>
+            )}
 
             {/* 3 Colors Themes Menu & Quick Switcher */}
             <div className="relative">
@@ -638,25 +684,29 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
               </button>
 
               {isThemeMenuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-72 bg-white border border-slate-200 rounded-3xl shadow-2xl p-3 z-50 space-y-2 animate-fade-in">
+                <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-slate-200 rounded-3xl shadow-2xl p-3 z-50 space-y-2 animate-fade-in">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                     <div className="flex items-center gap-1.5 text-xs font-black text-slate-900">
-                      <Palette className="w-4 h-4 text-orange-600" />
-                      <span>3 Curated Color Themes</span>
+                      <Palette className="w-4 h-4 text-purple-600" />
+                      <span>EdTech Software Themes</span>
                     </div>
-                    <span className="text-[10px] font-bold text-slate-400">1-Click Apply</span>
+                    <span className="text-[10px] font-bold text-slate-400">Interactive & Live Themes</span>
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 max-h-96 overflow-y-auto pr-1">
                     {Object.values(APP_THEMES).map(t => {
                       const isSelected = currentTheme === t.id;
                       return (
                         <button
                           key={t.id}
                           onClick={() => { onSelectTheme(t.id); setIsThemeMenuOpen(false); }}
+                          style={{
+                            borderColor: isSelected ? t.primary : undefined,
+                            boxShadow: isSelected ? `0 0 0 1px ${t.primary}` : undefined
+                          }}
                           className={`w-full p-2.5 rounded-2xl text-left transition-all border cursor-pointer flex flex-col gap-1.5 ${
                             isSelected 
-                              ? 'bg-slate-50 border-orange-500 shadow-xs' 
+                              ? 'bg-slate-50 shadow-xs' 
                               : 'bg-white hover:bg-slate-50 border-slate-200'
                           }`}
                         >
@@ -670,13 +720,13 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
                               </div>
                               <span className="text-xs font-black text-slate-900">{t.name}</span>
                             </div>
-                            {isSelected && <CheckCircle2 className="w-4 h-4 text-orange-600" />}
+                            {isSelected && <CheckCircle2 className="w-4 h-4" style={{ color: t.primary }} />}
                           </div>
 
                           <div className="flex items-center justify-between text-[10px] pl-7">
                             <span className="font-bold text-slate-500">{t.teluguName}</span>
                             <span className="px-1.5 py-0.5 rounded text-[9px] font-black" style={{ backgroundColor: t.badgeBg, color: t.badgeText }}>
-                              Active Pal
+                              {t.brandTag || 'Theme'}
                             </span>
                           </div>
                         </button>

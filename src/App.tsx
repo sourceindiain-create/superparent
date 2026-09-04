@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { UserRole, NavTab, AIExpertPersona, UserAccount, AppThemeId } from './types';
 import { SoftwareShell } from './components/SoftwareShell';
 import { DashboardHome } from './components/DashboardHome';
-import { Header } from './components/Header';
 import { UniversalNavBar } from './components/UniversalNavBar';
+import { BrandingContactModal } from './components/BrandingContactModal';
 import { HomeOverview } from './components/HomeOverview';
 import { AskSuperAIModal } from './components/AskSuperAIModal';
 import { EducationHub } from './components/EducationHub';
@@ -142,8 +142,9 @@ export default function App() {
     title: ''
   });
 
-  // Theme system state: Saffron Amber for Kids, Complete Royal Blue for Parents, Vedic Green for Admin
-  const [currentTheme, setCurrentTheme] = useState<AppThemeId>('gurukul-amber');
+  // Theme system state: Flagship theosm-branding as default
+  const [currentTheme, setCurrentTheme] = useState<AppThemeId>('theosm-branding');
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   // Navigate with history stack tracking
   const handleNavigateTab = (newTab: NavTab) => {
@@ -246,6 +247,7 @@ export default function App() {
       onSelectTheme={setCurrentTheme}
       masterAccessGranted={masterAccessGranted}
       onToggleMasterAccess={handleToggleMasterAccess}
+      onOpenContact={() => setIsContactModalOpen(true)}
     >
       {/* Universal Navigation Controls (Back, Return, Home & Breadcrumbs) */}
       <UniversalNavBar
@@ -259,6 +261,7 @@ export default function App() {
         onOpenAskAI={() => handleOpenAskAI()}
         onToggleMasterAccess={handleToggleMasterAccess}
         masterAccessGranted={masterAccessGranted}
+        onOpenContact={() => setIsContactModalOpen(true)}
       />
 
       {/* Main Content Area Protected by Higher-Order Access Guard */}
@@ -282,6 +285,9 @@ export default function App() {
               currentXP={currentUser.xpPoints}
               streakDays={currentUser.streakDays}
               onEarnXP={handleEarnXP}
+              currentTheme={currentTheme}
+              onSelectTheme={setCurrentTheme}
+              onOpenContact={() => setIsContactModalOpen(true)}
             />
           )}
 
@@ -424,6 +430,15 @@ export default function App() {
       <Footer
         setActiveTab={handleNavigateTab}
         onOpenAskAI={() => handleOpenAskAI()}
+        onOpenContact={() => setIsContactModalOpen(true)}
+      />
+
+      {/* Flagship Dribbble Branding Contact Modal */}
+      <BrandingContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+        theme={APP_THEMES[currentTheme] || APP_THEMES['theosm-branding']}
+        userEmail="emfi.ceo@gmail.com"
       />
 
       {/* AI Modal */}

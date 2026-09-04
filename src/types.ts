@@ -1,12 +1,19 @@
 export type UserRole = 'parent' | 'student' | 'admin';
 
-export type AppThemeId = 'gurukul-amber' | 'emerald-vedic' | 'royal-indigo';
+export type AppThemeId = 
+  | 'theosm-branding'
+  | 'byjus-purple' 
+  | 'unacademy-green' 
+  | 'gurukul-amber' 
+  | 'royal-indigo' 
+  | 'emerald-vedic';
 
 export interface ThemeConfig {
   id: AppThemeId;
   name: string;
   teluguName: string;
   description?: string;
+  brandTag?: string;
   primary: string;
   primaryHover: string;
   primaryLight: string;
