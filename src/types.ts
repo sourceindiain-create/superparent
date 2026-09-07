@@ -1,6 +1,9 @@
 export type UserRole = 'parent' | 'student' | 'admin';
 
 export type AppThemeId = 
+  | 'pure-white'
+  | 'netflix-dark'
+  | 'jiotv-crimson'
   | 'theosm-branding'
   | 'byjus-purple' 
   | 'unacademy-green' 
@@ -67,6 +70,8 @@ export type SyllabusBoard = 'CBSE' | 'State Board' | 'ICSE' | 'International' | 
 
 export type NavTab = 
   | 'home'
+  | 'jiotv'
+  | 'gmail'
   | 'super-student'
   | 'tutors-room'
   | 'kids-lab'

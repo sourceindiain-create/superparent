@@ -1,6 +1,72 @@
 import { ThemeConfig, AppThemeId } from '../types';
 
 export const APP_THEMES: Record<AppThemeId, ThemeConfig> = {
+  'pure-white': {
+    id: 'pure-white',
+    name: 'Pure White & Crystal Light',
+    teluguName: 'స్వచ్ఛమైన తెలుపు లైట్ థీమ్',
+    description: 'Crisp, ultra-clean pure white background (#FFFFFF), high-contrast text, sunny amber accents & bright daylight readability',
+    brandTag: 'WHITE LIGHT',
+    primary: '#EA580C', // Vibrant daylight orange
+    primaryHover: '#C2410C',
+    primaryLight: '#FFF7ED',
+    accent: '#0284C7', // Sky Blue
+    bgMain: '#FFFFFF', // Pure clean white
+    cardBg: '#F8FAFC', // Slate 50 clean card
+    border: '#E2E8F0', // Crisp light border
+    textPrimary: '#0F172A', // Deep slate obsidian
+    textMuted: '#64748B', // Neutral gray
+    ring: '#EA580C',
+    badgeBg: '#FFF7ED',
+    badgeText: '#C2410C',
+    gradientFrom: '#EA580C',
+    gradientTo: '#F59E0B',
+    palette: ['#FFFFFF', '#EA580C', '#0284C7', '#F8FAFC']
+  },
+  'netflix-dark': {
+    id: 'netflix-dark',
+    name: 'Netflix Cinematic Dark',
+    teluguName: 'నెట్‌ఫ్లిక్స్ సినిమాటిక్ డార్క్',
+    description: 'Iconic Netflix crimson red, deep cinematic carbon black (#141414), studio vignettes & high-contrast movie cards',
+    brandTag: 'NETFLIX™',
+    primary: '#E50914', // Iconic Netflix Red
+    primaryHover: '#B20710', // Dark Crimson Red
+    primaryLight: '#2D0B0E', // Translucent red wine tint
+    accent: '#FFA500', // Gold/Amber highlight
+    bgMain: '#141414', // Cinematic Netflix background
+    cardBg: '#181818', // Netflix dark card
+    border: '#2A2A2A', // Subtle dark border
+    textPrimary: '#FFFFFF', // High contrast white
+    textMuted: '#A3A3A3', // Crisp neutral gray
+    ring: '#E50914',
+    badgeBg: '#E50914',
+    badgeText: '#FFFFFF',
+    gradientFrom: '#E50914',
+    gradientTo: '#141414',
+    palette: ['#141414', '#E50914', '#FFFFFF', '#1F1F1F']
+  },
+  'jiotv-crimson': {
+    id: 'jiotv-crimson',
+    name: 'Jio TV Live & Entertainment',
+    teluguName: 'జియో టీవీ లైవ్ ఎంటర్‌టైన్‌మెంట్',
+    description: 'Vibrant JioTV magenta-crimson (#E50046), deep midnight space (#0B0E17), live TV channels & streaming rails',
+    brandTag: 'JioTV™',
+    primary: '#E50046', // Iconic JioTV Crimson Pink
+    primaryHover: '#C2003B',
+    primaryLight: '#2B0D1A',
+    accent: '#0A84FF', // Jio Digital Blue
+    bgMain: '#0B0E17', // Midnight Navy-Black
+    cardBg: '#121624',
+    border: '#23293D',
+    textPrimary: '#FFFFFF',
+    textMuted: '#94A3B8',
+    ring: '#E50046',
+    badgeBg: '#E50046',
+    badgeText: '#FFFFFF',
+    gradientFrom: '#E50046',
+    gradientTo: '#0A2885',
+    palette: ['#0B0E17', '#E50046', '#0A84FF', '#121624']
+  },
   'theosm-branding': {
     id: 'theosm-branding',
     name: 'theosm™ Neo-Lime Branding',

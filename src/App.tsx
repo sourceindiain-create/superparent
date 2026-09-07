@@ -29,6 +29,9 @@ import { ClassroomInteractionRoom } from './components/ClassroomInteractionRoom'
 import { WorldLanguageLab } from './components/WorldLanguageLab';
 import { OfflineHub } from './components/OfflineHub';
 import { StudentsHomeworkPortal } from './components/StudentsHomeworkPortal';
+import { JioTVGuide } from './components/JioTVGuide';
+import { GmailPortal } from './components/GmailPortal';
+import { NetflixJioHome } from './components/NetflixJioHome';
 import { Footer } from './components/Footer';
 import { AccessGuard } from './components/AccessGuard';
 import { MediaLinkModal, MediaModalProps } from './components/MediaLinkModal';
@@ -106,12 +109,12 @@ const DEFAULT_ADMIN_USER: UserAccount = {
 };
 
 const KIDS_ALLOWED_TABS: NavTab[] = [
-  'home', 'super-student', 'tutors-room', 'education', 'practice-master', 'classroom', 
+  'home', 'homework', 'jiotv', 'gmail', 'super-student', 'tutors-room', 'education', 'practice-master', 'classroom', 
   'language-lab', 'kids-lab', 'sanskar', 'stories', 'innovation', 'games', 'showcase', 'offline-hub'
 ];
 
 const PARENT_ALLOWED_TABS: NavTab[] = [
-  'home', 'tutors-room', 'classroom', 'parenting', 'growth', 'marketplace', 'global', 'pricing'
+  'home', 'homework', 'jiotv', 'gmail', 'tutors-room', 'classroom', 'parenting', 'growth', 'marketplace', 'global', 'pricing'
 ];
 
 export default function App() {
@@ -143,8 +146,8 @@ export default function App() {
     title: ''
   });
 
-  // Theme system state: Flagship theosm-branding as default
-  const [currentTheme, setCurrentTheme] = useState<AppThemeId>('theosm-branding');
+  // Theme system state: Netflix Cinematic Dark as international kids software default
+  const [currentTheme, setCurrentTheme] = useState<AppThemeId>('netflix-dark');
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   // Navigate with history stack tracking
@@ -172,7 +175,7 @@ export default function App() {
     setRole(newRole);
     if (newRole === 'student') {
       setCurrentUser(DEFAULT_STUDENT_USER);
-      setCurrentTheme('gurukul-amber');
+      setCurrentTheme('netflix-dark');
       if (!KIDS_ALLOWED_TABS.includes(activeTab)) {
         setActiveTabState('home');
       }
@@ -276,20 +279,32 @@ export default function App() {
           onOpenPreviewVideo={(url, title) => handleOpenMedia({ videoUrl: url, title })}
         >
           {activeTab === 'home' && (
-            <DashboardHome
-              role={role}
-              setRole={handleRoleChange}
-              setActiveTab={handleNavigateTab}
-              onOpenAskAI={(persona, query) => handleOpenAskAI(persona, query)}
-              onGenerateCertificate={() => setIsCertModalOpen(true)}
-              studentName={currentUser.name}
-              currentXP={currentUser.xpPoints}
-              streakDays={currentUser.streakDays}
-              onEarnXP={handleEarnXP}
-              currentTheme={currentTheme}
-              onSelectTheme={setCurrentTheme}
-              onOpenContact={() => setIsContactModalOpen(true)}
-            />
+            (currentTheme === 'netflix-dark' || currentTheme === 'jiotv-crimson') ? (
+              <NetflixJioHome
+                role={role}
+                setRole={handleRoleChange}
+                setActiveTab={handleNavigateTab}
+                onOpenAskAI={(persona) => handleOpenAskAI(persona)}
+                onGenerateCertificate={() => setIsCertModalOpen(true)}
+                currentTheme={currentTheme}
+                setCurrentTheme={setCurrentTheme}
+              />
+            ) : (
+              <DashboardHome
+                role={role}
+                setRole={handleRoleChange}
+                setActiveTab={handleNavigateTab}
+                onOpenAskAI={(persona, query) => handleOpenAskAI(persona, query)}
+                onGenerateCertificate={() => setIsCertModalOpen(true)}
+                studentName={currentUser.name}
+                currentXP={currentUser.xpPoints}
+                streakDays={currentUser.streakDays}
+                onEarnXP={handleEarnXP}
+                currentTheme={currentTheme}
+                onSelectTheme={setCurrentTheme}
+                onOpenContact={() => setIsContactModalOpen(true)}
+              />
+            )
           )}
 
           {activeTab === 'super-student' && (
@@ -307,6 +322,24 @@ export default function App() {
             <StudentsHomeworkPortal
               onOpenAskAI={(persona, query) => handleOpenAskAI(persona || 'tutor', query)}
               onNavigateTab={(tab) => handleNavigateTab(tab as NavTab)}
+            />
+          )}
+
+          {activeTab === 'jiotv' && (
+            <NetflixJioHome
+              role={role}
+              setRole={handleRoleChange}
+              setActiveTab={handleNavigateTab}
+              onOpenAskAI={(persona) => handleOpenAskAI(persona)}
+              onGenerateCertificate={() => setIsCertModalOpen(true)}
+              currentTheme={currentTheme}
+              setCurrentTheme={setCurrentTheme}
+            />
+          )}
+
+          {activeTab === 'gmail' && (
+            <GmailPortal
+              onBackToHome={() => handleNavigateTab('home')}
             />
           )}
 
@@ -439,6 +472,7 @@ export default function App() {
         setActiveTab={handleNavigateTab}
         onOpenAskAI={() => handleOpenAskAI()}
         onOpenContact={() => setIsContactModalOpen(true)}
+        currentTheme={currentTheme}
       />
 
       {/* Flagship Dribbble Branding Contact Modal */}

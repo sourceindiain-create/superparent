@@ -36,6 +36,8 @@ import { UnacademyLearningTemplate } from './UnacademyLearningTemplate';
 import { SoftwareToolboxModal } from './SoftwareToolboxModal';
 import { BrandingHeroBanner } from './BrandingHeroBanner';
 import { BrandingContactSection } from './BrandingContactSection';
+import { NetflixJioTvHome } from './NetflixJioTvHome';
+import { JioTVGuide } from './JioTVGuide';
 import { APP_THEMES } from '../data/themes';
 
 interface DashboardHomeProps {
@@ -67,7 +69,9 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
   onSelectTheme,
   onOpenContact
 }) => {
-  const [edTechView, setEdTechView] = useState<'byjus' | 'unacademy' | 'unified'>(() => {
+  const [edTechView, setEdTechView] = useState<'netflix' | 'jiotv' | 'byjus' | 'unacademy' | 'unified'>(() => {
+    if (currentTheme === 'netflix-dark') return 'netflix';
+    if (currentTheme === 'jiotv-crimson') return 'jiotv';
     if (currentTheme === 'byjus-purple') return 'byjus';
     if (currentTheme === 'unacademy-green') return 'unacademy';
     return 'unified';
@@ -77,7 +81,11 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
 
   // Sync view when currentTheme changes from external selectors
   useEffect(() => {
-    if (currentTheme === 'byjus-purple') {
+    if (currentTheme === 'netflix-dark') {
+      setEdTechView('netflix');
+    } else if (currentTheme === 'jiotv-crimson') {
+      setEdTechView('jiotv');
+    } else if (currentTheme === 'byjus-purple') {
       setEdTechView('byjus');
     } else if (currentTheme === 'unacademy-green') {
       setEdTechView('unacademy');
@@ -656,6 +664,38 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
             <span>EdTech Template:</span>
           </span>
 
+          {/* Netflix Cinematic Dark Mode Tab */}
+          <button
+            onClick={() => {
+              setEdTechView('netflix');
+              if (onSelectTheme) onSelectTheme('netflix-dark');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              edTechView === 'netflix' || currentTheme === 'netflix-dark'
+                ? 'bg-[#E50914] text-white shadow-xs ring-2 ring-red-400'
+                : 'bg-red-50 hover:bg-red-100 text-red-950 border border-red-200'
+            }`}
+          >
+            <span>🎬</span>
+            <span>Netflix UI/UX</span>
+          </button>
+
+          {/* JioTV Live Channels Mode Tab */}
+          <button
+            onClick={() => {
+              setEdTechView('jiotv');
+              if (onSelectTheme) onSelectTheme('jiotv-crimson');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              edTechView === 'jiotv' || currentTheme === 'jiotv-crimson'
+                ? 'bg-[#E50046] text-white shadow-xs ring-2 ring-pink-400'
+                : 'bg-pink-50 hover:bg-pink-100 text-pink-950 border border-pink-200'
+            }`}
+          >
+            <span>📺</span>
+            <span>JioTV Live Template</span>
+          </button>
+
           {/* THEOSM™ Mode Tab */}
           <button
             onClick={() => {
@@ -732,6 +772,25 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Conditionally Render Dedicated Netflix Cinema Experience */}
+      {edTechView === 'netflix' && (
+        <NetflixJioTvHome
+          role={role}
+          setRole={setRole}
+          setActiveTab={setActiveTab}
+          onOpenAskAI={onOpenAskAI}
+          onGenerateCertificate={onGenerateCertificate}
+        />
+      )}
+
+      {/* Conditionally Render Dedicated JioTV Live Guide Experience */}
+      {edTechView === 'jiotv' && (
+        <JioTVGuide
+          onAskAI={(topic) => onOpenAskAI('tutor', topic)}
+          onOpenHomework={() => setActiveTab('homework')}
+        />
+      )}
 
       {/* Conditionally Render Dedicated BYJU'S Experience */}
       {edTechView === 'byjus' && (

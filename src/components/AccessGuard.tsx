@@ -231,7 +231,7 @@ export function checkTabAccess(
   }
 
   // 2. Open Public Tabs
-  if (['home', 'pricing', 'contact', 'login', 'offline-hub', 'showcase'].includes(tab)) {
+  if (['home', 'homework', 'jiotv', 'gmail', 'pricing', 'contact', 'login', 'offline-hub', 'showcase'].includes(tab)) {
     return { allowed: true };
   }
 

@@ -41,15 +41,18 @@ import {
   Flower2,
   Atom,
   FlaskConical,
-  Cpu
+  Cpu,
+  Palette
 } from 'lucide-react';
 import { MediaLinkModal } from './MediaLinkModal';
+import { KidsColouringStudio } from './KidsColouringStudio';
 
 interface KidsLabProps {
   onAskAI?: (query: string) => void;
 }
 
 export type KidsExplorerTab = 
+  | 'colouring-pow'
   | 'science-simulations'
   | 'spiritual-grandhas'
   | 'telugu-rhymes-slokas'
@@ -943,6 +946,16 @@ export const KidsLab: React.FC<KidsLabProps> = ({ onAskAI }) => {
           {/* Quick Category Action Pill Buttons */}
           <div className="flex flex-wrap items-center gap-2 pt-2">
             <button
+              onClick={() => setActiveTab('colouring-pow')}
+              className={`px-3.5 py-2 rounded-xl text-xs font-black flex items-center gap-1.5 transition-transform hover:scale-102 cursor-pointer ${
+                activeTab === 'colouring-pow' ? 'bg-amber-400 text-slate-950 shadow-md ring-2 ring-white/50' : 'bg-white/10 hover:bg-white/20 text-white'
+              }`}
+            >
+              <Palette className="w-3.5 h-3.5 text-amber-300" />
+              <span>🎨 powcoloring.com, Books & Art Videos</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('science-simulations')}
               className={`px-3.5 py-2 rounded-xl text-xs font-black flex items-center gap-1.5 transition-transform hover:scale-102 cursor-pointer ${
                 activeTab === 'science-simulations' ? 'bg-cyan-500 text-slate-950 shadow-md ring-2 ring-white/50' : 'bg-white/10 hover:bg-white/20 text-white'
@@ -1063,6 +1076,11 @@ export const KidsLab: React.FC<KidsLabProps> = ({ onAskAI }) => {
           </div>
         </div>
       </div>
+
+      {/* --- TAB: POWCOLORING.COM, DRAWING CANVAS, ART VIDEOS & BOOKS --- */}
+      {activeTab === 'colouring-pow' && (
+        <KidsColouringStudio />
+      )}
 
       {/* --- TAB 0: PHET & JAVALAB INTERACTIVE SCIENCE SIMULATIONS --- */}
       {activeTab === 'science-simulations' && (

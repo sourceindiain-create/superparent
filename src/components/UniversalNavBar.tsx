@@ -51,11 +51,14 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
 }) => {
   const { t, language } = useLanguage();
   const theme = APP_THEMES[currentTheme] || APP_THEMES['gurukul-amber'];
+  const isDark = currentTheme === 'netflix-dark' || currentTheme === 'jiotv-crimson';
 
   const getTabLabel = (tab: NavTab) => {
     switch (tab) {
       case 'home': return t('navHome', 'Home Overview');
       case 'homework': return 'Students Homework (Google Lens, OCR, AI Solvers, Free Doctor & Holistic Development)';
+      case 'jiotv': return 'JioTV Live Educational Channels & Doordarshan (24x7 Broadcasts)';
+      case 'gmail': return 'Google Workspace Gmail Inbox & School Communications';
       case 'tutors-room': return t('navTutorsRoom', "Tutor's Room (All Links, Videos, Books, AI & Voice)");
       case 'super-student': return t('navSuperStudent', 'Super Student Hub ($200k+ Free Packs & AI)');
       case 'kids-lab': return t('navKidsLab', 'Kids Lab (3D Anatomy & AI Creative Studio)');
@@ -83,8 +86,9 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
 
   return (
     <div 
-      className="bg-white/95 backdrop-blur-md border-b sticky top-[89px] lg:top-[93px] z-30 shadow-xs transition-all"
-      style={{ borderColor: theme.border }}
+      className={`backdrop-blur-md border-b sticky top-0 z-30 shadow-xs transition-all ${
+        isDark ? 'bg-[#141414]/95 text-white border-[#2A2A2A]' : 'bg-white/95 text-slate-800 border-slate-200/80'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-3">
         {/* Left Side: Back, Return, Home buttons & Breadcrumbs */}
@@ -95,8 +99,12 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
             disabled={tabHistory.length <= 1}
             className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
               tabHistory.length > 1
-                ? 'bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-2xs transform hover:-translate-x-0.5 cursor-pointer'
-                : 'bg-slate-50 text-slate-400 border border-slate-200 cursor-not-allowed'
+                ? isDark
+                  ? 'bg-[#222222] hover:bg-[#2e2e2e] text-slate-200 border border-[#333333] shadow-2xs transform hover:-translate-x-0.5 cursor-pointer'
+                  : 'bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-2xs transform hover:-translate-x-0.5 cursor-pointer'
+                : isDark
+                  ? 'bg-[#181818] text-slate-600 border border-[#262626] cursor-not-allowed'
+                  : 'bg-slate-50 text-slate-400 border border-slate-200 cursor-not-allowed'
             }`}
             title="Go Back to previous view"
           >
@@ -113,10 +121,12 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
             }}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-2xs transition-all cursor-pointer"
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold border shadow-2xs transition-all cursor-pointer ${
+              isDark ? 'bg-[#222222] hover:bg-[#2e2e2e] text-slate-200 border-[#333333]' : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200'
+            }`}
             title="Return to Home or reset view"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-slate-600" />
+            <RotateCcw className={`w-3.5 h-3.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`} />
             <span>{t('return', 'Return')}</span>
           </button>
 
@@ -130,7 +140,9 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
             className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
               activeTab === 'home'
                 ? 'shadow-xs'
-                : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200'
+                : isDark
+                  ? 'bg-[#222222] hover:bg-[#2e2e2e] text-slate-200 border border-[#333333]'
+                  : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200'
             }`}
             title="Go to Home"
           >
@@ -143,11 +155,58 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
           {/* Direct EdTech Theme Selector Chips */}
           <div className="flex items-center gap-1">
             <button
+              onClick={() => onSelectTheme('pure-white')}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTheme === 'pure-white'
+                  ? 'bg-amber-500 text-slate-950 shadow-xs ring-2 ring-amber-400 font-extrabold'
+                  : isDark 
+                    ? 'bg-neutral-800 hover:bg-neutral-700 text-amber-300 border border-neutral-600'
+                    : 'bg-white hover:bg-slate-100 text-slate-900 border border-slate-300 shadow-2xs'
+              }`}
+              title="Change Background to Pure White / Light Mode"
+            >
+              <span>☀️</span>
+              <span className="hidden sm:inline">White Light</span>
+            </button>
+
+            <button
+              onClick={() => onSelectTheme('netflix-dark')}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTheme === 'netflix-dark'
+                  ? 'bg-[#E50914] text-white shadow-xs ring-1 ring-red-400'
+                  : isDark 
+                    ? 'bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-700'
+                    : 'bg-red-50 hover:bg-red-100 text-red-950 border border-red-200'
+              }`}
+              title="Switch to Netflix Dark Cinema UI/UX"
+            >
+              <span>🎬</span>
+              <span className="hidden sm:inline">Netflix</span>
+            </button>
+
+            <button
+              onClick={() => onSelectTheme('jiotv-crimson')}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTheme === 'jiotv-crimson'
+                  ? 'bg-[#E50046] text-white shadow-xs ring-1 ring-pink-400'
+                  : isDark
+                    ? 'bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-700'
+                    : 'bg-pink-50 hover:bg-pink-100 text-pink-950 border border-pink-200'
+              }`}
+              title="Switch to JioTV Live Streaming UI/UX"
+            >
+              <span>📺</span>
+              <span className="hidden sm:inline">JioTV</span>
+            </button>
+
+            <button
               onClick={() => onSelectTheme('theosm-branding')}
               className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
                 currentTheme === 'theosm-branding'
                   ? 'bg-[#021807] text-[#63C633] shadow-xs ring-1 ring-[#63C633]'
-                  : 'bg-emerald-50 hover:bg-emerald-100 text-[#021807] border border-[#CBD6A3]'
+                  : isDark
+                    ? 'bg-neutral-900 hover:bg-neutral-800 text-emerald-400 border border-neutral-700'
+                    : 'bg-emerald-50 hover:bg-emerald-100 text-[#021807] border border-[#CBD6A3]'
               }`}
               title="Switch to theosm™ Neo-Lime Branding (Dribbble 27700505)"
             >
@@ -160,7 +219,9 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
               className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
                 currentTheme === 'byjus-purple'
                   ? 'bg-purple-700 text-white shadow-xs ring-1 ring-purple-400'
-                  : 'bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200'
+                  : isDark
+                    ? 'bg-neutral-900 hover:bg-neutral-800 text-purple-300 border border-neutral-700'
+                    : 'bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200'
               }`}
               title="Switch to Royal Violet & Gold Theme"
             >
@@ -173,7 +234,9 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
               className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
                 currentTheme === 'unacademy-green'
                   ? 'bg-emerald-600 text-white shadow-xs ring-1 ring-emerald-400'
-                  : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200'
+                  : isDark
+                    ? 'bg-neutral-900 hover:bg-neutral-800 text-emerald-300 border border-neutral-700'
+                    : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200'
               }`}
               title="Switch to Emerald Live Prep Theme"
             >
@@ -186,7 +249,9 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
               className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
                 currentTheme === 'gurukul-amber'
                   ? 'bg-orange-600 text-white shadow-xs ring-1 ring-orange-400'
-                  : 'bg-orange-50 hover:bg-orange-100 text-orange-950 border border-orange-200'
+                  : isDark
+                    ? 'bg-neutral-900 hover:bg-neutral-800 text-orange-300 border border-neutral-700'
+                    : 'bg-orange-50 hover:bg-orange-100 text-orange-950 border border-orange-200'
               }`}
               title="Switch to Gurukul Saffron Amber Theme"
             >
@@ -233,13 +298,57 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
             </button>
           )}
 
+          {/* Direct powcoloring.com Quick Button */}
+          <a
+            href="https://powcoloring.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black bg-amber-400 hover:bg-amber-500 text-slate-950 shadow-xs transition-all cursor-pointer"
+            title="Open powcoloring.com Free Coloring Pages Website"
+          >
+            <span>🎨</span>
+            <span>powcoloring.com</span>
+          </a>
+
+          {/* Quick JioTV Live Button */}
+          <button
+            onClick={() => setActiveTab('jiotv')}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-black border transition-all cursor-pointer ${
+              activeTab === 'jiotv'
+                ? 'bg-[#E50046] text-white border-[#E50046] shadow-xs'
+                : isDark
+                  ? 'bg-neutral-900 text-pink-300 border-neutral-700 hover:bg-neutral-800'
+                  : 'bg-pink-50 text-pink-900 border-pink-200 hover:bg-pink-100'
+            }`}
+          >
+            <span>📺</span>
+            <span className="hidden sm:inline">JioTV Live</span>
+          </button>
+
+          {/* Quick Gmail Button */}
+          <button
+            onClick={() => setActiveTab('gmail')}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-black border transition-all cursor-pointer ${
+              activeTab === 'gmail'
+                ? 'bg-[#E50914] text-white border-[#E50914] shadow-xs'
+                : isDark
+                  ? 'bg-neutral-900 text-red-300 border-neutral-700 hover:bg-neutral-800'
+                  : 'bg-red-50 text-red-900 border-red-200 hover:bg-red-100'
+            }`}
+          >
+            <span>📧</span>
+            <span className="hidden sm:inline">Gmail</span>
+          </button>
+
           {/* Quick Tutors Room Button */}
           <button
             onClick={() => setActiveTab('classroom')}
             className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black border transition-all cursor-pointer ${
               activeTab === 'classroom' || activeTab === 'tutors-room'
-                ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
-                : 'bg-slate-50 text-slate-900 border-slate-200 hover:bg-slate-100 shadow-2xs'
+                ? 'bg-white text-black border-white shadow-xs'
+                : isDark
+                  ? 'bg-neutral-900 text-neutral-200 border-neutral-700 hover:bg-neutral-800'
+                  : 'bg-slate-50 text-slate-900 border-slate-200 hover:bg-slate-100 shadow-2xs'
             }`}
           >
             <GraduationCap className="w-3.5 h-3.5" style={{ color: theme.primary }} />
@@ -251,8 +360,10 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
             onClick={() => setActiveTab('language-lab')}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
               activeTab === 'language-lab'
-                ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
-                : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
+                ? 'bg-white text-black border-white shadow-xs'
+                : isDark
+                  ? 'bg-neutral-900 text-neutral-200 border-neutral-700 hover:bg-neutral-800'
+                  : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100'
             }`}
           >
             <Languages className="w-3.5 h-3.5" style={{ color: theme.primary }} />
@@ -265,11 +376,14 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
               activeTab === 'testing'
                 ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                : 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
+                : isDark
+                  ? 'bg-neutral-900 text-emerald-400 border-neutral-700 hover:bg-neutral-800'
+                  : 'bg-emerald-50 text-emerald-950 border-emerald-200 hover:bg-emerald-100'
             }`}
+            title="Open Diagnostic Suite"
           >
-            <CheckCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="hidden sm:inline">100% Diagnostics</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+            <span className="hidden md:inline">100% Diagnostics</span>
           </button>
         </div>
       </div>

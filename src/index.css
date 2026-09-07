@@ -2,8 +2,8 @@
 
 @layer base {
   body {
-    background-color: #FAFAFA;
-    color: #0F172A;
+    background-color: #141414;
+    color: #F8FAFC;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
@@ -12,6 +12,22 @@
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     letter-spacing: -0.02em;
   }
+}
+
+/* Netflix & JioTV Streaming Custom Scrollbars */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #141414;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #E50914;
 }
 
 /* theosm™ Dribbble 27700505 Branding Design Tokens */
