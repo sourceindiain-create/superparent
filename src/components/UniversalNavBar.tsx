@@ -55,6 +55,7 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
   const getTabLabel = (tab: NavTab) => {
     switch (tab) {
       case 'home': return t('navHome', 'Home Overview');
+      case 'homework': return 'Students Homework (Google Lens, OCR, AI Solvers, Free Doctor & Holistic Development)';
       case 'tutors-room': return t('navTutorsRoom', "Tutor's Room (All Links, Videos, Books, AI & Voice)");
       case 'super-student': return t('navSuperStudent', 'Super Student Hub ($200k+ Free Packs & AI)');
       case 'kids-lab': return t('navKidsLab', 'Kids Lab (3D Anatomy & AI Creative Studio)');

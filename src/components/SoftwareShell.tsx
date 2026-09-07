@@ -101,6 +101,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
           groupName: 'Kids Learning & Practice',
           items: [
             { tab: 'home', label: 'Kids Gurukul Dashboard', teluguLabel: 'ప్రధాన డాష్‌బోర్డ్', icon: Home },
+            { tab: 'homework', label: 'Students Homework & OCR', teluguLabel: 'హోంవర్క్ & OCR సాల్వర్', icon: Sparkles, badge: 'Lens & AI', badgeColor: 'bg-emerald-100 text-emerald-800' },
             { tab: 'education', label: 'Education Hub (LKG-10)', teluguLabel: 'పాఠ్యాంశాలు', icon: BookOpen, badge: 'All Boards' },
             { tab: 'practice-master', label: 'Practice Master Zone', teluguLabel: 'పరీక్షలు & క్విజ్', icon: Zap, badge: 'AI Tutor' },
             { tab: 'classroom', label: 'Live Virtual Classroom', teluguLabel: 'లైవ్ క్లాస్‌రూమ్', icon: Video, badge: 'Zoom/Meet', badgeColor: 'bg-blue-100 text-blue-800' },
@@ -128,6 +129,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
           groupName: 'Parenting & Child Guidance',
           items: [
             { tab: 'home', label: 'Parents Executive Dashboard', teluguLabel: 'పేరెంట్ డాష్‌బోర్డ్', icon: Home },
+            { tab: 'homework', label: 'Students Homework & OCR', teluguLabel: 'హోంవర్క్ & డాక్టర్ సపోర్ట్', icon: Sparkles, badge: 'Lens & Doctor', badgeColor: 'bg-emerald-100 text-emerald-800' },
             { tab: 'parenting', label: 'Parenting Master Articles', teluguLabel: 'పేరెంటింగ్ హబ్', icon: Users, badge: 'Psychology' }
           ]
         },
@@ -155,6 +157,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
       {
         groupName: 'Kids Modules (Supervision)',
         items: [
+          { tab: 'homework', label: 'Students Homework AI & OCR', teluguLabel: 'హోంవర్క్ & OCR సాల్వర్', icon: Sparkles, badge: 'Lens & AI' },
           { tab: 'education', label: 'Education Hub', teluguLabel: 'పాఠ్యాంశాలు', icon: BookOpen },
           { tab: 'practice-master', label: 'Practice Master Zone', teluguLabel: 'పరీక్షలు & క్విజ్', icon: Zap },
           { tab: 'classroom', label: 'Live Virtual Classroom', teluguLabel: 'లైవ్ క్లాస్‌రూమ్', icon: Video },

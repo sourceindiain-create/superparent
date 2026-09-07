@@ -73,6 +73,7 @@ export type NavTab =
   | 'practice-master'
   | 'classroom'
   | 'language-lab'
+  | 'homework'
   | 'education'
   | 'sanskar'
   | 'stories'

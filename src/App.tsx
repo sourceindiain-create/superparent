@@ -28,6 +28,7 @@ import { TestingSuiteView } from './components/TestingSuiteView';
 import { ClassroomInteractionRoom } from './components/ClassroomInteractionRoom';
 import { WorldLanguageLab } from './components/WorldLanguageLab';
 import { OfflineHub } from './components/OfflineHub';
+import { StudentsHomeworkPortal } from './components/StudentsHomeworkPortal';
 import { Footer } from './components/Footer';
 import { AccessGuard } from './components/AccessGuard';
 import { MediaLinkModal, MediaModalProps } from './components/MediaLinkModal';
@@ -298,6 +299,13 @@ export default function App() {
               streakDays={currentUser.streakDays}
               onEarnXP={handleEarnXP}
               onAskAI={(query) => handleOpenAskAI('tutor', query)}
+              onNavigateTab={(tab) => handleNavigateTab(tab as NavTab)}
+            />
+          )}
+
+          {activeTab === 'homework' && (
+            <StudentsHomeworkPortal
+              onOpenAskAI={(persona, query) => handleOpenAskAI(persona || 'tutor', query)}
               onNavigateTab={(tab) => handleNavigateTab(tab as NavTab)}
             />
           )}
