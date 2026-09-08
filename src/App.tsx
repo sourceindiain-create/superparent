@@ -35,6 +35,7 @@ import { NetflixJioHome } from './components/NetflixJioHome';
 import { Footer } from './components/Footer';
 import { AccessGuard } from './components/AccessGuard';
 import { MediaLinkModal, MediaModalProps } from './components/MediaLinkModal';
+import { LiveFirebaseAppModal } from './components/LiveFirebaseAppModal';
 import { APP_THEMES } from './data/themes';
 
 const DEFAULT_STUDENT_USER: UserAccount = {
@@ -146,9 +147,10 @@ export default function App() {
     title: ''
   });
 
-  // Theme system state: Netflix Cinematic Dark as international kids software default
-  const [currentTheme, setCurrentTheme] = useState<AppThemeId>('netflix-dark');
+  // Theme system state: Master AI Botanical Light as default
+  const [currentTheme, setCurrentTheme] = useState<AppThemeId>('botanical-light');
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isLiveUrlsModalOpen, setIsLiveUrlsModalOpen] = useState(false);
 
   // Navigate with history stack tracking
   const handleNavigateTab = (newTab: NavTab) => {
@@ -266,6 +268,7 @@ export default function App() {
         onToggleMasterAccess={handleToggleMasterAccess}
         masterAccessGranted={masterAccessGranted}
         onOpenContact={() => setIsContactModalOpen(true)}
+        onOpenLiveUrls={() => setIsLiveUrlsModalOpen(true)}
       />
 
       {/* Main Content Area Protected by Higher-Order Access Guard */}
@@ -512,6 +515,12 @@ export default function App() {
         isOpen={isCertModalOpen}
         onClose={() => setIsCertModalOpen(false)}
         studentName={currentUser.name}
+      />
+
+      {/* Live Web Public URLs & Firebase App Modal */}
+      <LiveFirebaseAppModal
+        isOpen={isLiveUrlsModalOpen}
+        onClose={() => setIsLiveUrlsModalOpen(false)}
       />
     </SoftwareShell>
   );

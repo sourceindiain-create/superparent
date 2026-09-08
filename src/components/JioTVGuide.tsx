@@ -37,21 +37,21 @@ export const JioTVGuide: React.FC<JioTVGuideProps> = ({ onAskAI, onOpenHomework 
 
   return (
     <div className="bg-[#0B0E17] text-white min-h-[90vh] rounded-3xl p-4 sm:p-8 border border-[#23293D] shadow-2xl space-y-8 animate-fade-in">
-      {/* JioTV Brand Header */}
+      {/* Live Broadcast Brand Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#23293D] pb-6">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#E50046] to-pink-600 flex items-center justify-center text-white font-black shadow-lg shadow-pink-900/40">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#BE123C] to-[#047857] flex items-center justify-center text-white font-black shadow-lg shadow-rose-900/40">
             <Tv className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="bg-[#E50046] text-white text-[10px] font-black uppercase px-2 py-0.5 rounded tracking-wider">
-                JioTV Live
+              <span className="bg-[#BE123C] text-white text-[10px] font-black uppercase px-2 py-0.5 rounded tracking-wider">
+                LIVE BROADCASTS
               </span>
-              <span className="text-xs text-blue-400 font-bold">24x7 Educational Broadcast Network</span>
+              <span className="text-xs text-emerald-400 font-bold">24x7 Educational Broadcast Network</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              Live Gurukul TV & Doordarshan Channels
+              Live Gurukul TV &amp; Doordarshan Broadcasts
             </h1>
           </div>
         </div>

@@ -126,10 +126,10 @@ export const NetflixJioTvHome: React.FC<NetflixJioTvHomeProps> = ({
 
             <button
               onClick={() => setActiveTab('jiotv')}
-              className="flex items-center gap-2 bg-[#E50046] hover:bg-[#c2003b] text-white font-bold px-5 py-3 rounded-md text-sm shadow-lg transition-all cursor-pointer"
+              className="flex items-center gap-2 bg-[#BE123C] hover:bg-[#9f1239] text-white font-bold px-5 py-3 rounded-md text-sm shadow-lg transition-all cursor-pointer"
             >
               <Tv className="w-5 h-5" />
-              <span>Watch JioTV Live</span>
+              <span>Watch Live TV</span>
             </button>
 
             <button
@@ -258,18 +258,18 @@ export const NetflixJioTvHome: React.FC<NetflixJioTvHomeProps> = ({
           </div>
         </div>
 
-        {/* RAIL 2: 📺 JIOTV LIVE BROADCAST CHANNELS */}
+        {/* RAIL 2: 📺 LIVE BROADCAST CHANNELS */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#E50046] animate-ping" />
+              <div className="w-2.5 h-2.5 rounded-full bg-[#BE123C] animate-ping" />
               <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                JioTV Live Educational Channels & Doordarshan
+                Live Educational Broadcast Channels &amp; Doordarshan
               </h2>
             </div>
             <button
               onClick={() => setActiveTab('jiotv')}
-              className="text-xs text-[#E50046] hover:underline font-bold flex items-center gap-1"
+              className="text-xs text-[#BE123C] hover:underline font-bold flex items-center gap-1"
             >
               <span>Explore All Channels</span>
               <ChevronRight className="w-4 h-4" />

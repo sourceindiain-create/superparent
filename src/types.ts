@@ -1,10 +1,11 @@
 export type UserRole = 'parent' | 'student' | 'admin';
 
 export type AppThemeId = 
+  | 'botanical-light'
   | 'pure-white'
+  | 'theosm-branding'
   | 'netflix-dark'
   | 'jiotv-crimson'
-  | 'theosm-branding'
   | 'byjus-purple' 
   | 'unacademy-green' 
   | 'gurukul-amber' 

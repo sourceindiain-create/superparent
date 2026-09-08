@@ -656,47 +656,31 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
         currentTheme={currentTheme}
       />
 
-      {/* Professional EdTech Operating Bar (THEOSM • BYJU'S • Unacademy • Unified) */}
+      {/* Professional EdTech Operating Bar (Master Botanical Light • Cinema Dark • Live TV • Visual 3D) */}
       <div className="bg-white rounded-2xl p-3 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-1.5 flex-wrap">
           <span className="text-xs font-black text-slate-800 flex items-center gap-1 mr-1">
-            <Layers className="w-4 h-4 text-[#021807]" />
-            <span>EdTech Template:</span>
+            <Layers className="w-4 h-4 text-[#047857]" />
+            <span>Master AI Theme &amp; Style:</span>
           </span>
 
-          {/* Netflix Cinematic Dark Mode Tab */}
+          {/* Master AI Nature Botanical Light (Images 2, 3, 4 Palette) */}
           <button
             onClick={() => {
-              setEdTechView('netflix');
-              if (onSelectTheme) onSelectTheme('netflix-dark');
+              setEdTechView('unified');
+              if (onSelectTheme) onSelectTheme('botanical-light');
             }}
             className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
-              edTechView === 'netflix' || currentTheme === 'netflix-dark'
-                ? 'bg-[#E50914] text-white shadow-xs ring-2 ring-red-400'
-                : 'bg-red-50 hover:bg-red-100 text-red-950 border border-red-200'
+              currentTheme === 'botanical-light'
+                ? 'bg-gradient-to-r from-[#047857] to-[#0D9488] text-white shadow-xs ring-2 ring-emerald-400'
+                : 'bg-emerald-50 hover:bg-emerald-100 text-[#047857] border border-emerald-200'
             }`}
           >
-            <span>🎬</span>
-            <span>Netflix UI/UX</span>
+            <span>🌿</span>
+            <span>Master AI Nature Light</span>
           </button>
 
-          {/* JioTV Live Channels Mode Tab */}
-          <button
-            onClick={() => {
-              setEdTechView('jiotv');
-              if (onSelectTheme) onSelectTheme('jiotv-crimson');
-            }}
-            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
-              edTechView === 'jiotv' || currentTheme === 'jiotv-crimson'
-                ? 'bg-[#E50046] text-white shadow-xs ring-2 ring-pink-400'
-                : 'bg-pink-50 hover:bg-pink-100 text-pink-950 border border-pink-200'
-            }`}
-          >
-            <span>📺</span>
-            <span>JioTV Live Template</span>
-          </button>
-
-          {/* THEOSM™ Mode Tab */}
+          {/* Master Light Neo-Emerald */}
           <button
             onClick={() => {
               setEdTechView('unified');
@@ -704,12 +688,44 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
             }}
             className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
               currentTheme === 'theosm-branding'
-                ? 'bg-[#021807] text-[#63C633] shadow-xs ring-2 ring-[#63C633]'
-                : 'bg-emerald-50 hover:bg-emerald-100 text-[#021807] border border-[#CBD6A3]'
+                ? 'bg-[#047857] text-white shadow-xs ring-2 ring-emerald-400'
+                : 'bg-emerald-50 hover:bg-emerald-100 text-[#047857] border border-[#A7F3D0]'
             }`}
           >
             <span>⚡</span>
-            <span>THEOSM™ Neo-Lime</span>
+            <span>Master Light Neo-Emerald</span>
+          </button>
+
+          {/* Rose & Live Educational TV Mode Tab */}
+          <button
+            onClick={() => {
+              setEdTechView('jiotv');
+              if (onSelectTheme) onSelectTheme('jiotv-crimson');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              edTechView === 'jiotv' || currentTheme === 'jiotv-crimson'
+                ? 'bg-[#BE123C] text-white shadow-xs ring-2 ring-rose-400'
+                : 'bg-rose-50 hover:bg-rose-100 text-rose-900 border border-rose-200'
+            }`}
+          >
+            <span>📺</span>
+            <span>Rose &amp; Live Educational TV</span>
+          </button>
+
+          {/* Master Cinema Dark Mode Tab */}
+          <button
+            onClick={() => {
+              setEdTechView('netflix');
+              if (onSelectTheme) onSelectTheme('netflix-dark');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              edTechView === 'netflix' || currentTheme === 'netflix-dark'
+                ? 'bg-slate-900 text-white shadow-xs ring-2 ring-slate-400'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300'
+            }`}
+          >
+            <span>🌙</span>
+            <span>Cinema Dark Studio</span>
           </button>
 
           {/* Visual 3D Mode Tab */}
@@ -745,6 +761,22 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           </button>
 
           {/* Unified Gurukul Pro Tab */}
+          <button
+            onClick={() => {
+              setEdTechView('unified');
+              if (onSelectTheme) onSelectTheme('pure-white');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              currentTheme === 'pure-white'
+                ? 'bg-amber-500 text-slate-950 shadow-xs ring-2 ring-amber-400'
+                : 'bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200'
+            }`}
+          >
+            <span>☀️</span>
+            <span>Pure White Light</span>
+          </button>
+
+          {/* Unified Amber Gurukul */}
           <button
             onClick={() => {
               setEdTechView('unified');

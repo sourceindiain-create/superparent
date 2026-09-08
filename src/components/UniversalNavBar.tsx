@@ -34,6 +34,7 @@ interface UniversalNavBarProps {
   onToggleMasterAccess: () => void;
   masterAccessGranted: boolean;
   onOpenContact?: () => void;
+  onOpenLiveUrls?: () => void;
 }
 
 export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
@@ -47,7 +48,8 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
   onOpenAskAI,
   onToggleMasterAccess,
   masterAccessGranted,
-  onOpenContact
+  onOpenContact,
+  onOpenLiveUrls
 }) => {
   const { t, language } = useLanguage();
   const theme = APP_THEMES[currentTheme] || APP_THEMES['gurukul-amber'];
@@ -57,7 +59,7 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
     switch (tab) {
       case 'home': return t('navHome', 'Home Overview');
       case 'homework': return 'Students Homework (Google Lens, OCR, AI Solvers, Free Doctor & Holistic Development)';
-      case 'jiotv': return 'JioTV Live Educational Channels & Doordarshan (24x7 Broadcasts)';
+      case 'jiotv': return 'Live Educational Broadcasts & Classroom Channels (24x7)';
       case 'gmail': return 'Google Workspace Gmail Inbox & School Communications';
       case 'tutors-room': return t('navTutorsRoom', "Tutor's Room (All Links, Videos, Books, AI & Voice)");
       case 'super-student': return t('navSuperStudent', 'Super Student Hub ($200k+ Free Packs & AI)');
@@ -154,6 +156,21 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
 
           {/* Direct EdTech Theme Selector Chips */}
           <div className="flex items-center gap-1">
+            {/* Master AI Nature Botanical Light (Images 2, 3, 4 Palette) */}
+            <button
+              onClick={() => onSelectTheme('botanical-light')}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTheme === 'botanical-light'
+                  ? 'bg-gradient-to-r from-[#047857] to-[#0D9488] text-white shadow-xs ring-2 ring-emerald-400 font-extrabold'
+                  : 'bg-emerald-50 hover:bg-emerald-100 text-[#047857] border border-emerald-200'
+              }`}
+              title="Switch to Master AI Nature Botanical Light Theme (Images 2, 3, 4)"
+            >
+              <span>🌿</span>
+              <span className="hidden sm:inline">Master AI</span>
+            </button>
+
+            {/* Pure White Background Button */}
             <button
               onClick={() => onSelectTheme('pure-white')}
               className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
@@ -169,49 +186,52 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
               <span className="hidden sm:inline">White Light</span>
             </button>
 
-            <button
-              onClick={() => onSelectTheme('netflix-dark')}
-              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
-                currentTheme === 'netflix-dark'
-                  ? 'bg-[#E50914] text-white shadow-xs ring-1 ring-red-400'
-                  : isDark 
-                    ? 'bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-700'
-                    : 'bg-red-50 hover:bg-red-100 text-red-950 border border-red-200'
-              }`}
-              title="Switch to Netflix Dark Cinema UI/UX"
-            >
-              <span>🎬</span>
-              <span className="hidden sm:inline">Netflix</span>
-            </button>
-
-            <button
-              onClick={() => onSelectTheme('jiotv-crimson')}
-              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
-                currentTheme === 'jiotv-crimson'
-                  ? 'bg-[#E50046] text-white shadow-xs ring-1 ring-pink-400'
-                  : isDark
-                    ? 'bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-700'
-                    : 'bg-pink-50 hover:bg-pink-100 text-pink-950 border border-pink-200'
-              }`}
-              title="Switch to JioTV Live Streaming UI/UX"
-            >
-              <span>📺</span>
-              <span className="hidden sm:inline">JioTV</span>
-            </button>
-
+            {/* Master Light Neo-Emerald */}
             <button
               onClick={() => onSelectTheme('theosm-branding')}
               className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
                 currentTheme === 'theosm-branding'
-                  ? 'bg-[#021807] text-[#63C633] shadow-xs ring-1 ring-[#63C633]'
+                  ? 'bg-[#047857] text-white shadow-xs ring-1 ring-emerald-400'
                   : isDark
                     ? 'bg-neutral-900 hover:bg-neutral-800 text-emerald-400 border border-neutral-700'
-                    : 'bg-emerald-50 hover:bg-emerald-100 text-[#021807] border border-[#CBD6A3]'
+                    : 'bg-emerald-50 hover:bg-emerald-100 text-[#047857] border border-[#A7F3D0]'
               }`}
-              title="Switch to theosm™ Neo-Lime Branding (Dribbble 27700505)"
+              title="Switch to Master Light Neo-Emerald Theme"
             >
               <span>⚡</span>
-              <span className="hidden sm:inline">THEOSM™</span>
+              <span className="hidden sm:inline">Master Light</span>
+            </button>
+
+            {/* Rose Live TV Mode */}
+            <button
+              onClick={() => onSelectTheme('jiotv-crimson')}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTheme === 'jiotv-crimson'
+                  ? 'bg-[#BE123C] text-white shadow-xs ring-1 ring-rose-400'
+                  : isDark
+                    ? 'bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-700'
+                    : 'bg-rose-50 hover:bg-rose-100 text-rose-950 border border-rose-200'
+              }`}
+              title="Switch to Rose Hibiscus & Live Broadcasts Theme"
+            >
+              <span>📺</span>
+              <span className="hidden sm:inline">Live TV</span>
+            </button>
+
+            {/* Master Cinema Dark */}
+            <button
+              onClick={() => onSelectTheme('netflix-dark')}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
+                currentTheme === 'netflix-dark'
+                  ? 'bg-slate-900 text-white shadow-xs ring-1 ring-slate-400'
+                  : isDark 
+                    ? 'bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-700'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300'
+              }`}
+              title="Switch to Master Cinema Dark Studio UI"
+            >
+              <span>🌙</span>
+              <span className="hidden sm:inline">Cinema Dark</span>
             </button>
 
             <button
@@ -286,6 +306,30 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
 
         {/* Right Side: Quick Action Links & Diagnostic Trigger */}
         <div className="flex items-center gap-2 flex-wrap">
+          {/* Live Web App & Firebase URLs Trigger */}
+          {onOpenLiveUrls && (
+            <button
+              onClick={onOpenLiveUrls}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white shadow-xs transition-all cursor-pointer ring-1 ring-emerald-400"
+              title="Open Live Public Web URL & Firebase App Domains"
+            >
+              <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+              <span>🌐 Live URLs</span>
+            </button>
+          )}
+
+          {/* StoryTribe Studio Quick Link */}
+          <a
+            href="https://storytribeapp.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black bg-purple-900/90 hover:bg-purple-800 text-purple-200 hover:text-white border border-purple-500/40 shadow-xs transition-all cursor-pointer"
+            title="Launch StoryTribe App (storytribeapp.com) - Visual Comic & Storyboard Studio"
+          >
+            <span>🎨</span>
+            <span>StoryTribe</span>
+          </a>
+
           {/* Direct Contact Button */}
           {onOpenContact && (
             <button
@@ -310,19 +354,19 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
             <span>powcoloring.com</span>
           </a>
 
-          {/* Quick JioTV Live Button */}
+          {/* Quick Live Broadcasts Button */}
           <button
             onClick={() => setActiveTab('jiotv')}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-black border transition-all cursor-pointer ${
               activeTab === 'jiotv'
-                ? 'bg-[#E50046] text-white border-[#E50046] shadow-xs'
+                ? 'bg-[#BE123C] text-white border-[#BE123C] shadow-xs'
                 : isDark
-                  ? 'bg-neutral-900 text-pink-300 border-neutral-700 hover:bg-neutral-800'
-                  : 'bg-pink-50 text-pink-900 border-pink-200 hover:bg-pink-100'
+                  ? 'bg-neutral-900 text-rose-300 border-neutral-700 hover:bg-neutral-800'
+                  : 'bg-rose-50 text-rose-900 border-rose-200 hover:bg-rose-100'
             }`}
           >
             <span>📺</span>
-            <span className="hidden sm:inline">JioTV Live</span>
+            <span className="hidden sm:inline">Live Channels</span>
           </button>
 
           {/* Quick Gmail Button */}

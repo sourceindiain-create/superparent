@@ -62,6 +62,7 @@ interface SoftwareShellProps {
 interface NavGroup {
   groupName: string;
   items: {
+    id?: string;
     tab: NavTab;
     label: string;
     teluguLabel: string;
@@ -109,22 +110,22 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
         {
           groupName: 'Streaming & Live Broadcast',
           items: [
-            { tab: 'home', label: 'Netflix Kids Gurukul', teluguLabel: 'నెట్‌ఫ్లిక్స్ సినిమా', icon: Home, badge: 'NETFLIX™', badgeColor: 'bg-[#E50914] text-white' },
-            { tab: 'jiotv', label: 'JioTV Live Classrooms', teluguLabel: 'జియో టీవీ లైవ్ ఛానల్స్', icon: Tv, badge: '🔴 LIVE 24x7', badgeColor: 'bg-[#E50046] text-white animate-pulse' },
+            { tab: 'home', label: 'Master Kids Gurukul', teluguLabel: 'గురుకుల హోమ్', icon: Home, badge: 'MASTER AI', badgeColor: 'bg-emerald-700 text-white' },
+            { tab: 'jiotv', label: 'Live Educational Classrooms', teluguLabel: 'లైవ్ ఎడ్యుకేషన్ ఛానల్స్', icon: Tv, badge: '🔴 LIVE 24x7', badgeColor: 'bg-[#BE123C] text-white animate-pulse' },
             { tab: 'gmail', label: 'Google Workspace Gmail', teluguLabel: 'స్కూల్ జీమెయిల్', icon: Mail, badge: 'Official API', badgeColor: 'bg-red-600 text-white' }
           ]
         },
         {
           groupName: 'Kids Smart Academy & Labs',
           items: [
-            { tab: 'kids-lab', label: 'Colouring & powcoloring.com', teluguLabel: 'రంగులు, వీడియోలు & బుక్స్', icon: Palette, badge: 'powcoloring.com', badgeColor: 'bg-amber-400 text-slate-950 font-black' },
-            { tab: 'homework', label: 'Students Homework & OCR', teluguLabel: 'హోంవర్క్ & OCR సాల్వర్', icon: Sparkles, badge: 'Google Lens AI', badgeColor: 'bg-amber-500 text-black font-black' },
-            { tab: 'super-student', label: 'Super Student Hub', teluguLabel: 'సూపర్ స్టూడెంట్ హబ్', icon: Zap, badge: 'Free $200k+', badgeColor: 'bg-emerald-600 text-white' },
-            { tab: 'kids-lab', label: 'Kids 3D Science & Anatomy', teluguLabel: 'కిడ్స్ 3D సైన్స్ ల్యాబ్', icon: Cpu, badge: '3D Simulation', badgeColor: 'bg-purple-600 text-white' },
-            { tab: 'education', label: 'Education Hub (LKG - 10)', teluguLabel: 'పాఠ్యాంశాలు', icon: BookOpen, badge: 'NCERT / CBSE' },
-            { tab: 'practice-master', label: 'Practice Master Zone', teluguLabel: 'పరీక్షలు & క్విజ్', icon: Zap, badge: 'Research Labs' },
-            { tab: 'classroom', label: 'Virtual Classroom & Tutor', teluguLabel: 'లైవ్ క్లాస్‌రూమ్', icon: Video, badge: 'Voice AI & Meet', badgeColor: 'bg-blue-600 text-white' },
-            { tab: 'language-lab', label: 'World Language Lab', teluguLabel: 'భాషా ప్రయోగశాల', icon: Languages, badge: 'Telugu & Sanskrit' }
+            { id: 'kids-colouring-lab', tab: 'kids-lab', label: 'Colouring & powcoloring.com', teluguLabel: 'రంగులు, వీడియోలు & బుక్స్', icon: Palette, badge: 'powcoloring.com', badgeColor: 'bg-amber-400 text-slate-950 font-black' },
+            { id: 'student-homework', tab: 'homework', label: 'Students Homework & OCR', teluguLabel: 'హోంవర్క్ & OCR సాల్వర్', icon: Sparkles, badge: 'Google Lens AI', badgeColor: 'bg-amber-500 text-black font-black' },
+            { id: 'super-student-hub', tab: 'super-student', label: 'Super Student Hub', teluguLabel: 'సూపర్ స్టూడెంట్ హబ్', icon: Zap, badge: 'Free $200k+', badgeColor: 'bg-emerald-600 text-white' },
+            { id: 'kids-3d-science-lab', tab: 'kids-lab', label: 'Kids 3D Science & Anatomy', teluguLabel: 'కిడ్స్ 3D సైన్స్ ల్యాబ్', icon: Cpu, badge: '3D Simulation', badgeColor: 'bg-purple-600 text-white' },
+            { id: 'education-hub', tab: 'education', label: 'Education Hub (LKG - 10)', teluguLabel: 'పాఠ్యాంశాలు', icon: BookOpen, badge: 'NCERT / CBSE' },
+            { id: 'practice-master-zone', tab: 'practice-master', label: 'Practice Master Zone', teluguLabel: 'పరీక్షలు & క్విజ్', icon: Zap, badge: 'Research Labs' },
+            { id: 'classroom-live', tab: 'classroom', label: 'Virtual Classroom & Tutor', teluguLabel: 'లైవ్ క్లాస్‌రూమ్', icon: Video, badge: 'Voice AI & Meet', badgeColor: 'bg-blue-600 text-white' },
+            { id: 'world-language-lab', tab: 'language-lab', label: 'World Language Lab', teluguLabel: 'భాషా ప్రయోగశాల', icon: Languages, badge: 'Telugu & Sanskrit' }
           ]
         },
         {
@@ -147,7 +148,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
           groupName: 'Streaming & Parent Command',
           items: [
             { tab: 'home', label: 'Parent Executive Dashboard', teluguLabel: 'పేరెంట్ డాష్‌బోర్డ్', icon: Home, badge: 'Royal Blue' },
-            { tab: 'jiotv', label: 'JioTV Live Educational TV', teluguLabel: 'జియో టీవీ లైవ్ ఛానల్స్', icon: Tv, badge: '🔴 LIVE' },
+            { tab: 'jiotv', label: 'Live Educational Broadcasts', teluguLabel: 'లైవ్ టీవీ ఛానల్స్', icon: Tv, badge: '🔴 LIVE' },
             { tab: 'gmail', label: 'School Notices & Gmail', teluguLabel: 'స్కూల్ జీమెయిల్', icon: Mail, badge: 'Workspace' },
             { tab: 'homework', label: 'Child Homework & Doctor Help', teluguLabel: 'హోంవర్క్ & డాక్టర్ సపోర్ట్', icon: Sparkles, badge: 'Lens & Doctor', badgeColor: 'bg-emerald-600 text-white' },
             { tab: 'parenting', label: 'Parenting Master Psychology', teluguLabel: 'పేరెంటింగ్ హబ్', icon: Users, badge: 'Articles' }
@@ -172,7 +173,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
         items: [
           { tab: 'admin', label: 'Admin Security Portal', teluguLabel: 'అడ్మిన్ పోర్టల్', icon: ShieldCheck, badge: 'Master', badgeColor: 'bg-rose-100 text-rose-800' },
           { tab: 'gmail', label: 'Admin Gmail Hub', teluguLabel: 'అడ్మిన్ జీమెయిల్', icon: Mail, badge: 'Google API' },
-          { tab: 'jiotv', label: 'JioTV Live Broadcasts', teluguLabel: 'జియో టీవీ లైవ్', icon: Tv, badge: '🔴 LIVE' },
+          { tab: 'jiotv', label: 'Live Broadcasts Hub', teluguLabel: 'లైవ్ ప్రసారాలు', icon: Tv, badge: '🔴 LIVE' },
           { tab: 'testing', label: 'System Health Diagnostics', teluguLabel: 'సిస్టమ్ టెస్టింగ్', icon: Sliders }
         ]
       },
@@ -236,7 +237,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
     setRole(newRole);
     setIsWorkspaceMenuOpen(false);
     if (newRole === 'student') {
-      onSelectTheme('netflix-dark');
+      onSelectTheme('botanical-light');
       setActiveTab('home');
     } else if (newRole === 'parent') {
       onSelectTheme('royal-indigo'); // Complete Blue
@@ -407,12 +408,13 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
               )}
 
               <div className="space-y-1">
-                {group.items.map((item) => {
+                {group.items.map((item, itemIdx) => {
                   const Icon = item.icon;
                   const isActive = activeTab === item.tab;
+                  const itemKey = item.id || `${group.groupName}-${item.tab}-${itemIdx}`;
                   return (
                     <button
-                      key={item.tab}
+                      key={itemKey}
                       onClick={() => handleSelectTab(item.tab)}
                       style={{
                         backgroundColor: isActive ? theme.primary : undefined,
@@ -628,12 +630,13 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
                     {group.groupName}
                   </div>
                   <div className="space-y-0.5">
-                    {group.items.map(item => {
+                    {group.items.map((item, itemIdx) => {
                       const Icon = item.icon;
                       const isActive = activeTab === item.tab;
+                      const itemKey = `mobile-${item.id || `${group.groupName}-${item.tab}-${itemIdx}`}`;
                       return (
                         <button
-                          key={item.tab}
+                          key={itemKey}
                           onClick={() => handleSelectTab(item.tab)}
                           style={{
                             backgroundColor: isActive ? theme.primary : undefined,
@@ -708,14 +711,14 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
           {/* Center / Right Control Panel Badges */}
           <div className="flex items-center gap-2 sm:gap-3">
             
-            {/* Quick JioTV Live Broadcast Pill */}
+            {/* Quick Live Broadcast Pill */}
             <button
               onClick={() => setActiveTab('jiotv')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#E50046] text-white text-xs font-black shadow-md hover:scale-105 transition-all cursor-pointer animate-pulse"
-              title="Watch JioTV Live Education Channels"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#BE123C] text-white text-xs font-black shadow-md hover:scale-105 transition-all cursor-pointer animate-pulse"
+              title="Watch Live Education Broadcast Channels"
             >
               <Tv className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">JioTV LIVE</span>
+              <span className="hidden sm:inline">LIVE CHANNELS</span>
             </button>
 
             {/* Streak Counter Pill */}

@@ -1,93 +1,115 @@
 import { ThemeConfig, AppThemeId } from '../types';
 
 export const APP_THEMES: Record<AppThemeId, ThemeConfig> = {
+  'botanical-light': {
+    id: 'botanical-light',
+    name: 'Master AI & Nature Botanical Light',
+    teluguName: 'మాస్టర్ AI నేచర్ బొటానికల్ లైట్',
+    description: 'Luminous pure daylight white (#FAFDF9), botanical forest emerald (#047857), personal care rose ribbons (#BE123C), ocean teal & turmeric gold',
+    brandTag: 'MASTER AI NATURE',
+    primary: '#047857', // Botanical Forest Emerald Green (from Deltas images)
+    primaryHover: '#065F46',
+    primaryLight: '#ECFDF5',
+    accent: '#BE123C', // Radiant Hibiscus Rose / Beauty Care Ribbon
+    bgMain: '#FAFDF9', // Pure luminous botanical daylight ivory
+    cardBg: '#FFFFFF', // Crisp pure white cards
+    border: '#E2E8F0', // Clean subtle border
+    textPrimary: '#0F172A', // Deep obsidian readability
+    textMuted: '#475569', // Slate 600
+    ring: '#047857',
+    badgeBg: '#ECFDF5',
+    badgeText: '#047857',
+    gradientFrom: '#047857',
+    gradientTo: '#0D9488',
+    palette: ['#FAFDF9', '#047857', '#BE123C', '#0D9488', '#D97706']
+  },
   'pure-white': {
     id: 'pure-white',
     name: 'Pure White & Crystal Light',
     teluguName: 'స్వచ్ఛమైన తెలుపు లైట్ థీమ్',
-    description: 'Crisp, ultra-clean pure white background (#FFFFFF), high-contrast text, sunny amber accents & bright daylight readability',
+    description: 'Crisp, ultra-clean pure white background (#FFFFFF), high-contrast text, botanical emerald & sunny amber accents',
     brandTag: 'WHITE LIGHT',
-    primary: '#EA580C', // Vibrant daylight orange
-    primaryHover: '#C2410C',
-    primaryLight: '#FFF7ED',
+    primary: '#047857', // Botanical emerald
+    primaryHover: '#065F46',
+    primaryLight: '#ECFDF5',
     accent: '#0284C7', // Sky Blue
     bgMain: '#FFFFFF', // Pure clean white
-    cardBg: '#F8FAFC', // Slate 50 clean card
+    cardBg: '#FFFFFF', // Clean white card
     border: '#E2E8F0', // Crisp light border
     textPrimary: '#0F172A', // Deep slate obsidian
-    textMuted: '#64748B', // Neutral gray
-    ring: '#EA580C',
-    badgeBg: '#FFF7ED',
-    badgeText: '#C2410C',
-    gradientFrom: '#EA580C',
-    gradientTo: '#F59E0B',
-    palette: ['#FFFFFF', '#EA580C', '#0284C7', '#F8FAFC']
-  },
-  'netflix-dark': {
-    id: 'netflix-dark',
-    name: 'Netflix Cinematic Dark',
-    teluguName: 'నెట్‌ఫ్లిక్స్ సినిమాటిక్ డార్క్',
-    description: 'Iconic Netflix crimson red, deep cinematic carbon black (#141414), studio vignettes & high-contrast movie cards',
-    brandTag: 'NETFLIX™',
-    primary: '#E50914', // Iconic Netflix Red
-    primaryHover: '#B20710', // Dark Crimson Red
-    primaryLight: '#2D0B0E', // Translucent red wine tint
-    accent: '#FFA500', // Gold/Amber highlight
-    bgMain: '#141414', // Cinematic Netflix background
-    cardBg: '#181818', // Netflix dark card
-    border: '#2A2A2A', // Subtle dark border
-    textPrimary: '#FFFFFF', // High contrast white
-    textMuted: '#A3A3A3', // Crisp neutral gray
-    ring: '#E50914',
-    badgeBg: '#E50914',
-    badgeText: '#FFFFFF',
-    gradientFrom: '#E50914',
-    gradientTo: '#141414',
-    palette: ['#141414', '#E50914', '#FFFFFF', '#1F1F1F']
-  },
-  'jiotv-crimson': {
-    id: 'jiotv-crimson',
-    name: 'Jio TV Live & Entertainment',
-    teluguName: 'జియో టీవీ లైవ్ ఎంటర్‌టైన్‌మెంట్',
-    description: 'Vibrant JioTV magenta-crimson (#E50046), deep midnight space (#0B0E17), live TV channels & streaming rails',
-    brandTag: 'JioTV™',
-    primary: '#E50046', // Iconic JioTV Crimson Pink
-    primaryHover: '#C2003B',
-    primaryLight: '#2B0D1A',
-    accent: '#0A84FF', // Jio Digital Blue
-    bgMain: '#0B0E17', // Midnight Navy-Black
-    cardBg: '#121624',
-    border: '#23293D',
-    textPrimary: '#FFFFFF',
-    textMuted: '#94A3B8',
-    ring: '#E50046',
-    badgeBg: '#E50046',
-    badgeText: '#FFFFFF',
-    gradientFrom: '#E50046',
-    gradientTo: '#0A2885',
-    palette: ['#0B0E17', '#E50046', '#0A84FF', '#121624']
+    textMuted: '#475569', // Neutral gray
+    ring: '#047857',
+    badgeBg: '#ECFDF5',
+    badgeText: '#047857',
+    gradientFrom: '#047857',
+    gradientTo: '#0D9488',
+    palette: ['#FFFFFF', '#047857', '#0284C7', '#F8FAFC']
   },
   'theosm-branding': {
     id: 'theosm-branding',
-    name: 'theosm™ Neo-Lime Branding',
-    teluguName: 'దోస్మ్ నియో-లైమ్ బ్రాండింగ్',
-    description: 'High-contrast Dribbble 27700505 Branding System: #021807 obsidian, #63C633 electric lime, #B5D545 chartreuse & #CBD6A3 pistachio',
-    brandTag: 'THEOSM™',
-    primary: '#63C633', // Electric Neo-Lime (Dribbble 27700505)
-    primaryHover: '#2FA212', // Kelly Green
-    primaryLight: '#EDF8E5', // Soft Pistachio Tint
-    accent: '#B5D545', // Chartreuse Pear Accent
-    bgMain: '#F8FAF4', // Clean Studio Mint-White
+    name: 'Master Light Neo-Emerald',
+    teluguName: 'మాస్టర్ లైట్ నియో-మరకత పచ్చ',
+    description: 'Crisp light background (#F8FAF6), botanical deep forest green (#047857), neo-lime accents (#10B981) & pure white cards',
+    brandTag: 'MASTER LIGHT',
+    primary: '#047857', // Forest Emerald Green
+    primaryHover: '#065F46', // Kelly Green
+    primaryLight: '#ECFDF5', // Soft Mint Tint
+    accent: '#10B981', // Vibrant Neo-Emerald
+    bgMain: '#F8FAF6', // Clean Master AI Daylight Ivory-Mint
     cardBg: '#FFFFFF',
-    border: '#CBD6A3', // Pale Pistachio Sage Border
-    textPrimary: '#021807', // Obsidian Black-Green
-    textMuted: '#1B5F0E', // Deep Forest Tone
-    ring: '#63C633',
-    badgeBg: '#021807',
-    badgeText: '#63C633',
-    gradientFrom: '#021807',
-    gradientTo: '#1B5F0E',
-    palette: ['#021807', '#63C633', '#B5D545', '#CBD6A3']
+    border: '#A7F3D0', // Pale Mint Sage Border
+    textPrimary: '#064E3B', // Obsidian Deep Forest
+    textMuted: '#047857', // Botanical Forest Tone
+    ring: '#047857',
+    badgeBg: '#ECFDF5',
+    badgeText: '#047857',
+    gradientFrom: '#047857',
+    gradientTo: '#0D9488',
+    palette: ['#F8FAF6', '#047857', '#10B981', '#FFFFFF']
+  },
+  'netflix-dark': {
+    id: 'netflix-dark',
+    name: 'Master Cinema Dark Studio',
+    teluguName: 'మాస్టర్ సినిమా డార్క్ స్టూడియో',
+    description: 'Deep cinematic carbon black (#121417), studio vignettes & high-contrast focus cards',
+    brandTag: 'CINEMA DARK',
+    primary: '#047857', // Botanical Emerald
+    primaryHover: '#065F46',
+    primaryLight: '#1C2E25',
+    accent: '#F59E0B', // Gold/Amber highlight
+    bgMain: '#101413', // Deep slate botanical background
+    cardBg: '#181F1D', // Studio dark card
+    border: '#273631', // Subtle dark border
+    textPrimary: '#FFFFFF', // High contrast white
+    textMuted: '#A3B3AB', // Crisp neutral gray
+    ring: '#047857',
+    badgeBg: '#047857',
+    badgeText: '#FFFFFF',
+    gradientFrom: '#047857',
+    gradientTo: '#101413',
+    palette: ['#101413', '#047857', '#FFFFFF', '#181F1D']
+  },
+  'jiotv-crimson': {
+    id: 'jiotv-crimson',
+    name: 'Rose Hibiscus & Live Broadcasts',
+    teluguName: 'గులాబీ హైబిస్కస్ & లైవ్ ప్రసారాలు',
+    description: 'Radiant rose-magenta (#BE123C), botanical foliage, 24x7 educational broadcasts & interactive live channels',
+    brandTag: 'WELLNESS & LIVE',
+    primary: '#BE123C', // Radiant Rose Magenta (from Deltas personal care)
+    primaryHover: '#9F1239',
+    primaryLight: '#FFF1F2',
+    accent: '#047857', // Botanical Emerald Accent
+    bgMain: '#FFF9F9', // Soft Rose Light Background
+    cardBg: '#FFFFFF',
+    border: '#FECDD3',
+    textPrimary: '#1E293B',
+    textMuted: '#64748B',
+    ring: '#BE123C',
+    badgeBg: '#FFE4E6',
+    badgeText: '#BE123C',
+    gradientFrom: '#BE123C',
+    gradientTo: '#047857',
+    palette: ['#FFF9F9', '#BE123C', '#047857', '#FFFFFF']
   },
   'byjus-purple': {
     id: 'byjus-purple',

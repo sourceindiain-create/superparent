@@ -337,12 +337,12 @@ export const NetflixJioHome: React.FC<NetflixJioHomeProps> = ({
         <div className="flex items-center gap-3">
           <div className={`w-3 h-3 rounded-full ${isNetflix ? 'bg-red-600 animate-pulse' : 'bg-pink-600 animate-pulse'}`} />
           <span className="text-xs font-black tracking-wider uppercase text-slate-300">
-            Current OTT Streaming Layout:
+            Streaming Layout:
           </span>
           <span className={`text-xs font-black px-2.5 py-1 rounded-md ${
-            isNetflix ? 'bg-red-600 text-white' : 'bg-[#E50046] text-white'
+            isNetflix ? 'bg-[#047857] text-white' : 'bg-[#BE123C] text-white'
           }`}>
-            {isNetflix ? '🔴 NETFLIX CINEMATIC' : '📺 JioTV LIVE CHANNELS'}
+            {isNetflix ? '🎬 CINEMA DARK STUDIO' : '📺 LIVE BROADCASTS'}
           </span>
         </div>
 
@@ -351,21 +351,21 @@ export const NetflixJioHome: React.FC<NetflixJioHomeProps> = ({
             onClick={() => setCurrentTheme('netflix-dark')}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
               isNetflix 
-                ? 'bg-red-600 text-white shadow-lg shadow-red-900/40 ring-2 ring-white/20' 
+                ? 'bg-[#047857] text-white shadow-lg shadow-emerald-950/40 ring-2 ring-white/20' 
                 : 'bg-white/10 text-slate-300 hover:bg-white/20'
             }`}
           >
-            Netflix Style
+            Cinema Dark
           </button>
           <button
             onClick={() => setCurrentTheme('jiotv-crimson')}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
               !isNetflix 
-                ? 'bg-[#E50046] text-white shadow-lg shadow-pink-900/40 ring-2 ring-white/20' 
+                ? 'bg-[#BE123C] text-white shadow-lg shadow-rose-950/40 ring-2 ring-white/20' 
                 : 'bg-white/10 text-slate-300 hover:bg-white/20'
             }`}
           >
-            JioTV Style
+            Rose Live TV
           </button>
         </div>
       </div>

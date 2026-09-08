@@ -33,12 +33,12 @@ export const Footer: React.FC<FooterProps> = ({
   setActiveTab, 
   onOpenAskAI, 
   onOpenContact,
-  currentTheme = 'netflix-dark'
+  currentTheme = 'botanical-light'
 }) => {
   const userEmail = 'emfi.ceo@gmail.com';
   const phone = '+91 7981967919';
   const isDark = currentTheme === 'netflix-dark' || currentTheme === 'jiotv-crimson';
-  const theme = APP_THEMES[currentTheme] || APP_THEMES['netflix-dark'];
+  const theme = APP_THEMES[currentTheme] || APP_THEMES['botanical-light'];
 
   return (
     <footer 
@@ -46,38 +46,38 @@ export const Footer: React.FC<FooterProps> = ({
       className={`pt-14 pb-10 border-t mt-16 relative overflow-hidden transition-colors ${
         isDark 
           ? 'bg-[#0E0E0E] text-slate-300 border-[#2A2A2A]' 
-          : 'bg-[#021807] text-[#CBD6A3] border-[#63C633]/30'
+          : 'bg-[#FAFDF9] text-[#0F172A] border-[#A7F3D0]'
       }`}
     >
       {/* Background ambient glows */}
       <div 
         className="absolute top-0 right-1/4 w-96 h-96 rounded-full blur-3xl pointer-events-none opacity-20"
-        style={{ backgroundColor: isDark ? (currentTheme === 'jiotv-crimson' ? '#E50046' : '#E50914') : '#63C633' }}
+        style={{ backgroundColor: isDark ? (currentTheme === 'jiotv-crimson' ? '#BE123C' : '#047857') : '#A7F3D0' }}
       />
       <div 
         className="absolute bottom-0 left-10 w-80 h-80 rounded-full blur-3xl pointer-events-none opacity-10"
-        style={{ backgroundColor: isDark ? '#FFA500' : '#B5D545' }}
+        style={{ backgroundColor: isDark ? '#FFA500' : '#BE123C' }}
       />
 
       <div className="max-w-7xl mx-auto px-4 space-y-10 relative z-10">
         {/* International Streaming Certifications Header Bar */}
         <div className={`p-4 rounded-2xl border flex flex-wrap items-center justify-between gap-4 ${
-          isDark ? 'bg-[#181818] border-[#2A2A2A]' : 'bg-[#1B5F0E]/40 border-[#63C633]/30'
+          isDark ? 'bg-[#181818] border-[#2A2A2A]' : 'bg-white border-[#A7F3D0] shadow-xs'
         }`}>
           <div className="flex items-center gap-3 flex-wrap">
             <div className="flex items-center gap-1.5">
-              <span className="bg-[#E50914] text-white text-[10px] font-black px-2 py-0.5 rounded tracking-wider shadow">
-                NETFLIX™ KIDS
+              <span className="bg-[#047857] text-white text-[10px] font-black px-2 py-0.5 rounded tracking-wider shadow">
+                MASTER AI NATURE
               </span>
-              <span className="bg-[#E50046] text-white text-[10px] font-black px-2 py-0.5 rounded tracking-wider shadow">
-                JioTV™ LIVE
+              <span className="bg-[#BE123C] text-white text-[10px] font-black px-2 py-0.5 rounded tracking-wider shadow">
+                LIVE BROADCASTS 24x7
               </span>
               <span className="bg-[#0A84FF] text-white text-[10px] font-black px-2 py-0.5 rounded tracking-wider shadow">
                 GOOGLE WORKSPACE
               </span>
             </div>
-            <span className="text-xs font-semibold text-neutral-300">
-              Official Indian EdTech &amp; Digital Gurukul Streaming Interface
+            <span className={`text-xs font-semibold ${isDark ? 'text-neutral-300' : 'text-[#064E3B]'}`}>
+              Official Indian EdTech &amp; Digital Gurukul Master Interface
             </span>
           </div>
 
@@ -151,15 +151,15 @@ export const Footer: React.FC<FooterProps> = ({
             <ul className="text-xs text-neutral-400 space-y-2.5">
               <li>
                 <button onClick={() => setActiveTab('jiotv')} className="hover:text-white transition-colors flex items-center gap-2 cursor-pointer group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E50046] group-hover:scale-125 transition-transform" />
-                  <span className="font-bold text-neutral-200">JioTV Live Channels (24x7)</span>
-                  <span className="text-[9px] bg-[#E50046] text-white px-1 rounded font-black">LIVE</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#BE123C] group-hover:scale-125 transition-transform" />
+                  <span className="font-bold text-neutral-200">Live Educational Broadcasts (24x7)</span>
+                  <span className="text-[9px] bg-[#BE123C] text-white px-1 rounded font-black">LIVE</span>
                 </button>
               </li>
               <li>
                 <button onClick={() => setActiveTab('home')} className="hover:text-white transition-colors flex items-center gap-2 cursor-pointer group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E50914] group-hover:scale-125 transition-transform" />
-                  <span>Netflix Kids Learning Billboard</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#047857] group-hover:scale-125 transition-transform" />
+                  <span>Master AI Learning Billboard</span>
                 </button>
               </li>
               <li>
