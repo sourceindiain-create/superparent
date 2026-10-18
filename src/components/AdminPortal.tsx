@@ -31,6 +31,7 @@ import {
 import { APP_THEMES } from '../data/themes';
 import { FirebaseHealthCheck } from './FirebaseHealthCheck';
 import { CloudSqlDeveloperStudio } from './CloudSqlDeveloperStudio';
+import { firebaseConfig } from '../lib/firebase';
 
 interface AdminPortalProps {
   currentUser: UserAccount;
@@ -1046,7 +1047,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                     Firebase Project: <span className="text-orange-600 font-mono">studio-6989353372-64cd3</span> (Super Parent)
                   </h3>
                   <p className="text-xs text-slate-500 font-medium">
-                    Firestore Database ID: <code className="text-orange-700 bg-orange-50 px-1 py-0.5 rounded font-mono">ai-studio-superparent-bfab3fc7-3e58-4959-9afc-f918498ac589</code>
+                    Firestore Database ID: <code className="text-orange-700 bg-orange-50 px-1 py-0.5 rounded font-mono">{firebaseConfig.firestoreDatabaseId || 'kidsworld'}</code>
                   </p>
                 </div>
               </div>

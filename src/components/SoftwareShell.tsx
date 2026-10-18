@@ -39,7 +39,8 @@ import {
   Crown,
   Phone,
   Mail,
-  Tv
+  Tv,
+  LayoutGrid
 } from 'lucide-react';
 import { APP_THEMES } from '../data/themes';
 
@@ -110,6 +111,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
         {
           groupName: 'Streaming & Live Broadcast',
           items: [
+            { id: 'nav-services-menu', tab: 'services-menu', label: 'All Services & Sequenced Menu', teluguLabel: '25 క్రమపద్ధతి సేవలు & మెనూ', icon: LayoutGrid, badge: '01 - 25', badgeColor: 'bg-amber-400 text-slate-950 font-black' },
             { tab: 'home', label: 'Master Kids Gurukul', teluguLabel: 'గురుకుల హోమ్', icon: Home, badge: 'MASTER AI', badgeColor: 'bg-emerald-700 text-white' },
             { tab: 'jiotv', label: 'Live Educational Classrooms', teluguLabel: 'లైవ్ ఎడ్యుకేషన్ ఛానల్స్', icon: Tv, badge: '🔴 LIVE 24x7', badgeColor: 'bg-[#BE123C] text-white animate-pulse' },
             { tab: 'gmail', label: 'Google Workspace Gmail', teluguLabel: 'స్కూల్ జీమెయిల్', icon: Mail, badge: 'Official API', badgeColor: 'bg-red-600 text-white' }
@@ -147,6 +149,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
         {
           groupName: 'Streaming & Parent Command',
           items: [
+            { id: 'parent-services-menu', tab: 'services-menu', label: 'All Services & Sequenced Menu', teluguLabel: '25 క్రమపద్ధతి సేవలు & మెనూ', icon: LayoutGrid, badge: '01 - 25', badgeColor: 'bg-amber-400 text-slate-950 font-black' },
             { tab: 'home', label: 'Parent Executive Dashboard', teluguLabel: 'పేరెంట్ డాష్‌బోర్డ్', icon: Home, badge: 'Royal Blue' },
             { tab: 'jiotv', label: 'Live Educational Broadcasts', teluguLabel: 'లైవ్ టీవీ ఛానల్స్', icon: Tv, badge: '🔴 LIVE' },
             { tab: 'gmail', label: 'School Notices & Gmail', teluguLabel: 'స్కూల్ జీమెయిల్', icon: Mail, badge: 'Workspace' },
@@ -171,6 +174,7 @@ export const SoftwareShell: React.FC<SoftwareShellProps> = ({
       {
         groupName: 'Admin Master Command',
         items: [
+          { id: 'admin-services-menu', tab: 'services-menu', label: 'All Services & Sequenced Menu', teluguLabel: '25 క్రమపద్ధతి సేవలు & మెనూ', icon: LayoutGrid, badge: '01 - 25', badgeColor: 'bg-amber-400 text-slate-950 font-black' },
           { tab: 'admin', label: 'Admin Security Portal', teluguLabel: 'అడ్మిన్ పోర్టల్', icon: ShieldCheck, badge: 'Master', badgeColor: 'bg-rose-100 text-rose-800' },
           { tab: 'gmail', label: 'Admin Gmail Hub', teluguLabel: 'అడ్మిన్ జీమెయిల్', icon: Mail, badge: 'Google API' },
           { tab: 'jiotv', label: 'Live Broadcasts Hub', teluguLabel: 'లైవ్ ప్రసారాలు', icon: Tv, badge: '🔴 LIVE' },

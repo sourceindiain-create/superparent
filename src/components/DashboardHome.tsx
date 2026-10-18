@@ -649,6 +649,39 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
         onOpenAskAI={() => onOpenAskAI('general', '')}
       />
 
+      {/* Kids World Sequenced Services Command Center Banner */}
+      <div className="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white rounded-3xl p-5 sm:p-6 border border-emerald-500/40 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="px-3 py-0.5 rounded-full text-[11px] font-black uppercase bg-amber-400 text-slate-950 shadow-xs">
+              ⚡ ALL-IN-ONE SEQUENCED SERVICES
+            </span>
+            <span className="text-xs font-mono text-emerald-300 font-bold bg-white/10 px-2.5 py-0.5 rounded-lg border border-white/15">
+              Repo: kids-world • Sequence 01 - 25
+            </span>
+            <span className="text-[11px] font-semibold text-teal-200">
+              Firebase + Vercel Fullstack
+            </span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            All 25 Services &amp; Sequenced Menu Dashboard
+          </h2>
+          <p className="text-xs sm:text-sm text-emerald-200 font-medium">
+            25 క్రమపద్ధతి సేవలు: హోంవర్క్ AI, 3D ల్యాబ్, కలరింగ్, భాషా ప్రయోగశాల, లైవ్ టీవీ &amp; పూర్తి క్లౌడ్
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2.5 shrink-0 w-full md:w-auto">
+          <button
+            onClick={() => setActiveTab('services-menu')}
+            className="flex-1 md:flex-initial px-5 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer transform hover:scale-102"
+          >
+            <span>Launch Sequenced Menu (01 - 25)</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
       {/* Software Utility Dock Modal */}
       <SoftwareToolboxModal
         isOpen={isToolboxOpen}
@@ -1056,6 +1089,8 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {[
+                { id: 'research-world', name: 'Research World (Blueprint.io)', telugu: 'PCB, రోబోట్స్ & డ్రోన్స్ అసెంబ్లింగ్', icon: Cpu, color: 'text-indigo-600', bg: 'bg-indigo-50 hover:bg-indigo-100/70 border-indigo-200' },
+                { id: 'startup-world', name: 'Startup World', telugu: 'ఐడియా నుండి కంపెనీ వరకు & ఫండింగ్', icon: Zap, color: 'text-amber-600', bg: 'bg-amber-50 hover:bg-amber-100/70 border-amber-200' },
                 { id: 'education', name: 'Education Hub (LKG-10)', telugu: 'పాఠ్యాంశాలు', icon: BookOpen, color: 'text-blue-600', bg: 'bg-blue-50 hover:bg-blue-100/70 border-blue-100' },
                 { id: 'practice-master', name: 'Practice Master', telugu: 'పరీక్షలు & క్విజ్', icon: Zap, color: 'text-amber-600', bg: 'bg-amber-50 hover:bg-amber-100/70 border-amber-100' },
                 { id: 'kids-lab', name: 'Kids Lab Zone', telugu: 'సైన్స్ ప్రయోగాలు', icon: Cpu, color: 'text-purple-600', bg: 'bg-purple-50 hover:bg-purple-100/70 border-purple-100' },

@@ -134,8 +134,8 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
   const [copied, setCopied] = useState(false);
   const [responseSource, setResponseSource] = useState<string>('gemini-3.7-flash');
 
-  // Embedded Master AI Web App Navigation State
-  const MASTER_AI_URL = 'https://studio-6989353372-64cd3.web.app/';
+  // Embedded Master AI Web App Navigation State (SuperParent Live Production)
+  const MASTER_AI_URL = 'https://ais-pre-6h3ojl2oh67dewvc67wqfx-682266057961.asia-east1.run.app';
   const [currentAppUrl, setCurrentAppUrl] = useState<string>(MASTER_AI_URL);
   const [historyStack, setHistoryStack] = useState<string[]>([MASTER_AI_URL]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);
@@ -1352,7 +1352,7 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
             </div>
           )}
 
-          {/* TAB 4: MASTER AI WEB APP (https://studio-6989353372-64cd3.web.app/) */}
+          {/* TAB 4: SUPERPARENT LIVE GURUKUL & LEARNING WEB APPS */}
           {activeTab === 'master_app' && (
             <div className="h-full flex flex-col space-y-3">
               {/* Browser Navigation Toolbar */}
@@ -1398,7 +1398,7 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
 
                 {/* Launch External Button */}
                 <a
-                  href={MASTER_AI_URL}
+                  href={currentAppUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all"
@@ -1406,6 +1406,55 @@ export const AskSuperAIModal: React.FC<AskSuperAIModalProps> = ({
                   <ExternalLink className="w-3.5 h-3.5" />
                   <span>Open Fullscreen App</span>
                 </a>
+              </div>
+
+              {/* Quick App Preset Switchers */}
+              <div className="flex flex-wrap items-center gap-2 px-1">
+                <span className="text-[11px] font-bold text-slate-500">Quick Launch:</span>
+                <button
+                  type="button"
+                  onClick={() => handleAppNavigate('https://ais-pre-6h3ojl2oh67dewvc67wqfx-682266057961.asia-east1.run.app')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                    currentAppUrl.includes('run.app')
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                  }`}
+                >
+                  🌟 SuperParent Live (Cloud Run)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleAppNavigate('https://storytribeapp.com')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                    currentAppUrl.includes('storytribeapp.com')
+                      ? 'bg-purple-600 text-white shadow-xs'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                  }`}
+                >
+                  🎨 StoryTribe Studio
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleAppNavigate('https://kids-world.vercel.app')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                    currentAppUrl.includes('vercel.app')
+                      ? 'bg-slate-900 text-white shadow-xs'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                  }`}
+                >
+                  🚀 Kids World (Vercel)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleAppNavigate('https://powcoloring.com')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                    currentAppUrl.includes('powcoloring.com')
+                      ? 'bg-pink-600 text-white shadow-xs'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                  }`}
+                >
+                  🖍️ PowColoring
+                </button>
               </div>
 
               {/* Web App Embedded View Frame */}

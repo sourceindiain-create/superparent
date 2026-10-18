@@ -1126,8 +1126,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
             <span className="text-slate-200 font-mono text-[11px] truncate block">ais-pre-6h3ojl2oh67dewvc...</span>
           </div>
           <div className="bg-white/5 rounded-xl p-3 border border-white/10">
-            <span className="text-indigo-300 font-bold block text-[11px]">Firebase Web Domain</span>
-            <span className="text-slate-200 font-mono text-[11px] truncate block">studio-6989353372-64cd3.web.app</span>
+            <span className="text-indigo-300 font-bold block text-[11px]">Vercel Live Fullstack</span>
+            <span className="text-amber-300 font-mono text-[11px] truncate block">kids-world.vercel.app</span>
           </div>
           <div className="bg-white/5 rounded-xl p-3 border border-white/10">
             <span className="text-indigo-300 font-bold block text-[11px]">Custom Domain Target</span>

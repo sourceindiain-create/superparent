@@ -39,6 +39,8 @@ export const HomeOverview: React.FC<HomeOverviewProps> = ({
   onGenerateCertificate
 }) => {
   const hubTiles: { id: NavTab; label: string; teluguLabel: string; icon: any; badge?: string }[] = [
+    { id: 'research-world', label: 'Research World (Blueprint.io)', teluguLabel: 'PCB, రోబోట్స్ & డ్రోన్స్ అసెంబ్లింగ్', icon: Cpu, badge: '🔬 Blueprint + R&D' },
+    { id: 'startup-world', label: 'Startup World', teluguLabel: 'ఐడియా నుండి కంపెనీ వరకు & ఫండింగ్', icon: Zap, badge: '🚀 Idea to Company' },
     { id: 'homework', label: 'Students Homework & OCR', teluguLabel: 'గూగుల్ లెన్స్, OCR & డాక్టర్ సపోర్ట్', icon: Sparkles, badge: '📸 Lens & AI' },
     { id: 'practice-master', label: 'Practice Master Zone', teluguLabel: 'గ్లోబల్ పోర్టల్స్, రీసెర్చ్ & స్టార్టప్స్', icon: Globe, badge: '🌐 All-in-One' },
     { id: 'super-student', label: 'Super Student Hub', teluguLabel: 'ఉచిత డెవ్‌ప్యాక్స్ & 11 ఏఐ కోర్సులు', icon: Sparkles, badge: '🎁 $200k+ Free' },

@@ -10,7 +10,8 @@ import {
   Sparkles, 
   Database, 
   ShieldCheck, 
-  Radio
+  Radio,
+  AlertTriangle
 } from 'lucide-react';
 import { firebaseConfig } from '../lib/firebase';
 
@@ -29,48 +30,40 @@ export const LiveFirebaseAppModal: React.FC<LiveFirebaseAppModalProps> = ({
 
   const publicUrls = [
     {
-      title: 'Direct Public Live Web URL',
-      subtitle: 'Google Cloud Run Production (Instant Worldwide Access)',
+      title: 'Direct Public Live Web URL (Authentic SuperParent Gurukul)',
+      subtitle: 'Google Cloud Run Production (Instant Worldwide Access • 100% Active)',
       url: 'https://ais-pre-6h3ojl2oh67dewvc67wqfx-682266057961.asia-east1.run.app',
-      badge: 'LIVE NOW',
+      badge: 'OFFICIAL LIVE APP',
       badgeColor: 'bg-emerald-600 text-white',
       isPrimary: true
+    },
+    {
+      title: 'Vercel Fullstack Live App (Repo: kids-world)',
+      subtitle: 'Vercel Serverless & Edge Network Deployment • vercel.json & api/index.ts',
+      url: 'https://kids-world.vercel.app',
+      badge: 'VERCEL DEPLOY',
+      badgeColor: 'bg-slate-900 text-white font-black',
+      isPrimary: false
     },
     {
       title: 'StoryTribe App (Visual Storytelling & Comic Studio)',
       subtitle: 'Connected Visual Story Studio • storytribeapp.com',
       url: 'https://storytribeapp.com',
-      badge: 'STORYTRIBE APP',
+      badge: 'STORY STUDIO',
       badgeColor: 'bg-purple-600 text-white',
       isPrimary: false
     },
     {
-      title: 'Firebase Web App URL',
-      subtitle: 'Google Firebase Hosting Domain',
-      url: 'https://studio-6989353372-64cd3.web.app',
-      badge: 'FIREBASE HOSTING',
-      badgeColor: 'bg-amber-600 text-white',
+      title: 'PowColoring Lab (Online Interactive Coloring & Art)',
+      subtitle: 'Kids Art, Crayons & Canvas Studio • powcoloring.com',
+      url: 'https://powcoloring.com',
+      badge: 'COLORING LAB',
+      badgeColor: 'bg-pink-600 text-white',
       isPrimary: false
     },
     {
-      title: 'Firebase App Alternative Domain',
-      subtitle: 'Firebase App Default Subdomain',
-      url: 'https://studio-6989353372-64cd3.firebaseapp.com',
-      badge: 'FIREBASE DOMAIN',
-      badgeColor: 'bg-orange-600 text-white',
-      isPrimary: false
-    },
-    {
-      title: 'Custom Repo Subdomain',
-      subtitle: 'Target: superparent-studio',
-      url: 'https://superparent-studio.web.app',
-      badge: 'CUSTOM SITE',
-      badgeColor: 'bg-teal-700 text-white',
-      isPrimary: false
-    },
-    {
-      title: 'Active Development URL',
-      subtitle: 'Live dev container instance',
+      title: 'Active Cloud Development Workspace URL',
+      subtitle: 'Live dev container instance with hot dev server',
       url: 'https://ais-dev-6h3ojl2oh67dewvc67wqfx-682266057961.asia-east1.run.app',
       badge: 'DEV PREVIEW',
       badgeColor: 'bg-slate-700 text-white',
@@ -218,6 +211,35 @@ export const LiveFirebaseAppModal: React.FC<LiveFirebaseAppModalProps> = ({
                 );
               })}
             </div>
+          </div>
+
+          {/* Resolution Alert: Firebase Hosting Domain vs WOMENE */}
+          <div className="p-4 rounded-2xl border border-amber-300 bg-amber-50/90 space-y-2.5">
+            <div className="flex items-center gap-2 text-amber-950 font-black text-xs">
+              <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>Resolved: Why did the old Firebase domain redirect to "WOMENE"?</span>
+            </div>
+            <p className="text-xs text-amber-900/90 leading-relaxed">
+              The Firebase project <code className="bg-amber-200/60 px-1 py-0.5 rounded font-mono font-bold text-amber-950">studio-6989353372-64cd3</code> had an earlier care network app (<strong>WOMENE</strong>) deployed on its default CDN hosting domain. 
+              The genuine, fully operational <strong>SUPER PARENT (Kids World)</strong> web application runs live on Google Cloud Run with instant worldwide access:
+            </p>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 bg-white p-2.5 rounded-xl border border-amber-200 shadow-2xs">
+              <span className="font-mono text-xs font-bold text-emerald-800 truncate">
+                https://ais-pre-6h3ojl2oh67dewvc67wqfx-682266057961.asia-east1.run.app
+              </span>
+              <a
+                href="https://ais-pre-6h3ojl2oh67dewvc67wqfx-682266057961.asia-east1.run.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shrink-0 shadow-xs transition-all"
+              >
+                <span>Launch SuperParent</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+            <p className="text-[11px] text-amber-800/80">
+              ✓ Database backend is linked to Firestore DB: <code className="font-mono font-bold">{firebaseConfig.firestoreDatabaseId || 'kidsworld'}</code>
+            </p>
           </div>
 
           {/* Firebase App & Firestore Configuration Card */}

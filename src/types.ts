@@ -96,6 +96,9 @@ export type NavTab =
   | 'offline-hub'
   | 'contact'
   | 'login'
+  | 'services-menu'
+  | 'research-world'
+  | 'startup-world'
   | 'admin'
   | 'testing';
 
@@ -129,6 +132,7 @@ export type AIExpertPersona =
   | 'craft'
   | 'chef'
   | 'storytelling'
+  | 'supertrainer'
   | 'parenting';
 
 export interface AIExpertInfo {

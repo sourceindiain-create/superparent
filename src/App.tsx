@@ -36,6 +36,9 @@ import { Footer } from './components/Footer';
 import { AccessGuard } from './components/AccessGuard';
 import { MediaLinkModal, MediaModalProps } from './components/MediaLinkModal';
 import { LiveFirebaseAppModal } from './components/LiveFirebaseAppModal';
+import { ServiceMenuDashboard } from './components/ServiceMenuDashboard';
+import { ResearchWorld } from './components/ResearchWorld';
+import { StartupWorld } from './components/StartupWorld';
 import { APP_THEMES } from './data/themes';
 
 const DEFAULT_STUDENT_USER: UserAccount = {
@@ -110,12 +113,12 @@ const DEFAULT_ADMIN_USER: UserAccount = {
 };
 
 const KIDS_ALLOWED_TABS: NavTab[] = [
-  'home', 'homework', 'jiotv', 'gmail', 'super-student', 'tutors-room', 'education', 'practice-master', 'classroom', 
+  'home', 'services-menu', 'research-world', 'startup-world', 'homework', 'jiotv', 'gmail', 'super-student', 'tutors-room', 'education', 'practice-master', 'classroom', 
   'language-lab', 'kids-lab', 'sanskar', 'stories', 'innovation', 'games', 'showcase', 'offline-hub'
 ];
 
 const PARENT_ALLOWED_TABS: NavTab[] = [
-  'home', 'homework', 'jiotv', 'gmail', 'tutors-room', 'classroom', 'parenting', 'growth', 'marketplace', 'global', 'pricing'
+  'home', 'services-menu', 'research-world', 'startup-world', 'homework', 'jiotv', 'gmail', 'tutors-room', 'classroom', 'parenting', 'growth', 'marketplace', 'global', 'pricing'
 ];
 
 export default function App() {
@@ -123,6 +126,7 @@ export default function App() {
   const [role, setRole] = useState<UserRole>('student');
   const [activeTab, setActiveTabState] = useState<NavTab>('home');
   const [tabHistory, setTabHistory] = useState<NavTab[]>(['home']);
+  const [forwardHistory, setForwardHistory] = useState<NavTab[]>([]);
   const [isAskAIOpen, setIsAskAIOpen] = useState(false);
   const [selectedAIPersona, setSelectedAIPersona] = useState<AIExpertPersona>('general');
   const [initialAIQuery, setInitialAIQuery] = useState('');
@@ -152,23 +156,37 @@ export default function App() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isLiveUrlsModalOpen, setIsLiveUrlsModalOpen] = useState(false);
 
-  // Navigate with history stack tracking
+  // Navigate with history stack tracking (clears forward history on fresh branch)
   const handleNavigateTab = (newTab: NavTab) => {
     if (newTab !== activeTab) {
       setTabHistory(prev => [...prev, newTab]);
+      setForwardHistory([]);
       setActiveTabState(newTab);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  // Back button functionality
+  // Back button functionality: pushes current to forward stack and pops previous
   const handleGoBack = () => {
     if (tabHistory.length > 1) {
       const newHistory = [...tabHistory];
-      newHistory.pop(); // Remove current
+      const current = newHistory.pop()!;
       const previousTab = newHistory[newHistory.length - 1];
+      setForwardHistory(prev => [current, ...prev]);
       setTabHistory(newHistory);
       setActiveTabState(previousTab);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // Front / Forward button functionality: pops next from forward stack and pushes to history
+  const handleGoForward = () => {
+    if (forwardHistory.length > 0) {
+      const nextTab = forwardHistory[0];
+      const remainingForward = forwardHistory.slice(1);
+      setTabHistory(prev => [...prev, nextTab]);
+      setForwardHistory(remainingForward);
+      setActiveTabState(nextTab);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -255,12 +273,14 @@ export default function App() {
       onToggleMasterAccess={handleToggleMasterAccess}
       onOpenContact={() => setIsContactModalOpen(true)}
     >
-      {/* Universal Navigation Controls (Back, Return, Home & Breadcrumbs) */}
+      {/* Universal Navigation Controls (Back, Front, Return, Home & Breadcrumbs) */}
       <UniversalNavBar
         activeTab={activeTab}
         setActiveTab={handleNavigateTab}
         tabHistory={tabHistory}
         onGoBack={handleGoBack}
+        forwardHistory={forwardHistory}
+        onGoForward={handleGoForward}
         currentUser={currentUser}
         currentTheme={currentTheme}
         onSelectTheme={setCurrentTheme}
@@ -281,6 +301,20 @@ export default function App() {
           onToggleMasterAccess={handleToggleMasterAccess}
           onOpenPreviewVideo={(url, title) => handleOpenMedia({ videoUrl: url, title })}
         >
+          {/* ALL SERVICES & SEQUENCED MENU DASHBOARD */}
+          {activeTab === 'services-menu' && (
+            <ServiceMenuDashboard
+              activeTab={activeTab}
+              setActiveTab={handleNavigateTab}
+              currentTheme={currentTheme}
+              onGoBack={handleGoBack}
+              onGoForward={handleGoForward}
+              canGoBack={tabHistory.length > 1}
+              canGoForward={forwardHistory.length > 0}
+              onOpenLiveUrls={() => setIsLiveUrlsModalOpen(true)}
+              onOpenAskAI={(query) => handleOpenAskAI('supertrainer', query)}
+            />
+          )}
           {activeTab === 'home' && (
             (currentTheme === 'netflix-dark' || currentTheme === 'jiotv-crimson') ? (
               <NetflixJioHome
@@ -343,6 +377,20 @@ export default function App() {
           {activeTab === 'gmail' && (
             <GmailPortal
               onBackToHome={() => handleNavigateTab('home')}
+            />
+          )}
+
+          {activeTab === 'research-world' && (
+            <ResearchWorld
+              onAskAI={(query) => handleOpenAskAI('robotics', query)}
+              currentTheme={currentTheme}
+            />
+          )}
+
+          {activeTab === 'startup-world' && (
+            <StartupWorld
+              onAskAI={(query) => handleOpenAskAI('general', query)}
+              currentTheme={currentTheme}
             />
           )}
 

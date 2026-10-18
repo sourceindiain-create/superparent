@@ -1,0 +1,92 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile with role and settings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "email"]
+    },
+    "Activity": {
+      "title": "Family Activity",
+      "description": "Kids World family activities, milestones, and challenges",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["title", "category"]
+    },
+    "Milestone": {
+      "title": "Student Milestone",
+      "description": "Child development milestone in Kids World",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentName": { "type": "string" },
+        "title": { "type": "string" },
+        "grade": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["studentName", "title"]
+    },
+    "Subscription": {
+      "title": "Subscription Plan",
+      "description": "Kids World / SuperParent subscription",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "plan": { "type": "string" },
+        "status": { "type": "string" },
+        "expiresAt": { "type": "string" }
+      },
+      "required": ["userId", "plan", "status"]
+    },
+    "MarketplaceItem": {
+      "title": "Marketplace Course",
+      "description": "Kids World & Gurukul course or learning resource",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "author": { "type": "string" },
+        "price": { "type": "number" }
+      },
+      "required": ["title", "price"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and account settings"
+    },
+    "/family_activities/{activityId}": {
+      "schema": "Activity",
+      "description": "Kids World family activities and quests"
+    },
+    "/student_milestones/{milestoneId}": {
+      "schema": "Milestone",
+      "description": "Kids World student achievements and milestones"
+    },
+    "/subscriptions/{subscriptionId}": {
+      "schema": "Subscription",
+      "description": "Billing and access subscriptions"
+    },
+    "/marketplace_items/{itemId}": {
+      "schema": "MarketplaceItem",
+      "description": "Educational courses and modules in Kids World"
+    }
+  }
+}

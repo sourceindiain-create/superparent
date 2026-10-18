@@ -197,6 +197,22 @@ export const Header: React.FC<HeaderProps> = ({
       icon: Cpu,
       items: [
         {
+          id: 'research-world',
+          label: '🔬 Research World (Blueprint.io, PCB, Robots & Drones)',
+          description: 'Blueprint.io weblink, PCB circuit wirings, drone & robot assembly with live simulators, books & grants',
+          icon: Cpu,
+          badge: 'Blueprint.io + R&D',
+          highlight: true
+        },
+        {
+          id: 'startup-world',
+          label: '🚀 Startup World (Idea to Company & Grants)',
+          description: '6-Stage Idea to Company roadmap, MCA/DPIIT incorporation, pitch decks, YC, and runway calculator',
+          icon: Zap,
+          badge: 'Idea to Company',
+          highlight: true
+        },
+        {
           id: 'kids-lab',
           label: t('navKidsLab', 'Kids Lab (3D Anatomy & AI Editing)'),
           description: '🧬 3D Human Body on AnatomyZone & 🎨 123apps All AI Video/Audio/PDF tools',
@@ -437,6 +453,36 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Super Student Hub</span>
               <span className="bg-amber-100 text-amber-800 text-[9px] px-1.5 py-0.5 rounded-full font-bold">
                 $200k+
+              </span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('research-world')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                activeTab === 'research-world'
+                  ? 'bg-indigo-600 text-white shadow-xs'
+                  : 'text-slate-700 hover:text-indigo-600'
+              }`}
+            >
+              <Cpu className="w-3.5 h-3.5 text-indigo-500" />
+              <span>Research World</span>
+              <span className="bg-indigo-100 text-indigo-800 text-[9px] px-1.5 py-0.5 rounded-full font-bold">
+                Blueprint.io & Hardware
+              </span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('startup-world')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                activeTab === 'startup-world'
+                  ? 'bg-amber-500 text-slate-950 shadow-xs font-extrabold'
+                  : 'text-slate-700 hover:text-amber-600'
+              }`}
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-500" />
+              <span>Startup World</span>
+              <span className="bg-amber-100 text-amber-900 text-[9px] px-1.5 py-0.5 rounded-full font-bold">
+                Idea to Company
               </span>
             </button>
 

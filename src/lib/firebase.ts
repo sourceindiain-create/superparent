@@ -10,7 +10,7 @@ const firebaseConfig = {
   appId: configData.appId || "1:366648669779:web:2d087f960dd7f01fecb8a6",
   apiKey: configData.apiKey || "AIzaSyCGKRa6QfqVNn82k_dJNCx4QYsVTgGLU1s",
   authDomain: configData.authDomain || "studio-6989353372-64cd3.firebaseapp.com",
-  firestoreDatabaseId: configData.firestoreDatabaseId || "ai-studio-superparent-bfab3fc7-3e58-4959-9afc-f918498ac589",
+  firestoreDatabaseId: configData.firestoreDatabaseId || "kidsworld",
   storageBucket: configData.storageBucket || "studio-6989353372-64cd3.firebasestorage.app",
   messagingSenderId: configData.messagingSenderId || "366648669779"
 };

@@ -17,8 +17,9 @@ Here is how you can connect your existing Cloud Run service or static build to *
 ## 🎯 Target URLs After Deploy
 
 Once deployed to Firebase Hosting, your site will be live at:
-1. 🌐 **`https://superparent-42852.web.app`** *(or `https://studio-6989353372-64cd3.web.app`)*
-2. 🌐 **`https://superparent-42852.firebaseapp.com`**
+1. 🌐 **`https://superparent-gurukul.web.app`** *(or `https://kids-world.web.app`)*
+2. 🌐 **`https://superparent-gurukul.firebaseapp.com`**
+*(Note: Do not use the default studio-6989353372-64cd3.web.app if you wish to keep WOMENE on that domain; use a dedicated hosting site name).*
 
 ---
 

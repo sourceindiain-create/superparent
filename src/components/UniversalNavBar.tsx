@@ -2,6 +2,7 @@ import React from 'react';
 import { NavTab, UserAccount, AppThemeId } from '../types';
 import { 
   ArrowLeft, 
+  ArrowRight,
   RotateCcw, 
   Home, 
   ChevronRight, 
@@ -17,7 +18,9 @@ import {
   Video,
   Languages,
   HardDrive,
-  GraduationCap
+  GraduationCap,
+  LayoutGrid,
+  ListOrdered
 } from 'lucide-react';
 import { APP_THEMES } from '../data/themes';
 import { useLanguage } from '../context/LanguageContext';
@@ -27,6 +30,8 @@ interface UniversalNavBarProps {
   setActiveTab: (tab: NavTab) => void;
   tabHistory: NavTab[];
   onGoBack: () => void;
+  forwardHistory?: NavTab[];
+  onGoForward?: () => void;
   currentUser: UserAccount;
   currentTheme: AppThemeId;
   onSelectTheme: (theme: AppThemeId) => void;
@@ -42,6 +47,8 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
   setActiveTab,
   tabHistory,
   onGoBack,
+  forwardHistory = [],
+  onGoForward,
   currentUser,
   currentTheme,
   onSelectTheme,
@@ -58,6 +65,7 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
   const getTabLabel = (tab: NavTab) => {
     switch (tab) {
       case 'home': return t('navHome', 'Home Overview');
+      case 'services-menu': return 'All Services & Sequenced Menu Dashboard (25 Services)';
       case 'homework': return 'Students Homework (Google Lens, OCR, AI Solvers, Free Doctor & Holistic Development)';
       case 'jiotv': return 'Live Educational Broadcasts & Classroom Channels (24x7)';
       case 'gmail': return 'Google Workspace Gmail Inbox & School Communications';
@@ -80,6 +88,8 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
       case 'global': return t('navGlobal', 'Global Learning (Free Window)');
       case 'pricing': return t('navPricing', 'Plans & Fee (₹600 - ₹2,000)');
       case 'login': return t('login', 'Account & Authentication');
+      case 'research-world': return 'Research World: PCB, Robots, Drones, Blueprint.io & Fundings (పరిశోధన)';
+      case 'startup-world': return 'Startup World: Idea to Company Development, Grants & Incubation (స్టార్టప్)';
       case 'admin': return t('navAdmin', 'Super Admin Control Center');
       case 'testing': return t('navTesting', 'Website 100% Testing & Diagnostics');
       default: return tab;
@@ -93,25 +103,80 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-3">
-        {/* Left Side: Back, Return, Home buttons & Breadcrumbs */}
-        <div className="flex items-center gap-2 flex-wrap">
+        {/* Left Side: Back, Front, Return, Home buttons & Sequenced Menu */}
+        <div className="flex items-center gap-1.5 flex-wrap">
           {/* Back Button */}
           <button
             onClick={onGoBack}
             disabled={tabHistory.length <= 1}
-            className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black transition-all ${
               tabHistory.length > 1
                 ? isDark
                   ? 'bg-[#222222] hover:bg-[#2e2e2e] text-slate-200 border border-[#333333] shadow-2xs transform hover:-translate-x-0.5 cursor-pointer'
-                  : 'bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-2xs transform hover:-translate-x-0.5 cursor-pointer'
+                  : 'bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 shadow-2xs transform hover:-translate-x-0.5 cursor-pointer'
                 : isDark
                   ? 'bg-[#181818] text-slate-600 border border-[#262626] cursor-not-allowed'
-                  : 'bg-slate-50 text-slate-400 border border-slate-200 cursor-not-allowed'
+                  : 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
             }`}
-            title="Go Back to previous view"
+            title="Go Back to previous view (వెనుకకు)"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft className="w-3.5 h-3.5 text-emerald-600 font-extrabold" />
             <span>{t('back', 'Back')}</span>
+          </button>
+
+          {/* Front / Forward Button */}
+          <button
+            onClick={onGoForward}
+            disabled={!forwardHistory || forwardHistory.length === 0}
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black transition-all ${
+              forwardHistory && forwardHistory.length > 0
+                ? isDark
+                  ? 'bg-[#222222] hover:bg-[#2e2e2e] text-slate-200 border border-[#333333] shadow-2xs transform hover:translate-x-0.5 cursor-pointer'
+                  : 'bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 shadow-2xs transform hover:translate-x-0.5 cursor-pointer'
+                : isDark
+                  ? 'bg-[#181818] text-slate-600 border border-[#262626] cursor-not-allowed'
+                  : 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
+            }`}
+            title="Go Front / Forward (ముందుకు)"
+          >
+            <span>Front</span>
+            <ArrowRight className="w-3.5 h-3.5 text-emerald-600 font-extrabold" />
+          </button>
+
+          {/* Home Button */}
+          <button
+            onClick={() => setActiveTab('home')}
+            style={{
+              backgroundColor: activeTab === 'home' ? theme.primary : undefined,
+              color: activeTab === 'home' ? '#ffffff' : undefined
+            }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+              activeTab === 'home'
+                ? 'shadow-xs'
+                : isDark
+                  ? 'bg-[#222222] hover:bg-[#2e2e2e] text-slate-200 border border-[#333333]'
+                  : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200'
+            }`}
+            title="Go to Home Overview (హోమ్)"
+          >
+            <Home className="w-3.5 h-3.5" />
+            <span>{t('navHome', 'Home')}</span>
+          </button>
+
+          {/* ALL SERVICES & SEQUENCED MENU DASHBOARD BUTTON */}
+          <button
+            onClick={() => setActiveTab('services-menu')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+              activeTab === 'services-menu'
+                ? 'bg-amber-400 text-slate-950 shadow-xs ring-2 ring-amber-300 font-black'
+                : isDark
+                  ? 'bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700'
+                  : 'bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 shadow-2xs'
+            }`}
+            title="Open All Services & Sequenced Menu Dashboard (25 Modules)"
+          >
+            <LayoutGrid className="w-3.5 h-3.5 text-amber-600" />
+            <span>🎛️ All Services (01-25)</span>
           </button>
 
           {/* Return Button */}
@@ -123,33 +188,13 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
             }}
-            className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold border shadow-2xs transition-all cursor-pointer ${
+            className={`hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold border shadow-2xs transition-all cursor-pointer ${
               isDark ? 'bg-[#222222] hover:bg-[#2e2e2e] text-slate-200 border-[#333333]' : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200'
             }`}
             title="Return to Home or reset view"
           >
             <RotateCcw className={`w-3.5 h-3.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`} />
             <span>{t('return', 'Return')}</span>
-          </button>
-
-          {/* Home Button */}
-          <button
-            onClick={() => setActiveTab('home')}
-            style={{
-              backgroundColor: activeTab === 'home' ? theme.primary : undefined,
-              color: activeTab === 'home' ? '#ffffff' : undefined
-            }}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
-              activeTab === 'home'
-                ? 'shadow-xs'
-                : isDark
-                  ? 'bg-[#222222] hover:bg-[#2e2e2e] text-slate-200 border border-[#333333]'
-                  : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200'
-            }`}
-            title="Go to Home"
-          >
-            <Home className="w-3.5 h-3.5" />
-            <span>{t('navHome', 'Home')}</span>
           </button>
 
           <span className="text-slate-200 hidden sm:inline">|</span>
@@ -382,6 +427,38 @@ export const UniversalNavBar: React.FC<UniversalNavBarProps> = ({
           >
             <span>📧</span>
             <span className="hidden sm:inline">Gmail</span>
+          </button>
+
+          {/* Quick Research World Button */}
+          <button
+            onClick={() => setActiveTab('research-world')}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black border transition-all cursor-pointer ${
+              activeTab === 'research-world'
+                ? 'bg-indigo-600 text-white border-indigo-500 shadow-xs ring-1 ring-indigo-400'
+                : isDark
+                  ? 'bg-neutral-900 text-indigo-300 border-neutral-700 hover:bg-neutral-800'
+                  : 'bg-indigo-50 text-indigo-950 border-indigo-200 hover:bg-indigo-100'
+            }`}
+            title="Open Research World: Blueprint.io, PCB, Robots, Drones & Grants"
+          >
+            <span>🔬</span>
+            <span>Research World</span>
+          </button>
+
+          {/* Quick Startup World Button */}
+          <button
+            onClick={() => setActiveTab('startup-world')}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black border transition-all cursor-pointer ${
+              activeTab === 'startup-world'
+                ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-xs ring-1 ring-amber-400 font-extrabold'
+                : isDark
+                  ? 'bg-neutral-900 text-amber-300 border-neutral-700 hover:bg-neutral-800'
+                  : 'bg-amber-50 text-amber-950 border-amber-200 hover:bg-amber-100'
+            }`}
+            title="Open Startup World: Idea to Company Development, Grants & Incubation"
+          >
+            <span>🚀</span>
+            <span>Startup World</span>
           </button>
 
           {/* Quick Tutors Room Button */}
